@@ -11,6 +11,14 @@ CORS(app, origins=[
     os.getenv("FRONTEND_URL", "")
 ])
 
+@app.route('/', methods=['GET'])
+def root():
+    return jsonify({
+        "service": "awesome-project-api",
+        "status": "running",
+        "endpoints": ["/api/health", "/api/hello"]
+    })
+
 @app.route('/api/health', methods=['GET'])
 def health_check():
     return jsonify({"status": "healthy", "message": "API is running"})
