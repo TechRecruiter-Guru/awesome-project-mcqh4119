@@ -3,6 +3,10 @@ from .orchestrator_agent import OrchestratorAgent
 from .gateway_agent import GatewayAgent
 from .data_agent import DataAgent
 from .integration_agent import IntegrationAgent
+from .motion_agent import MotionAgent
+from .sensor_agent import SensorAgent
+from .vision_agent import VisionAgent
+from .autonomy_agent import AutonomyAgent
 
 __all__ = [
     'BaseAgent',
@@ -11,5 +15,9 @@ __all__ = [
     'OrchestratorAgent',
     'GatewayAgent',
     'DataAgent',
-    'IntegrationAgent'
+    'IntegrationAgent',
+    'MotionAgent',
+    'SensorAgent',
+    'VisionAgent',
+    'AutonomyAgent'
 ]

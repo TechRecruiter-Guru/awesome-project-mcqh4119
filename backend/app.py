@@ -1,10 +1,14 @@
-"""Main Flask application with Agentic System."""
+"""
+PhysicalAI Command Center - Agentic System for Robotics & Autonomous Systems
+Enterprise-grade multi-agent platform for Physical AI, Humanoids, and Robotics
+"""
 
 from flask import Flask, jsonify, request
 from flask_cors import CORS
 import os
 import asyncio
 from functools import wraps
+from datetime import datetime
 
 # Initialize Flask app
 app = Flask(__name__)
@@ -19,18 +23,29 @@ CORS(app)
 from core.database import db, init_db
 init_db(app)
 
-# Initialize agents
-from agents import OrchestratorAgent, GatewayAgent, DataAgent, IntegrationAgent
+# Initialize ALL agents including robotics agents
+from agents import (
+    OrchestratorAgent, GatewayAgent, DataAgent, IntegrationAgent,
+    MotionAgent, SensorAgent, VisionAgent, AutonomyAgent
+)
 
 orchestrator = OrchestratorAgent()
 gateway = GatewayAgent()
 data_agent = DataAgent()
 integration_agent = IntegrationAgent()
+motion_agent = MotionAgent()
+sensor_agent = SensorAgent()
+vision_agent = VisionAgent()
+autonomy_agent = AutonomyAgent()
 
-# Register agents with orchestrator
+# Register ALL agents with orchestrator
 orchestrator.register_agent(gateway)
 orchestrator.register_agent(data_agent)
 orchestrator.register_agent(integration_agent)
+orchestrator.register_agent(motion_agent)
+orchestrator.register_agent(sensor_agent)
+orchestrator.register_agent(vision_agent)
+orchestrator.register_agent(autonomy_agent)
 
 
 def run_async(func):
@@ -46,32 +61,48 @@ def run_async(func):
     return wrapper
 
 
-# ============== BASIC ROUTES ==============
+# ============== ROOT & HEALTH ==============
 
 @app.route('/', methods=['GET'])
 def root():
     return jsonify({
-        "service": "awesome-project-api",
-        "status": "running",
-        "version": "1.0.0",
-        "architecture": "agentic",
+        "service": "PhysicalAI Command Center",
+        "company": "VanguardLab",
+        "version": "2.0.0",
+        "architecture": "multi-agent-robotics",
+        "status": "operational",
+        "capabilities": [
+            "Motion Planning",
+            "Sensor Fusion",
+            "Computer Vision",
+            "Autonomous Navigation",
+            "Human-Robot Interaction"
+        ],
+        "agents": {
+            "core": ["orchestrator", "gateway", "data", "integration"],
+            "robotics": ["motion", "sensor", "vision", "autonomy"]
+        },
         "endpoints": {
             "health": "/api/health",
-            "hello": "/api/hello",
             "agents": "/api/agents",
-            "tasks": "/api/tasks"
-        }
+            "robot": "/api/robot",
+            "mission": "/api/mission",
+            "sensors": "/api/sensors",
+            "vision": "/api/vision"
+        },
+        "timestamp": datetime.utcnow().isoformat()
     })
 
 
 @app.route('/api/health', methods=['GET'])
 def health_check():
-    return jsonify({"status": "healthy", "message": "API is running"})
-
-
-@app.route('/api/hello', methods=['GET'])
-def hello():
-    return jsonify({"message": "Hello from awesome-project-mcqh4119!"})
+    return jsonify({
+        "status": "healthy",
+        "service": "PhysicalAI Command Center",
+        "uptime": "operational",
+        "agents_ready": True,
+        "timestamp": datetime.utcnow().isoformat()
+    })
 
 
 # ============== AGENT ROUTES ==============
@@ -114,6 +145,306 @@ async def agent_action(agent_name):
         return jsonify({"success": False, "error": response.error}), 400
 
 
+# ============== ROBOT CONTROL ROUTES ==============
+
+@app.route('/api/robot/position', methods=['GET'])
+@run_async
+async def get_robot_position():
+    """Get current robot position."""
+    await orchestrator.start()
+
+    from agents.base_agent import AgentMessage
+    message = AgentMessage(source="api", target="motion", action="get_position", payload={})
+    response = await orchestrator.route_message(message)
+
+    return jsonify(response.data if response.success else {"error": response.error})
+
+
+@app.route('/api/robot/move', methods=['POST'])
+@run_async
+async def move_robot():
+    """Plan and execute robot movement."""
+    await orchestrator.start()
+    data = request.get_json() or {}
+
+    from agents.base_agent import AgentMessage
+
+    # First plan trajectory
+    plan_message = AgentMessage(
+        source="api", target="motion", action="plan_trajectory",
+        payload={"target": data.get("target", {}), "speed": data.get("speed", 0.5)}
+    )
+    plan_response = await orchestrator.route_message(plan_message)
+
+    if not plan_response.success:
+        return jsonify({"error": plan_response.error}), 400
+
+    # Execute if auto_execute is true
+    if data.get("auto_execute", False):
+        exec_message = AgentMessage(
+            source="api", target="motion", action="execute_motion",
+            payload={"target": data.get("target", {})}
+        )
+        exec_response = await orchestrator.route_message(exec_message)
+        return jsonify({
+            "trajectory": plan_response.data,
+            "execution": exec_response.data if exec_response.success else {"error": exec_response.error}
+        })
+
+    return jsonify({"trajectory": plan_response.data, "status": "planned"})
+
+
+@app.route('/api/robot/status', methods=['GET'])
+@run_async
+async def get_robot_status():
+    """Get comprehensive robot status."""
+    await orchestrator.start()
+
+    from agents.base_agent import AgentMessage
+
+    # Get status from multiple agents
+    motion_msg = AgentMessage(source="api", target="motion", action="get_stats", payload={})
+    sensor_msg = AgentMessage(source="api", target="sensor", action="get_stats", payload={})
+    autonomy_msg = AgentMessage(source="api", target="autonomy", action="get_stats", payload={})
+
+    motion_resp = await orchestrator.route_message(motion_msg)
+    sensor_resp = await orchestrator.route_message(sensor_msg)
+    autonomy_resp = await orchestrator.route_message(autonomy_msg)
+
+    return jsonify({
+        "motion": motion_resp.data if motion_resp.success else {},
+        "sensors": sensor_resp.data if sensor_resp.success else {},
+        "autonomy": autonomy_resp.data if autonomy_resp.success else {},
+        "timestamp": datetime.utcnow().isoformat()
+    })
+
+
+# ============== SENSOR ROUTES ==============
+
+@app.route('/api/sensors', methods=['GET'])
+@run_async
+async def get_all_sensor_readings():
+    """Get readings from all sensors."""
+    await orchestrator.start()
+
+    from agents.base_agent import AgentMessage
+    message = AgentMessage(source="api", target="sensor", action="get_all_readings", payload={})
+    response = await orchestrator.route_message(message)
+
+    return jsonify(response.data if response.success else {"error": response.error})
+
+
+@app.route('/api/sensors/<sensor_id>', methods=['GET'])
+@run_async
+async def get_sensor_reading(sensor_id):
+    """Get reading from specific sensor."""
+    await orchestrator.start()
+
+    from agents.base_agent import AgentMessage
+    message = AgentMessage(
+        source="api", target="sensor", action="get_reading",
+        payload={"sensor_id": sensor_id}
+    )
+    response = await orchestrator.route_message(message)
+
+    return jsonify(response.data if response.success else {"error": response.error})
+
+
+@app.route('/api/sensors/obstacles', methods=['GET'])
+@run_async
+async def detect_obstacles():
+    """Detect obstacles in environment."""
+    await orchestrator.start()
+
+    from agents.base_agent import AgentMessage
+    message = AgentMessage(source="api", target="sensor", action="detect_obstacles", payload={})
+    response = await orchestrator.route_message(message)
+
+    return jsonify(response.data if response.success else {"error": response.error})
+
+
+@app.route('/api/sensors/fusion', methods=['GET'])
+@run_async
+async def sensor_fusion():
+    """Get fused sensor data for localization."""
+    await orchestrator.start()
+
+    from agents.base_agent import AgentMessage
+    message = AgentMessage(source="api", target="sensor", action="fuse_sensors", payload={})
+    response = await orchestrator.route_message(message)
+
+    return jsonify(response.data if response.success else {"error": response.error})
+
+
+# ============== VISION ROUTES ==============
+
+@app.route('/api/vision/detect', methods=['GET'])
+@run_async
+async def detect_objects():
+    """Detect objects in camera view."""
+    await orchestrator.start()
+
+    from agents.base_agent import AgentMessage
+    message = AgentMessage(source="api", target="vision", action="detect_objects", payload={})
+    response = await orchestrator.route_message(message)
+
+    return jsonify(response.data if response.success else {"error": response.error})
+
+
+@app.route('/api/vision/pose', methods=['GET'])
+@run_async
+async def estimate_pose():
+    """Estimate human pose for HRI."""
+    await orchestrator.start()
+
+    from agents.base_agent import AgentMessage
+    message = AgentMessage(source="api", target="vision", action="estimate_pose", payload={})
+    response = await orchestrator.route_message(message)
+
+    return jsonify(response.data if response.success else {"error": response.error})
+
+
+@app.route('/api/vision/gesture', methods=['GET'])
+@run_async
+async def recognize_gesture():
+    """Recognize hand gestures."""
+    await orchestrator.start()
+
+    from agents.base_agent import AgentMessage
+    message = AgentMessage(source="api", target="vision", action="recognize_gesture", payload={})
+    response = await orchestrator.route_message(message)
+
+    return jsonify(response.data if response.success else {"error": response.error})
+
+
+@app.route('/api/vision/slam', methods=['GET'])
+@run_async
+async def visual_slam():
+    """Get Visual SLAM data."""
+    await orchestrator.start()
+
+    from agents.base_agent import AgentMessage
+    message = AgentMessage(source="api", target="vision", action="visual_slam", payload={})
+    response = await orchestrator.route_message(message)
+
+    return jsonify(response.data if response.success else {"error": response.error})
+
+
+# ============== MISSION / AUTONOMY ROUTES ==============
+
+@app.route('/api/mission', methods=['GET'])
+@run_async
+async def get_mission_status():
+    """Get current mission status."""
+    await orchestrator.start()
+
+    from agents.base_agent import AgentMessage
+    message = AgentMessage(source="api", target="autonomy", action="get_mission_status", payload={})
+    response = await orchestrator.route_message(message)
+
+    return jsonify(response.data if response.success else {"error": response.error})
+
+
+@app.route('/api/mission', methods=['POST'])
+@run_async
+async def plan_mission():
+    """Plan a new autonomous mission."""
+    await orchestrator.start()
+    data = request.get_json() or {}
+
+    from agents.base_agent import AgentMessage
+    message = AgentMessage(
+        source="api", target="autonomy", action="plan_mission",
+        payload=data
+    )
+    response = await orchestrator.route_message(message)
+
+    if response.success:
+        return jsonify(response.data), 201
+    return jsonify({"error": response.error}), 400
+
+
+@app.route('/api/mission/execute', methods=['POST'])
+@run_async
+async def execute_mission():
+    """Execute planned mission."""
+    await orchestrator.start()
+
+    from agents.base_agent import AgentMessage
+    message = AgentMessage(source="api", target="autonomy", action="execute_mission", payload={})
+    response = await orchestrator.route_message(message)
+
+    return jsonify(response.data if response.success else {"error": response.error})
+
+
+@app.route('/api/mission/abort', methods=['POST'])
+@run_async
+async def abort_mission():
+    """Abort current mission."""
+    await orchestrator.start()
+    data = request.get_json() or {}
+
+    from agents.base_agent import AgentMessage
+    message = AgentMessage(
+        source="api", target="autonomy", action="abort_mission",
+        payload={"reason": data.get("reason", "user_requested")}
+    )
+    response = await orchestrator.route_message(message)
+
+    return jsonify(response.data if response.success else {"error": response.error})
+
+
+@app.route('/api/autonomy/level', methods=['GET', 'POST'])
+@run_async
+async def autonomy_level():
+    """Get or set autonomy level."""
+    await orchestrator.start()
+
+    from agents.base_agent import AgentMessage
+
+    if request.method == 'POST':
+        data = request.get_json() or {}
+        message = AgentMessage(
+            source="api", target="autonomy", action="set_autonomy_level",
+            payload={"level": data.get("level", 4)}
+        )
+    else:
+        message = AgentMessage(source="api", target="autonomy", action="get_stats", payload={})
+
+    response = await orchestrator.route_message(message)
+    return jsonify(response.data if response.success else {"error": response.error})
+
+
+@app.route('/api/autonomy/safety', methods=['GET'])
+@run_async
+async def safety_check():
+    """Perform safety check."""
+    await orchestrator.start()
+
+    from agents.base_agent import AgentMessage
+    message = AgentMessage(source="api", target="autonomy", action="safety_check", payload={})
+    response = await orchestrator.route_message(message)
+
+    return jsonify(response.data if response.success else {"error": response.error})
+
+
+@app.route('/api/autonomy/override', methods=['POST'])
+@run_async
+async def human_override():
+    """Human override of autonomous behavior."""
+    await orchestrator.start()
+    data = request.get_json() or {}
+
+    from agents.base_agent import AgentMessage
+    message = AgentMessage(
+        source="api", target="autonomy", action="human_override",
+        payload={"type": data.get("type", "pause")}
+    )
+    response = await orchestrator.route_message(message)
+
+    return jsonify(response.data if response.success else {"error": response.error})
+
+
 # ============== TASK ROUTES (via Data Agent) ==============
 
 @app.route('/api/tasks', methods=['GET'])
@@ -124,12 +455,9 @@ async def get_tasks():
 
     from agents.base_agent import AgentMessage
     message = AgentMessage(
-        source="api",
-        target="data",
-        action="query",
+        source="api", target="data", action="query",
         payload={"table": "tasks", "filters": {}}
     )
-
     response = await orchestrator.route_message(message)
     return jsonify(response.data if response.success else {"error": response.error})
 
@@ -139,69 +467,18 @@ async def get_tasks():
 async def create_task():
     """Create a new task."""
     await orchestrator.start()
-
     data = request.get_json() or {}
 
     from agents.base_agent import AgentMessage
     message = AgentMessage(
-        source="api",
-        target="data",
-        action="create",
+        source="api", target="data", action="create",
         payload={"table": "tasks", "data": data}
     )
-
     response = await orchestrator.route_message(message)
 
     if response.success:
         return jsonify(response.data), 201
-    else:
-        return jsonify({"error": response.error}), 400
-
-
-@app.route('/api/tasks/<task_id>', methods=['PUT'])
-@run_async
-async def update_task(task_id):
-    """Update a task."""
-    await orchestrator.start()
-
-    data = request.get_json() or {}
-
-    from agents.base_agent import AgentMessage
-    message = AgentMessage(
-        source="api",
-        target="data",
-        action="update",
-        payload={"table": "tasks", "id": task_id, "data": data}
-    )
-
-    response = await orchestrator.route_message(message)
-
-    if response.success:
-        return jsonify(response.data)
-    else:
-        return jsonify({"error": response.error}), 400
-
-
-@app.route('/api/tasks/<task_id>', methods=['DELETE'])
-@run_async
-async def delete_task(task_id):
-    """Delete a task."""
-    await orchestrator.start()
-
-    from agents.base_agent import AgentMessage
-    message = AgentMessage(
-        source="api",
-        target="data",
-        action="delete",
-        payload={"table": "tasks", "id": task_id}
-    )
-
-    response = await orchestrator.route_message(message)
-
-    if response.success:
-        return jsonify(response.data)
-    else:
-        return jsonify({"error": response.error}), 400
+    return jsonify({"error": response.error}), 400
 
 
 # ============== INTEGRATION ROUTES ==============
@@ -211,88 +488,18 @@ async def delete_task(task_id):
 async def register_service():
     """Register an external service."""
     await orchestrator.start()
-
     data = request.get_json() or {}
 
     from agents.base_agent import AgentMessage
     message = AgentMessage(
-        source="api",
-        target="integration",
-        action="register_service",
+        source="api", target="integration", action="register_service",
         payload=data
     )
-
     response = await orchestrator.route_message(message)
 
     if response.success:
         return jsonify(response.data), 201
-    else:
-        return jsonify({"error": response.error}), 400
-
-
-@app.route('/api/integrate/call', methods=['POST'])
-@run_async
-async def call_service():
-    """Call an external service."""
-    await orchestrator.start()
-
-    data = request.get_json() or {}
-
-    from agents.base_agent import AgentMessage
-    message = AgentMessage(
-        source="api",
-        target="integration",
-        action="call_service",
-        payload=data
-    )
-
-    response = await orchestrator.route_message(message)
-
-    if response.success:
-        return jsonify(response.data)
-    else:
-        return jsonify({"error": response.error}), 400
-
-
-@app.route('/api/integrate/webhook', methods=['POST'])
-@run_async
-async def register_webhook():
-    """Register a webhook."""
-    await orchestrator.start()
-
-    data = request.get_json() or {}
-
-    from agents.base_agent import AgentMessage
-    message = AgentMessage(
-        source="api",
-        target="integration",
-        action="register_webhook",
-        payload=data
-    )
-
-    response = await orchestrator.route_message(message)
-
-    if response.success:
-        return jsonify(response.data), 201
-    else:
-        return jsonify({"error": response.error}), 400
-
-
-# ============== WORKFLOW ROUTES ==============
-
-@app.route('/api/workflow/<workflow_name>', methods=['POST'])
-@run_async
-async def execute_workflow(workflow_name):
-    """Execute a registered workflow."""
-    await orchestrator.start()
-
-    data = request.get_json() or {}
-    response = await orchestrator.execute_workflow(workflow_name, data)
-
-    if response.success:
-        return jsonify({"workflow": workflow_name, "results": response.data})
-    else:
-        return jsonify({"error": response.error}), 400
+    return jsonify({"error": response.error}), 400
 
 
 if __name__ == '__main__':
