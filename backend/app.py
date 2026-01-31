@@ -502,5 +502,157 @@ async def register_service():
     return jsonify({"error": response.error}), 400
 
 
+# ============== LIVE DEMO ROUTES ==============
+import random
+import math
+
+# Demo state (in production, use Redis or database)
+demo_state = {
+    "robot_position": {"x": 0, "y": 0, "z": 0, "yaw": 0},
+    "demo_running": False,
+    "waypoint_index": 0,
+    "detected_objects": [],
+    "sensor_history": []
+}
+
+DEMO_WAYPOINTS = [
+    {"x": 0, "y": 0, "z": 0},
+    {"x": 2, "y": 0, "z": 0},
+    {"x": 2, "y": 2, "z": 0},
+    {"x": 0, "y": 2, "z": 0},
+    {"x": 0, "y": 0, "z": 0},
+]
+
+@app.route('/api/demo/start', methods=['POST'])
+def start_demo():
+    """Start live demo mode."""
+    demo_state["demo_running"] = True
+    demo_state["waypoint_index"] = 0
+    demo_state["robot_position"] = {"x": 0, "y": 0, "z": 0, "yaw": 0}
+    return jsonify({
+        "status": "demo_started",
+        "message": "Live demo mode activated",
+        "waypoints": len(DEMO_WAYPOINTS)
+    })
+
+@app.route('/api/demo/stop', methods=['POST'])
+def stop_demo():
+    """Stop live demo mode."""
+    demo_state["demo_running"] = False
+    return jsonify({"status": "demo_stopped"})
+
+@app.route('/api/demo/state', methods=['GET'])
+def get_demo_state():
+    """Get current demo state with simulated real-time data."""
+    # Simulate robot movement if demo is running
+    if demo_state["demo_running"]:
+        target = DEMO_WAYPOINTS[demo_state["waypoint_index"]]
+        pos = demo_state["robot_position"]
+
+        # Move towards target
+        dx = target["x"] - pos["x"]
+        dy = target["y"] - pos["y"]
+        dist = math.sqrt(dx*dx + dy*dy)
+
+        if dist < 0.1:
+            # Reached waypoint, go to next
+            demo_state["waypoint_index"] = (demo_state["waypoint_index"] + 1) % len(DEMO_WAYPOINTS)
+        else:
+            # Move towards target
+            speed = 0.15
+            pos["x"] += (dx / dist) * speed
+            pos["y"] += (dy / dist) * speed
+            pos["yaw"] = math.degrees(math.atan2(dy, dx))
+
+    # Generate simulated sensor data
+    lidar_points = []
+    for i in range(36):
+        angle = i * 10
+        distance = random.uniform(1.5, 8.0)
+        # Add some obstacles
+        if 30 < angle < 60 and random.random() > 0.7:
+            distance = random.uniform(0.5, 2.0)
+        lidar_points.append({"angle": angle, "distance": round(distance, 2)})
+
+    # Simulate detected objects
+    objects = []
+    if random.random() > 0.5:
+        obj_types = ["person", "box", "pallet", "forklift", "robot"]
+        for i in range(random.randint(1, 4)):
+            objects.append({
+                "id": i,
+                "type": random.choice(obj_types),
+                "x": round(random.uniform(-3, 3), 2),
+                "y": round(random.uniform(0.5, 5), 2),
+                "confidence": round(random.uniform(0.85, 0.99), 2)
+            })
+
+    return jsonify({
+        "demo_running": demo_state["demo_running"],
+        "robot": {
+            "position": {
+                "x": round(demo_state["robot_position"]["x"], 3),
+                "y": round(demo_state["robot_position"]["y"], 3),
+                "z": round(demo_state["robot_position"]["z"], 3)
+            },
+            "yaw": round(demo_state["robot_position"]["yaw"], 1),
+            "velocity": round(random.uniform(0.3, 0.8), 2) if demo_state["demo_running"] else 0,
+            "battery": round(random.uniform(75, 95), 1),
+            "status": "moving" if demo_state["demo_running"] else "idle"
+        },
+        "sensors": {
+            "lidar": lidar_points,
+            "imu": {
+                "accel": {"x": round(random.uniform(-0.1, 0.1), 3), "y": round(random.uniform(-0.1, 0.1), 3), "z": round(9.81 + random.uniform(-0.05, 0.05), 3)},
+                "gyro": {"x": round(random.uniform(-0.02, 0.02), 3), "y": round(random.uniform(-0.02, 0.02), 3), "z": round(random.uniform(-0.02, 0.02), 3)}
+            },
+            "temperature": round(random.uniform(22, 28), 1),
+            "humidity": round(random.uniform(40, 60), 1)
+        },
+        "vision": {
+            "objects": objects,
+            "fps": round(random.uniform(28, 32), 1)
+        },
+        "mission": {
+            "current_waypoint": demo_state["waypoint_index"],
+            "total_waypoints": len(DEMO_WAYPOINTS),
+            "progress": round((demo_state["waypoint_index"] / len(DEMO_WAYPOINTS)) * 100, 1)
+        },
+        "timestamp": datetime.utcnow().isoformat()
+    })
+
+@app.route('/api/demo/scenarios', methods=['GET'])
+def get_demo_scenarios():
+    """Get available demo scenarios."""
+    return jsonify({
+        "scenarios": [
+            {
+                "id": "warehouse_patrol",
+                "name": "Warehouse Patrol",
+                "description": "Robot patrols warehouse, detecting obstacles and inventory",
+                "duration": "60s"
+            },
+            {
+                "id": "pick_and_place",
+                "name": "Pick & Place",
+                "description": "Robot identifies objects and performs manipulation tasks",
+                "duration": "45s"
+            },
+            {
+                "id": "human_following",
+                "name": "Human Following",
+                "description": "Robot tracks and follows human using vision",
+                "duration": "30s"
+            },
+            {
+                "id": "autonomous_nav",
+                "name": "Autonomous Navigation",
+                "description": "Robot navigates through obstacles to reach goal",
+                "duration": "90s"
+            }
+        ]
+    })
+
+
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=5000)
