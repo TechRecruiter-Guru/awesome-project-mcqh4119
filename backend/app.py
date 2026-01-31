@@ -4,12 +4,8 @@ import os
 
 app = Flask(__name__)
 
-# CORS configuration - allow Vercel frontend domains
-CORS(app, origins=[
-    "http://localhost:3000",
-    "https://*.vercel.app",
-    os.getenv("FRONTEND_URL", "")
-])
+# CORS - allow all origins (Vercel domains are dynamic)
+CORS(app)
 
 @app.route('/', methods=['GET'])
 def root():
