@@ -3,7 +3,13 @@ from flask_cors import CORS
 import os
 
 app = Flask(__name__)
-CORS(app)
+
+# CORS configuration - allow Vercel frontend domains
+CORS(app, origins=[
+    "http://localhost:3000",
+    "https://*.vercel.app",
+    os.getenv("FRONTEND_URL", "")
+])
 
 @app.route('/api/health', methods=['GET'])
 def health_check():
