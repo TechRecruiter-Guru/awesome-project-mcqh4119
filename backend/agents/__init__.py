@@ -10,6 +10,9 @@ from .matcher_agent import MatcherAgent
 from .screener_agent import ScreenerAgent
 from .pipeline_agent import PipelineAgent
 
+# Audit & Compliance - Defensible AI Hiring
+from .audit_agent import AuditAgent
+
 __all__ = [
     # Core
     'BaseAgent',
@@ -23,5 +26,7 @@ __all__ = [
     'SourcerAgent',
     'MatcherAgent',
     'ScreenerAgent',
-    'PipelineAgent'
+    'PipelineAgent',
+    # Audit & Compliance
+    'AuditAgent'
 ]
