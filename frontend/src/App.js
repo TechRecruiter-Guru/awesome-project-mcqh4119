@@ -353,6 +353,21 @@ function App() {
           <div style={styles.metric}><span style={styles.metricLabel}>Strong Matches</span><span style={{...styles.metricValue, color: '#00f5d4'}}>{dashboardStats?.matching?.strong_matches || 0}</span></div>
           <div style={styles.metric}><span style={styles.metricLabel}>Skills Tracked</span><span style={styles.metricValue}>{dashboardStats?.matching?.skills_tracked || 12}</span></div>
         </div>
+
+        {/* Market Opportunity - Internal Only */}
+        {isInternalMode && (
+          <div style={{...styles.card, border: '1px solid #9b5de5'}}>
+            <div style={styles.cardHeader}>
+              <div style={styles.cardTitle}><span style={{...styles.statusDot, background: '#9b5de5', boxShadow: '0 0 10px #9b5de5'}}></span> Market Opportunity</div>
+            </div>
+            <div style={{...styles.bigNumber, color: '#9b5de5'}}>$2.3B</div>
+            <div style={{color: '#888', marginBottom: '15px'}}>Physical AI Recruiting TAM</div>
+            <div style={styles.metric}><span style={styles.metricLabel}>YoY Growth</span><span style={{...styles.metricValue, color: '#00f5d4'}}>34%</span></div>
+            <div style={styles.metric}><span style={styles.metricLabel}>Robotics Companies</span><span style={styles.metricValue}>2,400+</span></div>
+            <div style={styles.metric}><span style={styles.metricLabel}>Avg Engineer Salary</span><span style={styles.metricValue}>$185k</span></div>
+            <div style={styles.metric}><span style={styles.metricLabel}>Our SAM</span><span style={{...styles.metricValue, color: '#f15bb5'}}>$50M</span></div>
+          </div>
+        )}
       </div>
 
       {/* Latest Candidates */}
@@ -891,6 +906,49 @@ function App() {
           </button>
           <p style={{color: '#666', fontSize: '0.8rem', marginTop: '15px'}}>Free safety assessment for qualifying startups</p>
         </div>
+
+        {/* Pricing Tiers */}
+        <div style={{marginTop: '40px'}}>
+          <h2 style={{color: '#fff', textAlign: 'center', marginBottom: '30px'}}>Flexible Licensing</h2>
+          <div style={{display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '20px'}}>
+            {[
+              { tier: 'Startup', price: '$2,500', period: '/assessment', features: ['Single product assessment', '1 safety standard', 'PDF export', 'Email support'], highlight: false },
+              { tier: 'Growth', price: '$7,500', period: '/month', features: ['Unlimited assessments', '3 safety standards', 'API access', 'Priority support', 'Audit trail'], highlight: true },
+              { tier: 'Enterprise', price: 'Custom', period: '', features: ['White-label option', 'All standards', 'Dedicated CSM', 'On-prem deployment', 'SLA guarantee'], highlight: false }
+            ].map(plan => (
+              <div key={plan.tier} style={{...styles.card, border: plan.highlight ? '2px solid #00f5d4' : '1px solid #2a2a3e', position: 'relative'}}>
+                {plan.highlight && <div style={{position: 'absolute', top: '-12px', left: '50%', transform: 'translateX(-50%)', background: '#00f5d4', color: '#0a0a0f', padding: '4px 16px', borderRadius: '20px', fontSize: '0.75rem', fontWeight: 700}}>MOST POPULAR</div>}
+                <div style={{textAlign: 'center', paddingTop: plan.highlight ? '10px' : 0}}>
+                  <div style={{color: '#888', fontSize: '0.9rem', marginBottom: '5px'}}>{plan.tier}</div>
+                  <div style={{fontSize: '2rem', fontWeight: 700, color: '#fff'}}>{plan.price}<span style={{fontSize: '0.9rem', color: '#888'}}>{plan.period}</span></div>
+                </div>
+                <ul style={{listStyle: 'none', padding: 0, margin: '20px 0'}}>
+                  {plan.features.map(f => (
+                    <li key={f} style={{padding: '8px 0', color: '#aaa', fontSize: '0.9rem', display: 'flex', alignItems: 'center', gap: '10px'}}>
+                      <span style={{color: '#00f5d4'}}>✓</span> {f}
+                    </li>
+                  ))}
+                </ul>
+                <button style={{...styles.btn, width: '100%', ...(plan.highlight ? styles.btnSuccess : styles.btnSecondary)}}>
+                  {plan.tier === 'Enterprise' ? 'Contact Sales' : 'Get Started'}
+                </button>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Strategic Partnership CTA */}
+        <div style={{marginTop: '40px', padding: '30px', background: 'linear-gradient(90deg, #1a1a2e, #2a2a4e, #1a1a2e)', borderRadius: '16px', border: '1px solid #9b5de5', textAlign: 'center'}}>
+          <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '20px', flexWrap: 'wrap'}}>
+            <div>
+              <div style={{color: '#9b5de5', fontSize: '0.85rem', fontWeight: 600}}>STRATEGIC PARTNERSHIPS</div>
+              <div style={{color: '#fff', fontSize: '1.1rem', marginTop: '5px'}}>Interested in licensing, OEM, or investment opportunities?</div>
+            </div>
+            <button style={{...styles.btn, background: 'linear-gradient(135deg, #9b5de5, #f15bb5)', padding: '12px 30px'}}>
+              Schedule a Call
+            </button>
+          </div>
+        </div>
       </>
     );
   };
@@ -954,6 +1012,13 @@ function App() {
           <p style={{fontSize: '0.8rem', marginTop: '5px'}}>SafetyCaseAI | AI Recruiting | Compliance Solutions</p>
         )}
         {isInternalMode && <p style={{fontSize: '0.8rem', marginTop: '5px'}}>Backend: {config.API_URL}</p>}
+        <div style={{marginTop: '15px', paddingTop: '15px', borderTop: '1px solid #2a2a3e'}}>
+          <span style={{color: '#9b5de5', fontSize: '0.75rem', fontWeight: 600}}>OPEN TO STRATEGIC INVESTMENT</span>
+          <span style={{margin: '0 15px', color: '#333'}}>|</span>
+          <span style={{color: '#666', fontSize: '0.75rem'}}>Targeting $50M+ Physical AI Recruiting TAM</span>
+          <span style={{margin: '0 15px', color: '#333'}}>|</span>
+          <span style={{color: '#00f5d4', fontSize: '0.75rem'}}>partners@vanguardlab.ai</span>
+        </div>
       </footer>
     </div>
   );
