@@ -778,17 +778,17 @@ function App() {
       </header>
 
       <nav style={styles.nav}>
-        {/* Public tabs - visible to everyone */}
+        {/* Tabs filtered by mode and conditions */}
         {[
-          {id: 'dashboard', label: 'Dashboard', public: true},
-          {id: 'safetycase', label: 'SafetyCaseAI', public: true},
-          {id: 'sources', label: 'Elite Sources', public: false},
-          {id: 'pipeline', label: 'Pipeline', public: false},
-          {id: 'review', label: 'Human Review', public: false},
-          {id: 'audit', label: 'Audit & Compliance', public: false},
-          {id: 'agents', label: 'AI Agents', public: true},
-          {id: 'architecture', label: 'Architecture', public: false}
-        ].filter(t => isInternalMode || t.public).map(t => (
+          {id: 'dashboard', label: 'Dashboard', public: true, show: true},
+          {id: 'safetycase', label: 'SafetyCaseAI', public: true, show: true},
+          {id: 'sources', label: 'Elite Sources', public: false, show: true},
+          {id: 'pipeline', label: 'Pipeline', public: false, show: true},
+          {id: 'review', label: 'Review', public: false, show: screeningQueue?.queue_length > 0},
+          {id: 'audit', label: 'Compliance', public: false, show: true},
+          {id: 'agents', label: 'AI Agents', public: true, show: true},
+          {id: 'architecture', label: 'Architecture', public: false, show: true}
+        ].filter(t => (isInternalMode || t.public) && t.show).map(t => (
           <button key={t.id} style={{...styles.navBtn, ...(activeTab === t.id ? styles.navActive : {})}} onClick={() => setActiveTab(t.id)}>
             {t.label}
             {t.id === 'review' && screeningQueue?.queue_length > 0 && (
@@ -798,7 +798,7 @@ function App() {
           </button>
         ))}
         <button style={styles.navBtn} onClick={fetchData}>Refresh</button>
-        {isInternalMode && <span style={{marginLeft: 'auto', color: '#fbbf24', fontSize: '0.75rem', padding: '8px'}}>INTERNAL MODE</span>}
+        {isInternalMode && <span style={{marginLeft: 'auto', color: '#fbbf24', fontSize: '0.75rem', padding: '8px'}}>STEALTH MODE</span>}
       </nav>
 
       <main style={styles.main}>
