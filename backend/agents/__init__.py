@@ -3,12 +3,15 @@ from .orchestrator_agent import OrchestratorAgent
 from .gateway_agent import GatewayAgent
 from .data_agent import DataAgent
 from .integration_agent import IntegrationAgent
-from .motion_agent import MotionAgent
-from .sensor_agent import SensorAgent
-from .vision_agent import VisionAgent
-from .autonomy_agent import AutonomyAgent
+
+# Recruiting Agents - AI Talent Platform for Physical AI/Robotics
+from .sourcer_agent import SourcerAgent
+from .matcher_agent import MatcherAgent
+from .screener_agent import ScreenerAgent
+from .pipeline_agent import PipelineAgent
 
 __all__ = [
+    # Core
     'BaseAgent',
     'AgentMessage',
     'AgentConfig',
@@ -16,8 +19,9 @@ __all__ = [
     'GatewayAgent',
     'DataAgent',
     'IntegrationAgent',
-    'MotionAgent',
-    'SensorAgent',
-    'VisionAgent',
-    'AutonomyAgent'
+    # Recruiting Agents
+    'SourcerAgent',
+    'MatcherAgent',
+    'ScreenerAgent',
+    'PipelineAgent'
 ]
