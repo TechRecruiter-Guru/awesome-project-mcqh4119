@@ -17,6 +17,9 @@ function App() {
   const [eliteSources, setEliteSources] = useState(null);
   const [auditCompliance, setAuditCompliance] = useState(null);
 
+  // Stealth Mode: Check URL for ?internal=true
+  const isInternalMode = new URLSearchParams(window.location.search).get('internal') === 'true';
+
   const fetchData = useCallback(async () => {
     setLoading(true);
     try {
@@ -665,42 +668,144 @@ function App() {
     );
   };
 
+  const renderSafetyCaseAI = () => {
+    const certifications = [
+      { name: 'ISO 26262', domain: 'Automotive', desc: 'Functional Safety for Road Vehicles', color: '#9b5de5' },
+      { name: 'IEC 61508', domain: 'Industrial', desc: 'Functional Safety of E/E/PE Systems', color: '#f15bb5' },
+      { name: 'ISO 13482', domain: 'Robotics', desc: 'Safety for Personal Care Robots', color: '#00f5d4' },
+      { name: 'SOTIF', domain: 'Autonomous', desc: 'Safety of the Intended Functionality', color: '#00bbf9' },
+      { name: 'UL 4600', domain: 'Self-Driving', desc: 'Safety for Autonomous Products', color: '#fbbf24' },
+      { name: 'DO-178C', domain: 'Aerospace', desc: 'Software for Airborne Systems', color: '#f97316' }
+    ];
+
+    const vcBenefits = [
+      { title: 'Due Diligence Ready', desc: 'Complete safety documentation package for investor review', icon: '📋' },
+      { title: 'Regulatory Fast-Track', desc: 'Pre-mapped compliance pathways for FDA, NHTSA, EU MDR', icon: '🚀' },
+      { title: 'Risk Mitigation', desc: 'Quantified safety arguments reduce investment risk', icon: '🛡️' },
+      { title: 'Market Access', desc: 'Certifications unlock regulated markets worth $2.3T', icon: '🌍' }
+    ];
+
+    return (
+      <>
+        {/* Hero Section */}
+        <div style={{...styles.demoCard, borderColor: '#00f5d4', background: 'linear-gradient(135deg, #0a0a0f 0%, #1a1a2e 50%, #0a0a0f 100%)'}}>
+          <div style={{textAlign: 'center', padding: '20px 0'}}>
+            <div style={{fontSize: '3rem', marginBottom: '15px'}}>🛡️</div>
+            <h1 style={{margin: '0 0 10px', color: '#fff', fontSize: '2.2rem', fontWeight: 700}}>
+              <span style={{background: 'linear-gradient(90deg, #00f5d4, #00bbf9)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent'}}>SafetyCaseAI</span>
+            </h1>
+            <p style={{color: '#aaa', margin: '0 0 20px', fontSize: '1.2rem'}}>
+              AI-Generated Safety Certifications for Physical AI & Robotics
+            </p>
+            <p style={{color: '#00f5d4', margin: 0, fontSize: '1rem', fontWeight: 600}}>
+              Get Funding Ready in Days, Not Months
+            </p>
+          </div>
+        </div>
+
+        {/* Value Prop for VCs */}
+        <div style={{marginBottom: '30px'}}>
+          <h2 style={{color: '#fff', textAlign: 'center', marginBottom: '20px'}}>Why VCs Love SafetyCaseAI-Backed Companies</h2>
+          <div style={styles.grid}>
+            {vcBenefits.map(benefit => (
+              <div key={benefit.title} style={{...styles.card, textAlign: 'center'}}>
+                <div style={{fontSize: '2.5rem', marginBottom: '15px'}}>{benefit.icon}</div>
+                <div style={{fontSize: '1.1rem', fontWeight: 600, color: '#fff', marginBottom: '10px'}}>{benefit.title}</div>
+                <div style={{color: '#888', fontSize: '0.9rem'}}>{benefit.desc}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Certifications Grid */}
+        <div style={{marginBottom: '30px'}}>
+          <h2 style={{color: '#fff', textAlign: 'center', marginBottom: '20px'}}>Supported Safety Standards</h2>
+          <div style={{display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '15px'}}>
+            {certifications.map(cert => (
+              <div key={cert.name} style={{...styles.card, borderLeft: `4px solid ${cert.color}`}}>
+                <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '10px'}}>
+                  <span style={{fontSize: '1.2rem', fontWeight: 700, color: cert.color}}>{cert.name}</span>
+                  <span style={{background: cert.color, color: '#0a0a0f', padding: '4px 12px', borderRadius: '20px', fontSize: '0.75rem', fontWeight: 600}}>{cert.domain}</span>
+                </div>
+                <p style={{color: '#888', margin: 0, fontSize: '0.9rem'}}>{cert.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* How It Works */}
+        <div style={styles.card}>
+          <h2 style={{color: '#fff', textAlign: 'center', marginBottom: '30px'}}>How SafetyCaseAI Works</h2>
+          <div style={{display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '20px'}}>
+            {[
+              { step: '1', title: 'Upload System Specs', desc: 'Architecture diagrams, requirements, hazard analysis' },
+              { step: '2', title: 'AI Generates Case', desc: 'Goal Structuring Notation (GSN) safety arguments' },
+              { step: '3', title: 'Expert Review', desc: 'Certified engineers validate & refine' },
+              { step: '4', title: 'Investor Ready', desc: 'PDF export for due diligence packages' }
+            ].map(item => (
+              <div key={item.step} style={{textAlign: 'center'}}>
+                <div style={{width: '50px', height: '50px', background: 'linear-gradient(135deg, #00f5d4, #00bbf9)', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 15px', fontSize: '1.5rem', fontWeight: 700, color: '#0a0a0f'}}>{item.step}</div>
+                <div style={{fontWeight: 600, color: '#fff', marginBottom: '8px'}}>{item.title}</div>
+                <div style={{color: '#888', fontSize: '0.85rem'}}>{item.desc}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* CTA */}
+        <div style={{textAlign: 'center', marginTop: '40px', padding: '40px', background: 'linear-gradient(135deg, #1a1a2e, #2a2a4e)', borderRadius: '16px', border: '1px solid #00f5d4'}}>
+          <h2 style={{color: '#fff', margin: '0 0 15px'}}>Ready to Get Funding Ready?</h2>
+          <p style={{color: '#aaa', margin: '0 0 25px'}}>Join 50+ Physical AI companies using SafetyCaseAI for investor due diligence</p>
+          <button style={{...styles.btn, ...styles.btnSuccess, padding: '15px 40px', fontSize: '1.1rem'}}>
+            Request Demo
+          </button>
+          <p style={{color: '#666', fontSize: '0.8rem', marginTop: '15px'}}>Free safety assessment for qualifying startups</p>
+        </div>
+      </>
+    );
+  };
+
   return (
     <div style={styles.container}>
       <header style={styles.header}>
         <div style={styles.logo}>
           <div style={styles.logoIcon}>AI</div>
           <div>
-            <div style={styles.title}>PhysicalAI Talent</div>
-            <div style={styles.subtitle}>AI-Powered Recruiting for Robotics & Autonomous Systems</div>
+            <div style={styles.title}>{isInternalMode ? 'PhysicalAI Talent' : 'VanguardLab'}</div>
+            <div style={styles.subtitle}>{isInternalMode ? 'AI-Powered Recruiting for Robotics & Autonomous Systems' : 'AI Solutions for Physical AI & Robotics Companies'}</div>
           </div>
         </div>
       </header>
 
       <nav style={styles.nav}>
+        {/* Public tabs - visible to everyone */}
         {[
-          {id: 'dashboard', label: 'Dashboard'},
-          {id: 'sources', label: 'Elite Sources'},
-          {id: 'pipeline', label: 'Pipeline'},
-          {id: 'review', label: 'Human Review'},
-          {id: 'audit', label: 'Audit & Compliance'},
-          {id: 'agents', label: 'AI Agents'},
-          {id: 'architecture', label: 'Architecture'}
-        ].map(t => (
+          {id: 'dashboard', label: 'Dashboard', public: true},
+          {id: 'safetycase', label: 'SafetyCaseAI', public: true},
+          {id: 'sources', label: 'Elite Sources', public: false},
+          {id: 'pipeline', label: 'Pipeline', public: false},
+          {id: 'review', label: 'Human Review', public: false},
+          {id: 'audit', label: 'Audit & Compliance', public: false},
+          {id: 'agents', label: 'AI Agents', public: true},
+          {id: 'architecture', label: 'Architecture', public: false}
+        ].filter(t => isInternalMode || t.public).map(t => (
           <button key={t.id} style={{...styles.navBtn, ...(activeTab === t.id ? styles.navActive : {})}} onClick={() => setActiveTab(t.id)}>
             {t.label}
             {t.id === 'review' && screeningQueue?.queue_length > 0 && (
               <span style={{marginLeft: '8px', background: '#fbbf24', color: '#0a0a0f', padding: '2px 8px', borderRadius: '10px', fontSize: '0.7rem', fontWeight: 700}}>{screeningQueue.queue_length}</span>
             )}
+            {t.id === 'safetycase' && <span style={{marginLeft: '8px', background: '#00f5d4', color: '#0a0a0f', padding: '2px 8px', borderRadius: '10px', fontSize: '0.7rem', fontWeight: 700}}>NEW</span>}
           </button>
         ))}
         <button style={styles.navBtn} onClick={fetchData}>Refresh</button>
+        {isInternalMode && <span style={{marginLeft: 'auto', color: '#fbbf24', fontSize: '0.75rem', padding: '8px'}}>INTERNAL MODE</span>}
       </nav>
 
       <main style={styles.main}>
         {loading ? <p style={{textAlign: 'center', color: '#888'}}>Loading recruiting platform...</p> : (
           <>
             {activeTab === 'dashboard' && renderDashboard()}
+            {activeTab === 'safetycase' && renderSafetyCaseAI()}
             {activeTab === 'sources' && renderEliteSources()}
             {activeTab === 'pipeline' && renderPipeline()}
             {activeTab === 'review' && renderReview()}
@@ -712,9 +817,13 @@ function App() {
       </main>
 
       <footer style={{textAlign: 'center', padding: '30px', borderTop: '1px solid #2a2a3e', color: '#666'}}>
-        <p>PhysicalAI Talent v3.0 | VanguardLab | AI-Powered Recruiting for Physical AI, Robotics & Autonomous Systems</p>
-        <p style={{fontSize: '0.8rem', marginTop: '5px'}}>16 Elite Sources | Research-Weighted Scoring | Defensible AI Hiring | Zero Data Risk</p>
-        <p style={{fontSize: '0.8rem', marginTop: '5px'}}>Backend: {config.API_URL}</p>
+        <p>PhysicalAI Talent v3.0 | VanguardLab | AI-Powered Solutions for Physical AI, Robotics & Autonomous Systems</p>
+        {isInternalMode ? (
+          <p style={{fontSize: '0.8rem', marginTop: '5px'}}>16 Elite Sources | Research-Weighted Scoring | Defensible AI Hiring | Zero Data Risk</p>
+        ) : (
+          <p style={{fontSize: '0.8rem', marginTop: '5px'}}>SafetyCaseAI | AI Recruiting | Compliance Solutions</p>
+        )}
+        {isInternalMode && <p style={{fontSize: '0.8rem', marginTop: '5px'}}>Backend: {config.API_URL}</p>}
       </footer>
     </div>
   );
