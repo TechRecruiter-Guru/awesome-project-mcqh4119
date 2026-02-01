@@ -14,18 +14,22 @@ function App() {
   const [demoState, setDemoState] = useState(null);
   const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState('dashboard');
+  const [eliteSources, setEliteSources] = useState(null);
+  const [auditCompliance, setAuditCompliance] = useState(null);
 
   const fetchData = useCallback(async () => {
     setLoading(true);
     try {
-      const [statusRes, agentsRes, statsRes, pipelineRes, funnelRes, jobsRes, queueRes] = await Promise.all([
+      const [statusRes, agentsRes, statsRes, pipelineRes, funnelRes, jobsRes, queueRes, sourcesRes, auditRes] = await Promise.all([
         fetch(`${config.API_URL}/`),
         fetch(`${config.API_URL}/api/agents`),
         fetch(`${config.API_URL}/api/dashboard/stats`),
         fetch(`${config.API_URL}/api/pipeline`),
         fetch(`${config.API_URL}/api/pipeline/funnel`),
         fetch(`${config.API_URL}/api/jobs`),
-        fetch(`${config.API_URL}/api/screening/queue`)
+        fetch(`${config.API_URL}/api/screening/queue`),
+        fetch(`${config.API_URL}/api/sources`),
+        fetch(`${config.API_URL}/api/audit/compliance-report`)
       ]);
       setApiStatus(await statusRes.json());
       setAgents(await agentsRes.json());
@@ -34,6 +38,8 @@ function App() {
       setFunnel(await funnelRes.json());
       setJobs(await jobsRes.json());
       setScreeningQueue(await queueRes.json());
+      setEliteSources(await sourcesRes.json());
+      setAuditCompliance(await auditRes.json());
     } catch (err) { console.error('Failed to fetch:', err); }
     setLoading(false);
   }, []);
@@ -117,7 +123,14 @@ function App() {
     stepIndicator: { display: 'flex', justifyContent: 'space-between', marginBottom: '20px' },
     step: { flex: 1, textAlign: 'center', padding: '15px', borderRadius: '8px', background: '#1a1a2e', margin: '0 5px' },
     stepActive: { background: 'linear-gradient(135deg, #9b5de5, #f15bb5)', color: '#fff' },
-    stepComplete: { background: 'linear-gradient(135deg, #00f5d4, #00bbf9)', color: '#0a0a0f' }
+    stepComplete: { background: 'linear-gradient(135deg, #00f5d4, #00bbf9)', color: '#0a0a0f' },
+    independentBadge: { background: 'linear-gradient(135deg, #fbbf24, #f97316)', color: '#0a0a0f', padding: '2px 8px', borderRadius: '10px', fontSize: '0.7rem', fontWeight: 700, marginLeft: '8px' },
+    researchBadge: { background: 'linear-gradient(135deg, #00f5d4, #00bbf9)', color: '#0a0a0f', padding: '2px 8px', borderRadius: '10px', fontSize: '0.7rem', fontWeight: 700 },
+    sourceCard: { background: '#1a1a2e', borderRadius: '12px', padding: '20px', border: '1px solid #2a2a3e', textAlign: 'center' },
+    sourceIcon: { fontSize: '2rem', marginBottom: '10px' },
+    complianceCard: { background: 'linear-gradient(135deg, #12121a, #1a1a2e)', borderRadius: '16px', padding: '24px', border: '1px solid #00f5d4' },
+    complianceGood: { color: '#00f5d4' },
+    complianceWarning: { color: '#fbbf24' }
   };
 
   const renderDashboard = () => (
@@ -217,16 +230,27 @@ function App() {
             {candidates.slice(0, 6).map((c, i) => (
               <div key={i} style={styles.candidateCard}>
                 <div style={{display: 'flex', justifyContent: 'space-between', marginBottom: '10px'}}>
-                  <span style={{fontWeight: 600, color: '#fff'}}>{c.name}</span>
+                  <span style={{fontWeight: 600, color: '#fff'}}>
+                    {c.name}
+                    {c.is_independent_researcher && <span style={styles.independentBadge}>INDEPENDENT</span>}
+                  </span>
                   <span style={{background: 'linear-gradient(135deg, #9b5de5, #f15bb5)', padding: '2px 10px', borderRadius: '12px', fontSize: '0.75rem'}}>{(c.match_score * 100).toFixed(0)}%</span>
                 </div>
                 <p style={{color: '#9b5de5', fontSize: '0.9rem', margin: '0 0 5px'}}>{c.title}</p>
                 <p style={{color: '#888', fontSize: '0.85rem', margin: '0 0 10px'}}>{c.current_company} • {c.experience_years} yrs</p>
+                {/* Research Metrics */}
+                {(c.h_index || c.citations || c.publications) && (
+                  <div style={{display: 'flex', gap: '10px', marginBottom: '10px', flexWrap: 'wrap'}}>
+                    {c.h_index > 0 && <span style={styles.researchBadge}>H-index: {c.h_index}</span>}
+                    {c.citations > 0 && <span style={styles.researchBadge}>{c.citations} citations</span>}
+                    {c.publications > 0 && <span style={styles.researchBadge}>{c.publications} papers</span>}
+                  </div>
+                )}
                 <div style={{marginBottom: '10px'}}>
                   {c.skills?.slice(0, 4).map(s => <span key={s} style={{...styles.tag, ...styles.skillTag}}>{s}</span>)}
                 </div>
                 <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
-                  <span style={{fontSize: '0.8rem', color: '#888'}}>{c.availability}</span>
+                  <span style={{fontSize: '0.8rem', color: '#888'}}>{c.source || c.availability}</span>
                   <span style={{fontSize: '0.85rem', color: '#00f5d4'}}>{c.salary_expectation}</span>
                 </div>
               </div>
@@ -392,61 +416,254 @@ function App() {
         <div style={styles.cardTitle}>PhysicalAI Talent - Multi-Agent Recruiting Architecture</div>
         <pre style={{background: '#0a0a0f', padding: '20px', borderRadius: '12px', overflow: 'auto', fontSize: '0.75rem', color: '#9b5de5'}}>
 {`
-╔═══════════════════════════════════════════════════════════════════════════════╗
-║              PHYSICALAI TALENT - AI RECRUITING PLATFORM                        ║
-║                   VanguardLab - Human-in-the-Loop AI                           ║
-╠═══════════════════════════════════════════════════════════════════════════════╣
-║                                                                               ║
-║   ┌─────────────────────────────────────────────────────────────────────┐    ║
-║   │                     ORCHESTRATOR AGENT                               │    ║
-║   │              Central Workflow Coordinator                            │    ║
-║   └───────────────────────────────┬─────────────────────────────────────┘    ║
-║                                   │                                          ║
-║   ┌───────────────────────────────┼───────────────────────────────┐         ║
-║   │                               │                               │         ║
-║   ▼                               ▼                               ▼         ║
-║ ┌─────────────┐           ┌─────────────┐              ┌─────────────┐      ║
-║ │   SOURCER   │           │   MATCHER   │              │  SCREENER   │      ║
-║ │    AGENT    │ ────────► │    AGENT    │ ──────────►  │    AGENT    │      ║
-║ └─────────────┘           └─────────────┘              └──────┬──────┘      ║
-║       │                         │                             │             ║
-║       │                         │                             ▼             ║
-║       ▼                         ▼                    ┌─────────────────┐    ║
-║ ┌───────────┐            ┌───────────┐               │  HUMAN REVIEW   │    ║
-║ │LinkedIn   │            │Skills     │               │     QUEUE       │    ║
-║ │GitHub     │            │Matching   │               │ (Human-in-Loop) │    ║
-║ │ArXiv      │            │Gap        │               └────────┬────────┘    ║
-║ │RoboticsJobs│           │Analysis   │                        │             ║
-║ └───────────┘            └───────────┘                        ▼             ║
-║                                                      ┌─────────────────┐    ║
-║                                                      │    PIPELINE     │    ║
-║                                                      │     AGENT       │    ║
-║                                                      └─────────────────┘    ║
-║                                                              │              ║
-║                                                              ▼              ║
-║                        ┌──────────────────────────────────────────────┐     ║
-║                        │              TALENT PIPELINE                  │     ║
-║                        │ Sourced → Screened → Interview → Offer → Hired│     ║
-║                        └──────────────────────────────────────────────┘     ║
-║                                                                             ║
-╠═════════════════════════════════════════════════════════════════════════════╣
-║  TARGET: Physical AI | Robotics | Humanoids | Autonomous Systems | ML       ║
-╚═════════════════════════════════════════════════════════════════════════════╝
+╔═══════════════════════════════════════════════════════════════════════════════════════════╗
+║                    PHYSICALAI TALENT v3.0 - AI RECRUITING PLATFORM                         ║
+║          VanguardLab - Human-in-the-Loop AI + Defensible AI Hiring                         ║
+╠═══════════════════════════════════════════════════════════════════════════════════════════╣
+║                                                                                           ║
+║   ┌─────────────────────────────────────────────────────────────────────────────────┐    ║
+║   │                           ORCHESTRATOR AGENT                                     │    ║
+║   │                    Central Workflow Coordinator                                  │    ║
+║   └─────────────────────────────────┬───────────────────────────────────────────────┘    ║
+║                                     │                                                     ║
+║   ┌─────────────────────────────────┼─────────────────────────────────────┐              ║
+║   │                                 │                                     │              ║
+║   ▼                                 ▼                                     ▼              ║
+║ ┌─────────────────┐         ┌─────────────────┐                 ┌─────────────────┐     ║
+║ │  SOURCER AGENT  │         │  MATCHER AGENT  │                 │ SCREENER AGENT  │     ║
+║ │ 16 Elite Sources│ ──────► │ Research-Weight │ ─────────────►  │    AI Screen    │     ║
+║ └─────────────────┘         └─────────────────┘                 └────────┬────────┘     ║
+║         │                           │                                    │              ║
+║         ▼                           ▼                                    ▼              ║
+║ ┌─────────────────┐         ┌─────────────────┐              ┌─────────────────────┐    ║
+║ │ RESEARCH        │         │ SCORING         │              │   HUMAN REVIEW      │    ║
+║ │ ▪ ArXiv         │         │ ▪ Skills: 30%   │              │      QUEUE          │    ║
+║ │ ▪ Zenodo        │         │ ▪ Research: 25% │              │  (Human-in-Loop)    │    ║
+║ │ ▪ Papers w/Code │         │ ▪ Experience:15%│              └──────────┬──────────┘    ║
+║ │ ML PLATFORMS    │         │ ▪ Platform: 10% │                         │              ║
+║ │ ▪ HuggingFace   │         │ ▪ Independent:  │                         ▼              ║
+║ │ ▪ Kaggle        │         │   Boost: 10%    │              ┌─────────────────────┐    ║
+║ │ ROBOTICS        │         └─────────────────┘              │   PIPELINE AGENT    │    ║
+║ │ ▪ ROS Discourse │                                          └─────────────────────┘    ║
+║ │ ▪ Robotics SE   │                                                     │              ║
+║ └─────────────────┘                                                     ▼              ║
+║                                     ┌───────────────────────────────────────────────┐   ║
+║                                     │              TALENT PIPELINE                   │   ║
+║                                     │ Sourced → Screened → Interview → Offer → Hired│   ║
+║                                     └───────────────────────────────────────────────┘   ║
+║                                                          │                              ║
+║   ┌──────────────────────────────────────────────────────┼──────────────────────────┐   ║
+║   │                                                      ▼                          │   ║
+║   │                        ┌─────────────────────────────────────────────┐          │   ║
+║   │                        │            AUDIT AGENT                       │          │   ║
+║   │   DEFENSIBLE AI        │     Zero Data Risk Architecture             │          │   ║
+║   │   HIRING               │  ▪ NO PII Stored - Only Hashed IDs          │          │   ║
+║   │                        │  ▪ Full Decision Explainability             │          │   ║
+║   │                        │  ▪ EEOC/OFCCP Compliance                    │          │   ║
+║   │                        │  ▪ Human-in-Loop Tracking                   │          │   ║
+║   │                        └─────────────────────────────────────────────┘          │   ║
+║   └─────────────────────────────────────────────────────────────────────────────────┘   ║
+║                                                                                         ║
+╠═════════════════════════════════════════════════════════════════════════════════════════╣
+║  YOUR EDGE: 16 Sources ATS Miss | Independent Researcher Boost | Zero Data Risk Audit   ║
+╚═════════════════════════════════════════════════════════════════════════════════════════╝
 `}
         </pre>
         <div style={{marginTop: '20px'}}>
           <h4 style={{color: '#9b5de5'}}>Key Features:</h4>
           <ul style={{color: '#888', lineHeight: '2'}}>
-            <li><strong style={{color: '#00f5d4'}}>AI Sourcing:</strong> Automatically find candidates from LinkedIn, GitHub, ArXiv, and job boards</li>
-            <li><strong style={{color: '#00f5d4'}}>Skills Matching:</strong> Match candidates to jobs with weighted scoring algorithms</li>
-            <li><strong style={{color: '#00f5d4'}}>AI Screening:</strong> Pre-screen candidates and flag for human review</li>
+            <li><strong style={{color: '#00f5d4'}}>Elite Sourcing:</strong> 16+ platforms where traditional ATS don't look (ArXiv, Zenodo, HuggingFace, Kaggle)</li>
+            <li><strong style={{color: '#00f5d4'}}>Research Profiles:</strong> H-index, citations, ORCID, publication tracking</li>
+            <li><strong style={{color: '#00f5d4'}}>Independent Researcher Boost:</strong> 10% boost for researchers not tied to company benchmarks</li>
             <li><strong style={{color: '#00f5d4'}}>Human-in-the-Loop:</strong> Recruiters make final decisions on borderline candidates</li>
-            <li><strong style={{color: '#00f5d4'}}>Pipeline Management:</strong> Track candidates through the entire hiring funnel</li>
+            <li><strong style={{color: '#00f5d4'}}>Defensible AI:</strong> Zero PII audit trails for legal protection</li>
           </ul>
         </div>
       </div>
     </div>
   );
+
+  const renderEliteSources = () => {
+    const sourcesByType = eliteSources?.sources_by_type || {};
+    const typeLabels = {
+      research: { label: 'Research Platforms', icon: '📚', color: '#9b5de5' },
+      ml_platform: { label: 'ML & AI Platforms', icon: '🤖', color: '#f15bb5' },
+      code: { label: 'Code & OSS', icon: '💻', color: '#00bbf9' },
+      robotics: { label: 'Robotics Communities', icon: '🦾', color: '#00f5d4' },
+      professional: { label: 'Professional Networks', icon: '👔', color: '#fbbf24' },
+      jobs: { label: 'Job Boards', icon: '💼', color: '#f97316' }
+    };
+
+    return (
+      <>
+        <div style={styles.demoCard}>
+          <h2 style={{margin: '0 0 10px', color: '#fff'}}>Elite Sourcing - Where Top 5 ATS Don't Look</h2>
+          <p style={{color: '#aaa', margin: 0}}>
+            {eliteSources?.total_sources || 16} unique sources targeting PASSIVE candidates in Physical AI, Robotics & ML.
+            Traditional ATS (Greenhouse, Lever, Workday) miss these talent pools entirely.
+          </p>
+        </div>
+
+        <div style={styles.grid}>
+          <div style={styles.card}>
+            <div style={styles.cardTitle}>Sourcing Stats</div>
+            <div style={{...styles.bigNumber, marginTop: '10px'}}>{eliteSources?.total_sources || 16}</div>
+            <div style={{color: '#888'}}>Elite Sources Active</div>
+            <div style={{marginTop: '20px'}}>
+              <div style={styles.metric}><span style={styles.metricLabel}>Research Platforms</span><span style={styles.metricValue}>{sourcesByType.research?.length || 4}</span></div>
+              <div style={styles.metric}><span style={styles.metricLabel}>ML Platforms</span><span style={styles.metricValue}>{sourcesByType.ml_platform?.length || 3}</span></div>
+              <div style={styles.metric}><span style={styles.metricLabel}>Robotics Communities</span><span style={styles.metricValue}>{sourcesByType.robotics?.length || 3}</span></div>
+            </div>
+          </div>
+
+          <div style={styles.card}>
+            <div style={styles.cardTitle}>Your Edge</div>
+            <div style={{marginTop: '15px', color: '#888', lineHeight: '1.8'}}>
+              <p><strong style={{color: '#00f5d4'}}>PASSIVE Candidates:</strong> Researchers publishing papers, not job hunting</p>
+              <p><strong style={{color: '#fbbf24'}}>Independent Researchers:</strong> Boosted 10% - not tied to company benchmarks</p>
+              <p><strong style={{color: '#9b5de5'}}>Research Signals:</strong> H-index, citations, publications weighted 25%</p>
+            </div>
+          </div>
+        </div>
+
+        {Object.entries(sourcesByType).map(([type, sources]) => (
+          <div key={type} style={{marginTop: '30px'}}>
+            <h3 style={{color: typeLabels[type]?.color || '#fff', marginBottom: '20px', display: 'flex', alignItems: 'center', gap: '10px'}}>
+              <span>{typeLabels[type]?.icon}</span> {typeLabels[type]?.label || type}
+            </h3>
+            <div style={{display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '15px'}}>
+              {sources.map(source => (
+                <div key={source.name} style={styles.sourceCard}>
+                  <div style={{fontSize: '1.1rem', fontWeight: 600, color: '#fff', marginBottom: '8px'}}>{source.name}</div>
+                  <div style={{fontSize: '0.85rem', color: '#888', marginBottom: '10px'}}>{source.description}</div>
+                  <div style={{background: typeLabels[type]?.color || '#9b5de5', color: '#0a0a0f', padding: '4px 12px', borderRadius: '20px', fontSize: '0.75rem', fontWeight: 600, display: 'inline-block'}}>
+                    {(source.weight * 100).toFixed(0)}% weight
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        ))}
+
+        <div style={{marginTop: '30px'}}>
+          <button style={styles.btn} onClick={() => callEndpoint('/api/research/search', 'POST', { area: 'robotics', skills: ['ROS', 'SLAM'] }, false)}>
+            Search Researchers
+          </button>
+        </div>
+      </>
+    );
+  };
+
+  const renderAuditCompliance = () => {
+    const summary = auditCompliance?.summary || {};
+    const humanLoop = auditCompliance?.human_in_loop_compliance || {};
+    const aiOversight = auditCompliance?.ai_oversight || {};
+    const dataProtection = auditCompliance?.data_protection || {};
+
+    return (
+      <>
+        <div style={{...styles.demoCard, borderColor: '#00f5d4'}}>
+          <h2 style={{margin: '0 0 10px', color: '#fff'}}>Defensible AI Hiring - Internal Protection</h2>
+          <p style={{color: '#aaa', margin: 0}}>
+            Zero Data Risk Architecture: Only audit breadcrumbs stored, NO PII.
+            Full explainability for EEOC/OFCCP compliance. Inspired by defensibleaihiring.com.
+          </p>
+        </div>
+
+        <div style={styles.grid}>
+          {/* Decision Audit */}
+          <div style={styles.complianceCard}>
+            <div style={styles.cardTitle}>Decision Audit Trail</div>
+            <div style={{...styles.bigNumber, marginTop: '10px', color: '#00f5d4'}}>{summary.total_decisions_logged || 0}</div>
+            <div style={{color: '#888'}}>Total Decisions Logged</div>
+            <div style={{marginTop: '20px'}}>
+              <div style={styles.metric}><span style={styles.metricLabel}>AI Decisions</span><span style={styles.metricValue}>{summary.ai_decisions || 0}</span></div>
+              <div style={styles.metric}><span style={styles.metricLabel}>Human Decisions</span><span style={styles.metricValue}>{summary.human_decisions || 0}</span></div>
+              <div style={styles.metric}><span style={styles.metricLabel}>Explainability Rate</span><span style={{...styles.metricValue, color: '#00f5d4'}}>{((summary.explainability_rate || 1) * 100).toFixed(0)}%</span></div>
+            </div>
+          </div>
+
+          {/* Human-in-Loop Compliance */}
+          <div style={styles.complianceCard}>
+            <div style={styles.cardTitle}>Human-in-the-Loop Compliance</div>
+            <div style={{...styles.bigNumber, marginTop: '10px', color: humanLoop.compliance_rate >= 0.8 ? '#00f5d4' : '#fbbf24'}}>
+              {((humanLoop.compliance_rate || 1) * 100).toFixed(0)}%
+            </div>
+            <div style={{color: '#888'}}>Compliance Rate</div>
+            <div style={{marginTop: '20px'}}>
+              <div style={styles.metric}><span style={styles.metricLabel}>Requiring Review</span><span style={styles.metricValue}>{humanLoop.decisions_requiring_review || 0}</span></div>
+              <div style={styles.metric}><span style={styles.metricLabel}>Reviews Completed</span><span style={{...styles.metricValue, color: '#00f5d4'}}>{humanLoop.reviews_completed || 0}</span></div>
+              <div style={styles.metric}><span style={styles.metricLabel}>Pending Reviews</span><span style={{...styles.metricValue, color: humanLoop.pending_reviews > 0 ? '#fbbf24' : '#00f5d4'}}>{humanLoop.pending_reviews || 0}</span></div>
+            </div>
+          </div>
+
+          {/* AI Oversight */}
+          <div style={styles.complianceCard}>
+            <div style={styles.cardTitle}>AI Oversight Metrics</div>
+            <div style={{...styles.bigNumber, marginTop: '10px', color: '#9b5de5'}}>
+              {((aiOversight.ai_human_agreement_rate || 1) * 100).toFixed(0)}%
+            </div>
+            <div style={{color: '#888'}}>AI-Human Agreement</div>
+            <div style={{marginTop: '20px'}}>
+              <div style={styles.metric}><span style={styles.metricLabel}>AI Override Count</span><span style={styles.metricValue}>{aiOversight.ai_override_count || 0}</span></div>
+              <div style={styles.metric}><span style={styles.metricLabel}>Override Rate</span><span style={styles.metricValue}>{((aiOversight.ai_override_rate || 0) * 100).toFixed(0)}%</span></div>
+            </div>
+          </div>
+
+          {/* Data Protection */}
+          <div style={styles.complianceCard}>
+            <div style={styles.cardTitle}>Zero Data Risk Architecture</div>
+            <div style={{marginTop: '20px'}}>
+              <div style={styles.metric}>
+                <span style={styles.metricLabel}>PII Stored</span>
+                <span style={{...styles.metricValue, color: dataProtection.pii_stored === false ? '#00f5d4' : '#f87171'}}>
+                  {dataProtection.pii_stored === false ? 'NONE' : 'YES'}
+                </span>
+              </div>
+              <div style={styles.metric}>
+                <span style={styles.metricLabel}>Only Hashed IDs</span>
+                <span style={{...styles.metricValue, color: dataProtection.only_hashed_ids ? '#00f5d4' : '#f87171'}}>
+                  {dataProtection.only_hashed_ids ? 'YES' : 'NO'}
+                </span>
+              </div>
+              <div style={styles.metric}>
+                <span style={styles.metricLabel}>GDPR Compliant</span>
+                <span style={{...styles.metricValue, color: dataProtection.gdpr_compliant ? '#00f5d4' : '#f87171'}}>
+                  {dataProtection.gdpr_compliant ? 'YES' : 'NO'}
+                </span>
+              </div>
+              <div style={styles.metric}>
+                <span style={styles.metricLabel}>CCPA Compliant</span>
+                <span style={{...styles.metricValue, color: dataProtection.ccpa_compliant ? '#00f5d4' : '#f87171'}}>
+                  {dataProtection.ccpa_compliant ? 'YES' : 'NO'}
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Adverse Impact */}
+        <div style={{marginTop: '30px'}}>
+          <div style={styles.card}>
+            <div style={styles.cardTitle}>Adverse Impact Monitoring</div>
+            <div style={{display: 'flex', alignItems: 'center', gap: '15px', marginTop: '15px'}}>
+              <div style={{...styles.bigNumber, fontSize: '1.5rem'}}>{auditCompliance?.adverse_impact_flags || 0}</div>
+              <div style={{color: '#888'}}>
+                {auditCompliance?.adverse_impact_flags === 0
+                  ? 'No adverse impact flags detected. System operating within compliance parameters.'
+                  : 'Flags require review by compliance team.'}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div style={{marginTop: '20px'}}>
+          <button style={styles.btn} onClick={() => callEndpoint('/api/audit/trail')}>View Full Audit Trail</button>
+          <button style={{...styles.btn, ...styles.btnSecondary}} onClick={() => callEndpoint('/api/audit/compliance-report')}>Refresh Report</button>
+        </div>
+      </>
+    );
+  };
 
   return (
     <div style={styles.container}>
@@ -463,8 +680,10 @@ function App() {
       <nav style={styles.nav}>
         {[
           {id: 'dashboard', label: 'Dashboard'},
+          {id: 'sources', label: 'Elite Sources'},
           {id: 'pipeline', label: 'Pipeline'},
           {id: 'review', label: 'Human Review'},
+          {id: 'audit', label: 'Audit & Compliance'},
           {id: 'agents', label: 'AI Agents'},
           {id: 'architecture', label: 'Architecture'}
         ].map(t => (
@@ -482,8 +701,10 @@ function App() {
         {loading ? <p style={{textAlign: 'center', color: '#888'}}>Loading recruiting platform...</p> : (
           <>
             {activeTab === 'dashboard' && renderDashboard()}
+            {activeTab === 'sources' && renderEliteSources()}
             {activeTab === 'pipeline' && renderPipeline()}
             {activeTab === 'review' && renderReview()}
+            {activeTab === 'audit' && renderAuditCompliance()}
             {activeTab === 'agents' && renderAgents()}
             {activeTab === 'architecture' && renderArchitecture()}
           </>
@@ -491,7 +712,8 @@ function App() {
       </main>
 
       <footer style={{textAlign: 'center', padding: '30px', borderTop: '1px solid #2a2a3e', color: '#666'}}>
-        <p>PhysicalAI Talent v2.0 | VanguardLab | AI-Powered Recruiting for Physical AI, Robotics & Autonomous Systems</p>
+        <p>PhysicalAI Talent v3.0 | VanguardLab | AI-Powered Recruiting for Physical AI, Robotics & Autonomous Systems</p>
+        <p style={{fontSize: '0.8rem', marginTop: '5px'}}>16 Elite Sources | Research-Weighted Scoring | Defensible AI Hiring | Zero Data Risk</p>
         <p style={{fontSize: '0.8rem', marginTop: '5px'}}>Backend: {config.API_URL}</p>
       </footer>
     </div>

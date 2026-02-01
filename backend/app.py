@@ -23,10 +23,10 @@ CORS(app)
 from core.database import db, init_db
 init_db(app)
 
-# Initialize Recruiting Agents
+# Initialize Recruiting Agents + Audit
 from agents import (
     OrchestratorAgent, GatewayAgent, DataAgent, IntegrationAgent,
-    SourcerAgent, MatcherAgent, ScreenerAgent, PipelineAgent
+    SourcerAgent, MatcherAgent, ScreenerAgent, PipelineAgent, AuditAgent
 )
 
 orchestrator = OrchestratorAgent()
@@ -37,6 +37,7 @@ sourcer_agent = SourcerAgent()
 matcher_agent = MatcherAgent()
 screener_agent = ScreenerAgent()
 pipeline_agent = PipelineAgent()
+audit_agent = AuditAgent()
 
 # Register ALL agents with orchestrator
 orchestrator.register_agent(gateway)
@@ -46,6 +47,7 @@ orchestrator.register_agent(sourcer_agent)
 orchestrator.register_agent(matcher_agent)
 orchestrator.register_agent(screener_agent)
 orchestrator.register_agent(pipeline_agent)
+orchestrator.register_agent(audit_agent)
 
 
 def run_async(func):
@@ -69,36 +71,49 @@ def root():
         "service": "PhysicalAI Talent",
         "tagline": "AI-Powered Recruiting for Robotics & Autonomous Systems",
         "company": "VanguardLab",
-        "version": "2.0.0",
+        "version": "3.0.0",
         "architecture": "multi-agent-recruiting",
         "status": "operational",
         "capabilities": [
-            "AI Candidate Sourcing",
-            "Skills Matching & Scoring",
-            "Automated Screening",
-            "Human-in-the-Loop Review",
+            "Elite Sourcing (16 Platforms)",
+            "Research Profile Extraction (H-index, Citations, ORCID)",
+            "Independent Researcher Ranking",
+            "Skills Matching with Research Scoring",
+            "AI Screening with Human-in-the-Loop",
             "Pipeline Management",
+            "Defensible AI Audit Trails",
             "Predictive Analytics"
+        ],
+        "differentiators": [
+            "Sources from Zenodo, Kaggle, HuggingFace, Papers with Code - where top 5 ATS DON'T look",
+            "Research-weighted scoring (H-index, citations, publications)",
+            "Independent researcher boost (not tied to company benchmarks)",
+            "Full audit trails for defensible AI hiring"
         ],
         "agents": {
             "core": ["orchestrator", "gateway", "data", "integration"],
-            "recruiting": ["sourcer", "matcher", "screener", "pipeline"]
+            "recruiting": ["sourcer", "matcher", "screener", "pipeline"],
+            "compliance": ["audit"]
         },
+        "elite_sources": [
+            "ArXiv", "Zenodo", "IEEE Xplore", "Google Scholar", "Papers with Code",
+            "Semantic Scholar", "HuggingFace", "Kaggle", "GitHub", "GitLab",
+            "ROS Discourse", "RobotHub", "OpenCV Forums", "LinkedIn", "ORCID"
+        ],
         "target_industries": [
-            "Physical AI",
-            "Robotics",
-            "Humanoids",
-            "Autonomous Systems",
-            "Computer Vision",
-            "Machine Learning"
+            "Physical AI", "Robotics", "Humanoids", "Autonomous Systems",
+            "Computer Vision", "Machine Learning", "Embodied AI"
         ],
         "endpoints": {
             "health": "/api/health",
             "agents": "/api/agents",
+            "sources": "/api/sources",
             "candidates": "/api/candidates",
+            "research": "/api/research",
             "jobs": "/api/jobs",
             "pipeline": "/api/pipeline",
             "screening": "/api/screening",
+            "audit": "/api/audit",
             "demo": "/api/demo"
         },
         "timestamp": datetime.utcnow().isoformat()
@@ -542,24 +557,210 @@ async def get_dashboard_stats():
 
     from agents.base_agent import AgentMessage
 
-    # Get stats from all recruiting agents
+    # Get stats from all recruiting agents + audit
     sourcer_msg = AgentMessage(source="api", target="sourcer", action="get_stats", payload={})
     matcher_msg = AgentMessage(source="api", target="matcher", action="get_stats", payload={})
     screener_msg = AgentMessage(source="api", target="screener", action="get_stats", payload={})
     pipeline_msg = AgentMessage(source="api", target="pipeline", action="get_stats", payload={})
+    audit_msg = AgentMessage(source="api", target="audit", action="get_stats", payload={})
 
     sourcer_resp = await orchestrator.route_message(sourcer_msg)
     matcher_resp = await orchestrator.route_message(matcher_msg)
     screener_resp = await orchestrator.route_message(screener_msg)
     pipeline_resp = await orchestrator.route_message(pipeline_msg)
+    audit_resp = await orchestrator.route_message(audit_msg)
 
     return jsonify({
         "sourcing": sourcer_resp.data if sourcer_resp.success else {},
         "matching": matcher_resp.data if matcher_resp.success else {},
         "screening": screener_resp.data if screener_resp.success else {},
         "pipeline": pipeline_resp.data if pipeline_resp.success else {},
+        "audit": audit_resp.data if audit_resp.success else {},
         "timestamp": datetime.utcnow().isoformat()
     })
+
+
+# ============== SOURCES ROUTES ==============
+
+@app.route('/api/sources', methods=['GET'])
+@run_async
+async def get_sources():
+    """Get all elite sourcing platforms."""
+    await orchestrator.start()
+
+    from agents.base_agent import AgentMessage
+    message = AgentMessage(source="api", target="sourcer", action="get_sources", payload={})
+    response = await orchestrator.route_message(message)
+
+    return jsonify(response.data if response.success else {"error": response.error})
+
+
+# ============== RESEARCH ROUTES ==============
+
+@app.route('/api/research/search', methods=['POST'])
+@run_async
+async def search_researchers():
+    """Search for researchers by research area."""
+    await orchestrator.start()
+    data = request.get_json() or {}
+
+    from agents.base_agent import AgentMessage
+    message = AgentMessage(
+        source="api", target="sourcer", action="search_researchers",
+        payload={
+            "research_area": data.get("research_area", "Computer Vision"),
+            "min_citations": data.get("min_citations", 50),
+            "min_h_index": data.get("min_h_index", 5),
+            "independent_only": data.get("independent_only", False)
+        }
+    )
+    response = await orchestrator.route_message(message)
+
+    return jsonify(response.data if response.success else {"error": response.error})
+
+
+@app.route('/api/research/profile/<candidate_id>', methods=['GET'])
+@run_async
+async def get_research_profile(candidate_id):
+    """Get research profile for a candidate."""
+    await orchestrator.start()
+
+    from agents.base_agent import AgentMessage
+    message = AgentMessage(
+        source="api", target="sourcer", action="get_research_profile",
+        payload={"candidate_id": candidate_id}
+    )
+    response = await orchestrator.route_message(message)
+
+    return jsonify(response.data if response.success else {"error": response.error})
+
+
+@app.route('/api/research/rank', methods=['POST'])
+@run_async
+async def rank_by_research():
+    """Rank candidates by research metrics."""
+    await orchestrator.start()
+    data = request.get_json() or {}
+
+    from agents.base_agent import AgentMessage
+    message = AgentMessage(
+        source="api", target="matcher", action="rank_by_research",
+        payload={
+            "candidates": data.get("candidates", []),
+            "min_h_index": data.get("min_h_index", 0),
+            "independent_only": data.get("independent_only", False)
+        }
+    )
+    response = await orchestrator.route_message(message)
+
+    return jsonify(response.data if response.success else {"error": response.error})
+
+
+# ============== AUDIT ROUTES (Defensible AI Hiring) ==============
+
+@app.route('/api/audit/log', methods=['POST'])
+@run_async
+async def log_audit_decision():
+    """Log an AI decision for audit trail."""
+    await orchestrator.start()
+    data = request.get_json() or {}
+
+    from agents.base_agent import AgentMessage
+    message = AgentMessage(
+        source="api", target="audit", action="log_decision",
+        payload=data
+    )
+    response = await orchestrator.route_message(message)
+
+    return jsonify(response.data if response.success else {"error": response.error})
+
+
+@app.route('/api/audit/human-decision', methods=['POST'])
+@run_async
+async def log_human_decision():
+    """Log a human-in-the-loop decision."""
+    await orchestrator.start()
+    data = request.get_json() or {}
+
+    from agents.base_agent import AgentMessage
+    message = AgentMessage(
+        source="api", target="audit", action="log_human_decision",
+        payload=data
+    )
+    response = await orchestrator.route_message(message)
+
+    return jsonify(response.data if response.success else {"error": response.error})
+
+
+@app.route('/api/audit/trail', methods=['GET'])
+@run_async
+async def get_audit_trail():
+    """Get audit trail with optional filters."""
+    await orchestrator.start()
+
+    from agents.base_agent import AgentMessage
+    message = AgentMessage(
+        source="api", target="audit", action="get_audit_trail",
+        payload={
+            "decision_type": request.args.get("decision_type"),
+            "agent_name": request.args.get("agent_name"),
+            "limit": int(request.args.get("limit", 100))
+        }
+    )
+    response = await orchestrator.route_message(message)
+
+    return jsonify(response.data if response.success else {"error": response.error})
+
+
+@app.route('/api/audit/candidate/<candidate_id>', methods=['GET'])
+@run_async
+async def get_candidate_audit_history(candidate_id):
+    """Get complete audit history for a candidate."""
+    await orchestrator.start()
+
+    from agents.base_agent import AgentMessage
+    message = AgentMessage(
+        source="api", target="audit", action="get_candidate_history",
+        payload={"candidate_id": candidate_id}
+    )
+    response = await orchestrator.route_message(message)
+
+    return jsonify(response.data if response.success else {"error": response.error})
+
+
+@app.route('/api/audit/compliance-report', methods=['GET'])
+@run_async
+async def get_compliance_report():
+    """Generate compliance report for auditors."""
+    await orchestrator.start()
+
+    from agents.base_agent import AgentMessage
+    message = AgentMessage(
+        source="api", target="audit", action="get_compliance_report",
+        payload={"report_type": request.args.get("type", "summary")}
+    )
+    response = await orchestrator.route_message(message)
+
+    return jsonify(response.data if response.success else {"error": response.error})
+
+
+@app.route('/api/audit/explanation/<candidate_id>', methods=['GET'])
+@run_async
+async def get_decision_explanation(candidate_id):
+    """Get AI explanation for a decision."""
+    await orchestrator.start()
+
+    from agents.base_agent import AgentMessage
+    message = AgentMessage(
+        source="api", target="audit", action="get_decision_explanation",
+        payload={
+            "candidate_id": candidate_id,
+            "decision_type": request.args.get("decision_type", "candidate_screened")
+        }
+    )
+    response = await orchestrator.route_message(message)
+
+    return jsonify(response.data if response.success else {"error": response.error})
 
 
 # ============== LIVE DEMO ROUTES ==============
