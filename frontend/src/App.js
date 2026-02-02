@@ -888,7 +888,7 @@ function App() {
     const handlePurchase = (tier) => {
       setSelectedTier(tier);
       // In production, integrate with Stripe/PayPal
-      alert(`Thank you for selecting ${tier.name}!\n\nPayment Options:\n• PayPal: cgtpa.jp.com\n• Venmo: @cgtpa\n\nInclude "${tier.id}" in payment note.\n\nWe'll email your download link within 24 hours.`);
+      alert(`Thank you for selecting ${tier.name}!\n\nPayment Options:\n• PayPal: cgtpa.jp.com\n• Venmo: @VanguardLab\n\nInclude "${tier.id}" in payment note.\n\nWe'll email your download link within 24 hours.`);
     };
 
     return (
