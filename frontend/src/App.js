@@ -888,7 +888,7 @@ function App() {
     const handlePurchase = (tier) => {
       setSelectedTier(tier);
       // In production, integrate with Stripe/PayPal
-      alert(`Thank you for selecting ${tier.name}!\n\nPayment Options:\n• PayPal: partners@VanguardLab.PhysicalAIPros.com\n• Venmo: @VanguardLab\n\nInclude "${tier.id}" in payment note.\n\nWe'll email your download link within 24 hours.`);
+      alert(`Thank you for selecting ${tier.name}!\n\nPayment Options:\n• PayPal: cgtpa.jp.com\n• Venmo: @cgtpa\n\nInclude "${tier.id}" in payment note.\n\nWe'll email your download link within 24 hours.`);
     };
 
     return (
@@ -1233,7 +1233,7 @@ function App() {
           <span style={{margin: '0 15px', color: '#333'}}>|</span>
           <span style={{color: '#666', fontSize: '0.75rem'}}>Targeting $50M+ Physical AI Recruiting TAM</span>
           <span style={{margin: '0 15px', color: '#333'}}>|</span>
-          <span style={{color: '#00f5d4', fontSize: '0.75rem'}}>partners@VanguardLab.PhysicalAIPros.com</span>
+          <span style={{color: '#00f5d4', fontSize: '0.75rem'}}>cgtpa.jp.com</span>
         </div>
       </footer>
     </div>
