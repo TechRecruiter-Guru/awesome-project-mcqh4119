@@ -813,6 +813,263 @@ function App() {
     );
   };
 
+  const renderDefensibleHiring = () => {
+    const [selectedTier, setSelectedTier] = useState(null);
+
+    const pricingTiers = [
+      {
+        id: 'executive',
+        name: 'Executive Brief',
+        price: '$149',
+        features: [
+          'Condensed 10-page executive summary',
+          'Key lawsuit summaries (Workday, iTutorGroup)',
+          'Compliance checklist',
+          'PDF download'
+        ],
+        bestFor: 'HR Managers, Recruiters',
+        color: '#9b5de5'
+      },
+      {
+        id: 'full',
+        name: 'Full Whitepaper',
+        price: '$399',
+        popular: true,
+        features: [
+          'Complete 30+ page whitepaper',
+          'All court case analysis with citations',
+          'Technical architecture details',
+          'Regulatory framework (NYC LL144, Colorado AI Act)',
+          'Implementation best practices',
+          'PDF + HTML versions'
+        ],
+        bestFor: 'HR Directors, Legal Teams',
+        color: '#00f5d4'
+      },
+      {
+        id: 'enterprise',
+        name: 'Enterprise Package',
+        price: '$999',
+        features: [
+          'Everything in Full Whitepaper',
+          'Editable compliance audit template',
+          'Human-in-the-loop policy template',
+          'Vendor evaluation scorecard',
+          'Adverse impact monitoring guide',
+          '30-minute consultation call',
+          'Quarterly case law updates (1 year)'
+        ],
+        bestFor: 'CHROs, General Counsel, AI Vendors',
+        color: '#f15bb5'
+      },
+      {
+        id: 'site',
+        name: 'Site License',
+        price: '$2,499',
+        features: [
+          'Everything in Enterprise Package',
+          'Unlimited organizational access',
+          'Custom branding option',
+          'Priority case law alerts',
+          'Dedicated account manager',
+          'Annual compliance review call'
+        ],
+        bestFor: 'Law Firms, Large Enterprises, Consultancies',
+        color: '#fbbf24'
+      }
+    ];
+
+    const keyStats = [
+      { value: '1.1B', label: 'Applications in Workday Class Action', color: '#f87171' },
+      { value: '$365K', label: 'First EEOC AI Settlement', color: '#fbbf24' },
+      { value: '$1,500/day', label: 'NYC LL144 Violation Penalty', color: '#f15bb5' },
+      { value: '80%', label: 'Four-Fifths Rule Threshold', color: '#9b5de5' }
+    ];
+
+    const handlePurchase = (tier) => {
+      setSelectedTier(tier);
+      // In production, integrate with Stripe/PayPal
+      alert(`Thank you for selecting ${tier.name}!\n\nPayment Options:\n• PayPal: partners@VanguardLab.PhysicalAIPros.com\n• Venmo: @VanguardLab\n\nInclude "${tier.id}" in payment note.\n\nWe'll email your download link within 24 hours.`);
+    };
+
+    return (
+      <>
+        {/* Hero Section */}
+        <div style={{...styles.demoCard, borderColor: '#dc2626', background: 'linear-gradient(135deg, #0a0a0f 0%, #1a0a0a 50%, #0a0a0f 100%)'}}>
+          <div style={{textAlign: 'center', padding: '30px 0'}}>
+            <div style={{background: 'rgba(220, 38, 38, 0.2)', border: '1px solid rgba(220, 38, 38, 0.4)', color: '#f87171', padding: '8px 20px', borderRadius: '50px', fontSize: '0.85rem', fontWeight: 500, letterSpacing: '2px', textTransform: 'uppercase', display: 'inline-block', marginBottom: '20px'}}>
+              INDUSTRY WHITEPAPER 2025
+            </div>
+            <h1 style={{margin: '0 0 15px', color: '#fff', fontSize: '2.8rem', fontWeight: 800, lineHeight: 1.1}}>
+              <span style={{background: 'linear-gradient(90deg, #f87171, #dc2626)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent'}}>Defensible AI Hiring</span>
+            </h1>
+            <p style={{color: '#aaa', margin: '0 0 10px', fontSize: '1.3rem'}}>
+              A Multi-Agent Architecture for Compliant Recruiting
+            </p>
+            <p style={{color: '#f87171', margin: '0 0 30px', fontSize: '1rem', fontWeight: 600}}>
+              In the Post-Workday Lawsuit Era
+            </p>
+
+            {/* Key Stats */}
+            <div style={{display: 'flex', justifyContent: 'center', gap: '40px', flexWrap: 'wrap', marginTop: '30px'}}>
+              {keyStats.map(stat => (
+                <div key={stat.label} style={{textAlign: 'center'}}>
+                  <div style={{fontSize: '2rem', fontWeight: 700, color: stat.color}}>{stat.value}</div>
+                  <div style={{fontSize: '0.8rem', color: '#888', maxWidth: '120px'}}>{stat.label}</div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* Warning Banner */}
+        <div style={{background: 'linear-gradient(90deg, rgba(220, 38, 38, 0.1), rgba(220, 38, 38, 0.2))', border: '1px solid rgba(220, 38, 38, 0.3)', borderRadius: '12px', padding: '20px 30px', marginBottom: '30px', display: 'flex', alignItems: 'center', gap: '15px'}}>
+          <span style={{fontSize: '2rem'}}>⚠️</span>
+          <div>
+            <div style={{color: '#f87171', fontWeight: 600, marginBottom: '5px'}}>The $1.1 Billion Question</div>
+            <div style={{color: '#aaa', fontSize: '0.9rem'}}>Workday faces a class action covering 1.1 billion rejected applications. Is your AI hiring tool the next defendant?</div>
+          </div>
+        </div>
+
+        {/* What You'll Learn */}
+        <div style={{marginBottom: '40px'}}>
+          <h2 style={{color: '#fff', textAlign: 'center', marginBottom: '25px'}}>What's Inside</h2>
+          <div style={styles.grid}>
+            <div style={{...styles.card, borderLeft: '4px solid #f87171'}}>
+              <h3 style={{color: '#f87171', margin: '0 0 10px'}}>Legal Analysis</h3>
+              <ul style={{color: '#888', margin: 0, paddingLeft: '20px', lineHeight: 2}}>
+                <li>Mobley v. Workday full case timeline</li>
+                <li>EEOC v. iTutorGroup settlement breakdown</li>
+                <li>Agent theory of liability explained</li>
+                <li>Class certification implications</li>
+              </ul>
+            </div>
+            <div style={{...styles.card, borderLeft: '4px solid #00f5d4'}}>
+              <h3 style={{color: '#00f5d4', margin: '0 0 10px'}}>Technical Solutions</h3>
+              <ul style={{color: '#888', margin: 0, paddingLeft: '20px', lineHeight: 2}}>
+                <li>Multi-agent architecture design</li>
+                <li>Human-in-the-loop workflows</li>
+                <li>Zero PII storage architecture</li>
+                <li>Transparent scoring algorithms</li>
+              </ul>
+            </div>
+            <div style={{...styles.card, borderLeft: '4px solid #9b5de5'}}>
+              <h3 style={{color: '#9b5de5', margin: '0 0 10px'}}>Compliance Framework</h3>
+              <ul style={{color: '#888', margin: 0, paddingLeft: '20px', lineHeight: 2}}>
+                <li>NYC Local Law 144 requirements</li>
+                <li>Colorado AI Act preparation</li>
+                <li>EEOC adverse impact monitoring</li>
+                <li>Four-fifths rule compliance</li>
+              </ul>
+            </div>
+            <div style={{...styles.card, borderLeft: '4px solid #fbbf24'}}>
+              <h3 style={{color: '#fbbf24', margin: '0 0 10px'}}>Templates & Tools</h3>
+              <ul style={{color: '#888', margin: 0, paddingLeft: '20px', lineHeight: 2}}>
+                <li>Bias audit template (Enterprise)</li>
+                <li>Vendor evaluation scorecard</li>
+                <li>Policy document templates</li>
+                <li>Implementation checklist</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        {/* Pricing Tiers */}
+        <div style={{marginBottom: '40px'}}>
+          <h2 style={{color: '#fff', textAlign: 'center', marginBottom: '10px'}}>Choose Your Package</h2>
+          <p style={{color: '#888', textAlign: 'center', marginBottom: '30px'}}>Protect your organization from AI hiring liability</p>
+
+          <div style={{display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '20px'}}>
+            {pricingTiers.map(tier => (
+              <div key={tier.id} style={{
+                ...styles.card,
+                border: tier.popular ? `2px solid ${tier.color}` : '1px solid #2a2a3e',
+                position: 'relative',
+                display: 'flex',
+                flexDirection: 'column'
+              }}>
+                {tier.popular && (
+                  <div style={{position: 'absolute', top: '-12px', left: '50%', transform: 'translateX(-50%)', background: tier.color, color: '#0a0a0f', padding: '4px 16px', borderRadius: '20px', fontSize: '0.75rem', fontWeight: 700}}>
+                    MOST POPULAR
+                  </div>
+                )}
+                <div style={{textAlign: 'center', paddingTop: tier.popular ? '10px' : 0}}>
+                  <h3 style={{color: tier.color, margin: '0 0 10px'}}>{tier.name}</h3>
+                  <div style={{fontSize: '2.5rem', fontWeight: 700, color: '#fff'}}>{tier.price}</div>
+                  <div style={{color: '#888', fontSize: '0.85rem', marginBottom: '20px'}}>{tier.bestFor}</div>
+                </div>
+                <ul style={{color: '#888', margin: '0 0 20px', paddingLeft: '20px', lineHeight: 1.8, flex: 1}}>
+                  {tier.features.map((f, i) => (
+                    <li key={i} style={{marginBottom: '8px'}}>
+                      <span style={{color: tier.color, marginRight: '8px'}}>✓</span>
+                      {f}
+                    </li>
+                  ))}
+                </ul>
+                <button
+                  style={{
+                    ...styles.btn,
+                    width: '100%',
+                    background: tier.popular ? `linear-gradient(135deg, ${tier.color}, ${tier.color}cc)` : 'linear-gradient(135deg, #2a2a4e, #3a3a5e)',
+                    color: tier.popular ? '#0a0a0f' : '#fff'
+                  }}
+                  onClick={() => handlePurchase(tier)}
+                >
+                  Get {tier.name}
+                </button>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Preview Section */}
+        <div style={{...styles.card, marginBottom: '30px'}}>
+          <h2 style={{color: '#fff', marginBottom: '20px', textAlign: 'center'}}>Preview the Whitepaper</h2>
+          <div style={{display: 'flex', justifyContent: 'center', gap: '20px', flexWrap: 'wrap'}}>
+            <a
+              href="/whitepaper-defensible-ai-hiring.html"
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{...styles.btn, ...styles.btnSuccess, textDecoration: 'none', padding: '12px 30px'}}
+            >
+              View Full Preview
+            </a>
+            <button style={{...styles.btn, ...styles.btnSecondary}} onClick={() => window.print()}>
+              Print Preview
+            </button>
+          </div>
+        </div>
+
+        {/* Trust Signals */}
+        <div style={{textAlign: 'center', padding: '30px', background: 'linear-gradient(135deg, #1a1a2e, #0a0a0f)', borderRadius: '16px', marginBottom: '30px'}}>
+          <h3 style={{color: '#fff', marginBottom: '20px'}}>Trusted By</h3>
+          <div style={{display: 'flex', justifyContent: 'center', gap: '40px', flexWrap: 'wrap', color: '#666'}}>
+            <span>HR Technology Vendors</span>
+            <span>|</span>
+            <span>Fortune 500 Legal Teams</span>
+            <span>|</span>
+            <span>Recruiting Agencies</span>
+            <span>|</span>
+            <span>PE/VC Due Diligence</span>
+          </div>
+        </div>
+
+        {/* CTA */}
+        <div style={{textAlign: 'center', padding: '40px', background: 'linear-gradient(135deg, #1a0a0a, #2a1a1a)', borderRadius: '16px', border: '1px solid #dc2626'}}>
+          <h2 style={{color: '#fff', margin: '0 0 15px'}}>Don't Be the Next Workday</h2>
+          <p style={{color: '#aaa', margin: '0 0 25px'}}>Get the definitive guide to AI hiring compliance before it's too late</p>
+          <button
+            style={{...styles.btn, padding: '18px 50px', fontSize: '1.1rem', background: 'linear-gradient(135deg, #dc2626, #f87171)'}}
+            onClick={() => handlePurchase(pricingTiers[1])}
+          >
+            Get the Full Whitepaper - $399
+          </button>
+          <p style={{color: '#666', fontSize: '0.8rem', marginTop: '15px'}}>Instant PDF delivery • 30-day money-back guarantee</p>
+        </div>
+      </>
+    );
+  };
+
   const renderSafetyCaseAI = () => {
     const certifications = [
       { name: 'ISO 26262', domain: 'Automotive', desc: 'Functional Safety for Road Vehicles', color: '#9b5de5' },
@@ -927,6 +1184,7 @@ function App() {
         {/* Tabs filtered by mode and conditions */}
         {[
           {id: 'dashboard', label: 'Dashboard', public: true, show: true},
+          {id: 'defensible', label: 'Defensible AI Hiring', public: true, show: true, badge: 'HOT', badgeColor: '#dc2626'},
           {id: 'safetycase', label: 'SafetyCaseAI', public: true, show: true},
           {id: 'sources', label: 'Elite Sources', public: false, show: true},
           {id: 'pipeline', label: 'Pipeline', public: false, show: true},
@@ -940,7 +1198,7 @@ function App() {
             {t.id === 'review' && screeningQueue?.queue_length > 0 && (
               <span style={{marginLeft: '8px', background: '#fbbf24', color: '#0a0a0f', padding: '2px 8px', borderRadius: '10px', fontSize: '0.7rem', fontWeight: 700}}>{screeningQueue.queue_length}</span>
             )}
-            {t.id === 'safetycase' && <span style={{marginLeft: '8px', background: '#00f5d4', color: '#0a0a0f', padding: '2px 8px', borderRadius: '10px', fontSize: '0.7rem', fontWeight: 700}}>NEW</span>}
+            {t.badge && <span style={{marginLeft: '8px', background: t.badgeColor || '#00f5d4', color: '#fff', padding: '2px 8px', borderRadius: '10px', fontSize: '0.7rem', fontWeight: 700}}>{t.badge}</span>}
           </button>
         ))}
         <button style={styles.navBtn} onClick={fetchData}>Refresh</button>
@@ -951,6 +1209,7 @@ function App() {
         {loading ? <p style={{textAlign: 'center', color: '#888'}}>Loading recruiting platform...</p> : (
           <>
             {activeTab === 'dashboard' && renderDashboard()}
+            {activeTab === 'defensible' && renderDefensibleHiring()}
             {activeTab === 'safetycase' && renderSafetyCaseAI()}
             {activeTab === 'sources' && renderEliteSources()}
             {activeTab === 'pipeline' && renderPipeline()}

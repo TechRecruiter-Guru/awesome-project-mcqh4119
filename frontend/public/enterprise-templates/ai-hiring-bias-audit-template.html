@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Hiring Bias Audit Template | DefensibleHiring.ai</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            line-height: 1.6;
+            color: #1f2937;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding-bottom: 30px;
+            border-bottom: 3px solid #dc2626;
+        }
+
+        .logo { font-size: 0.9rem; color: #6b7280; margin-bottom: 10px; }
+        h1 { font-size: 2rem; color: #111827; margin-bottom: 10px; }
+        .subtitle { color: #6b7280; font-size: 1.1rem; }
+
+        .section {
+            margin-bottom: 40px;
+            padding: 25px;
+            background: #f9fafb;
+            border-radius: 12px;
+            border-left: 4px solid #dc2626;
+        }
+
+        .section h2 {
+            font-size: 1.3rem;
+            color: #dc2626;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .section h3 {
+            font-size: 1.1rem;
+            color: #374151;
+            margin: 20px 0 15px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            font-weight: 500;
+            margin-bottom: 8px;
+            color: #374151;
+        }
+
+        input[type="text"],
+        input[type="date"],
+        input[type="number"],
+        textarea,
+        select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-family: inherit;
+        }
+
+        textarea { min-height: 100px; resize: vertical; }
+
+        .checkbox-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: #fff;
+            padding: 10px 15px;
+            border-radius: 8px;
+            border: 1px solid #e5e7eb;
+        }
+
+        .checkbox-item input { width: 18px; height: 18px; }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+            font-size: 0.95rem;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border: 1px solid #e5e7eb;
+        }
+
+        th {
+            background: #dc2626;
+            color: #fff;
+            font-weight: 600;
+        }
+
+        tr:nth-child(even) { background: #fff; }
+
+        .calculation-box {
+            background: #fef2f2;
+            border: 2px solid #dc2626;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .calculation-box h4 {
+            color: #dc2626;
+            margin-bottom: 15px;
+        }
+
+        .formula {
+            font-family: 'Courier New', monospace;
+            background: #fff;
+            padding: 15px;
+            border-radius: 6px;
+            margin: 10px 0;
+            font-size: 0.95rem;
+        }
+
+        .alert {
+            padding: 15px 20px;
+            border-radius: 8px;
+            margin: 15px 0;
+        }
+
+        .alert-warning {
+            background: #fffbeb;
+            border: 1px solid #f59e0b;
+            color: #92400e;
+        }
+
+        .alert-danger {
+            background: #fef2f2;
+            border: 1px solid #dc2626;
+            color: #991b1b;
+        }
+
+        .signature-section {
+            margin-top: 40px;
+            padding: 30px;
+            background: #f3f4f6;
+            border-radius: 12px;
+        }
+
+        .signature-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 30px;
+            margin-top: 20px;
+        }
+
+        .signature-box {
+            border-bottom: 2px solid #374151;
+            padding-bottom: 10px;
+            min-height: 60px;
+        }
+
+        .signature-label {
+            font-size: 0.85rem;
+            color: #6b7280;
+            margin-top: 5px;
+        }
+
+        .footer {
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid #e5e7eb;
+            text-align: center;
+            color: #6b7280;
+            font-size: 0.85rem;
+        }
+
+        @media print {
+            body { padding: 20px; }
+            .section { break-inside: avoid; }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="logo">DEFENSIBLEHIRING.AI | ENTERPRISE TEMPLATE</div>
+        <h1>AI Hiring Tool Bias Audit Template</h1>
+        <p class="subtitle">NYC Local Law 144 & EEOC Compliance Documentation</p>
+    </div>
+
+    <!-- Section 1: Organization Information -->
+    <div class="section">
+        <h2>1. Organization Information</h2>
+
+        <div class="form-group">
+            <label>Organization Name</label>
+            <input type="text" placeholder="Enter organization name">
+        </div>
+
+        <div class="form-group">
+            <label>Audit Period</label>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                <div>
+                    <label style="font-size: 0.9rem;">Start Date</label>
+                    <input type="date">
+                </div>
+                <div>
+                    <label style="font-size: 0.9rem;">End Date</label>
+                    <input type="date">
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label>AI Tool(s) Being Audited</label>
+            <textarea placeholder="List all AI/automated hiring tools used (e.g., Workday, HireVue, custom ML models)"></textarea>
+        </div>
+
+        <div class="form-group">
+            <label>Auditor Information</label>
+            <input type="text" placeholder="Name of independent auditor or auditing firm">
+        </div>
+    </div>
+
+    <!-- Section 2: Tool Description -->
+    <div class="section">
+        <h2>2. AI Tool Description & Function</h2>
+
+        <div class="form-group">
+            <label>Tool Name & Vendor</label>
+            <input type="text" placeholder="e.g., Workday Recruiting, HireVue">
+        </div>
+
+        <div class="form-group">
+            <label>Primary Function</label>
+            <div class="checkbox-group">
+                <label class="checkbox-item">
+                    <input type="checkbox"> Resume Screening
+                </label>
+                <label class="checkbox-item">
+                    <input type="checkbox"> Candidate Scoring/Ranking
+                </label>
+                <label class="checkbox-item">
+                    <input type="checkbox"> Video Interview Analysis
+                </label>
+                <label class="checkbox-item">
+                    <input type="checkbox"> Skills Assessment
+                </label>
+                <label class="checkbox-item">
+                    <input type="checkbox"> Chatbot Screening
+                </label>
+                <label class="checkbox-item">
+                    <input type="checkbox"> Other (specify below)
+                </label>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label>Decision Points Where Tool Is Used</label>
+            <textarea placeholder="Describe at which stages of the hiring process the tool makes or influences decisions"></textarea>
+        </div>
+
+        <div class="form-group">
+            <label>Does the tool make autonomous decisions?</label>
+            <select>
+                <option value="">Select...</option>
+                <option value="yes-auto-reject">Yes - Auto-rejects candidates</option>
+                <option value="yes-auto-advance">Yes - Auto-advances candidates</option>
+                <option value="recommend-only">No - Recommendations only, human decides</option>
+                <option value="human-loop">No - Human-in-the-loop for all decisions</option>
+            </select>
+        </div>
+    </div>
+
+    <!-- Section 3: Data Analysis -->
+    <div class="section">
+        <h2>3. Selection Rate Analysis</h2>
+
+        <h3>3.1 Race/Ethnicity Selection Rates</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Race/Ethnicity</th>
+                    <th>Total Applicants</th>
+                    <th>Selected/Advanced</th>
+                    <th>Selection Rate</th>
+                    <th>Impact Ratio</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>White</td>
+                    <td><input type="number" style="width: 100px;"></td>
+                    <td><input type="number" style="width: 100px;"></td>
+                    <td><input type="text" style="width: 80px;" placeholder="%"></td>
+                    <td><input type="text" style="width: 80px;"></td>
+                </tr>
+                <tr>
+                    <td>Black/African American</td>
+                    <td><input type="number" style="width: 100px;"></td>
+                    <td><input type="number" style="width: 100px;"></td>
+                    <td><input type="text" style="width: 80px;" placeholder="%"></td>
+                    <td><input type="text" style="width: 80px;"></td>
+                </tr>
+                <tr>
+                    <td>Hispanic/Latino</td>
+                    <td><input type="number" style="width: 100px;"></td>
+                    <td><input type="number" style="width: 100px;"></td>
+                    <td><input type="text" style="width: 80px;" placeholder="%"></td>
+                    <td><input type="text" style="width: 80px;"></td>
+                </tr>
+                <tr>
+                    <td>Asian</td>
+                    <td><input type="number" style="width: 100px;"></td>
+                    <td><input type="number" style="width: 100px;"></td>
+                    <td><input type="text" style="width: 80px;" placeholder="%"></td>
+                    <td><input type="text" style="width: 80px;"></td>
+                </tr>
+                <tr>
+                    <td>Native American</td>
+                    <td><input type="number" style="width: 100px;"></td>
+                    <td><input type="number" style="width: 100px;"></td>
+                    <td><input type="text" style="width: 80px;" placeholder="%"></td>
+                    <td><input type="text" style="width: 80px;"></td>
+                </tr>
+                <tr>
+                    <td>Two or More Races</td>
+                    <td><input type="number" style="width: 100px;"></td>
+                    <td><input type="number" style="width: 100px;"></td>
+                    <td><input type="text" style="width: 80px;" placeholder="%"></td>
+                    <td><input type="text" style="width: 80px;"></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3>3.2 Gender Selection Rates</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Gender</th>
+                    <th>Total Applicants</th>
+                    <th>Selected/Advanced</th>
+                    <th>Selection Rate</th>
+                    <th>Impact Ratio</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Male</td>
+                    <td><input type="number" style="width: 100px;"></td>
+                    <td><input type="number" style="width: 100px;"></td>
+                    <td><input type="text" style="width: 80px;" placeholder="%"></td>
+                    <td><input type="text" style="width: 80px;"></td>
+                </tr>
+                <tr>
+                    <td>Female</td>
+                    <td><input type="number" style="width: 100px;"></td>
+                    <td><input type="number" style="width: 100px;"></td>
+                    <td><input type="text" style="width: 80px;" placeholder="%"></td>
+                    <td><input type="text" style="width: 80px;"></td>
+                </tr>
+                <tr>
+                    <td>Non-Binary/Other</td>
+                    <td><input type="number" style="width: 100px;"></td>
+                    <td><input type="number" style="width: 100px;"></td>
+                    <td><input type="text" style="width: 80px;" placeholder="%"></td>
+                    <td><input type="text" style="width: 80px;"></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3>3.3 Age Selection Rates (ADEA Compliance)</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Age Group</th>
+                    <th>Total Applicants</th>
+                    <th>Selected/Advanced</th>
+                    <th>Selection Rate</th>
+                    <th>Impact Ratio</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Under 40</td>
+                    <td><input type="number" style="width: 100px;"></td>
+                    <td><input type="number" style="width: 100px;"></td>
+                    <td><input type="text" style="width: 80px;" placeholder="%"></td>
+                    <td><input type="text" style="width: 80px;"></td>
+                </tr>
+                <tr>
+                    <td>40-49</td>
+                    <td><input type="number" style="width: 100px;"></td>
+                    <td><input type="number" style="width: 100px;"></td>
+                    <td><input type="text" style="width: 80px;" placeholder="%"></td>
+                    <td><input type="text" style="width: 80px;"></td>
+                </tr>
+                <tr>
+                    <td>50-59</td>
+                    <td><input type="number" style="width: 100px;"></td>
+                    <td><input type="number" style="width: 100px;"></td>
+                    <td><input type="text" style="width: 80px;" placeholder="%"></td>
+                    <td><input type="text" style="width: 80px;"></td>
+                </tr>
+                <tr>
+                    <td>60+</td>
+                    <td><input type="number" style="width: 100px;"></td>
+                    <td><input type="number" style="width: 100px;"></td>
+                    <td><input type="text" style="width: 80px;" placeholder="%"></td>
+                    <td><input type="text" style="width: 80px;"></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="calculation-box">
+            <h4>Four-Fifths Rule Calculation</h4>
+            <div class="formula">
+                Impact Ratio = (Selection Rate of Group) / (Highest Selection Rate)
+                <br><br>
+                If Impact Ratio < 0.80 (80%), potential adverse impact exists.
+            </div>
+            <div class="alert alert-warning">
+                <strong>Note:</strong> Impact ratios below 80% trigger a rebuttable presumption of adverse impact under EEOC guidelines. Document business necessity justification for any ratios below this threshold.
+            </div>
+        </div>
+    </div>
+
+    <!-- Section 4: Adverse Impact Findings -->
+    <div class="section">
+        <h2>4. Adverse Impact Findings</h2>
+
+        <div class="form-group">
+            <label>Were any impact ratios below 80%?</label>
+            <select>
+                <option value="">Select...</option>
+                <option value="no">No - All ratios at or above 80%</option>
+                <option value="yes">Yes - One or more ratios below 80%</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label>If yes, identify affected groups</label>
+            <textarea placeholder="List each group with impact ratio below 80% and the specific ratio"></textarea>
+        </div>
+
+        <div class="form-group">
+            <label>Business Necessity Justification (if applicable)</label>
+            <textarea placeholder="Provide documented business necessity for selection criteria that produce adverse impact"></textarea>
+        </div>
+
+        <div class="form-group">
+            <label>Alternative Selection Procedures Considered</label>
+            <textarea placeholder="Document any less discriminatory alternatives that were evaluated"></textarea>
+        </div>
+    </div>
+
+    <!-- Section 5: Human Oversight -->
+    <div class="section">
+        <h2>5. Human Oversight Assessment</h2>
+
+        <div class="form-group">
+            <label>Human Review Process</label>
+            <div class="checkbox-group">
+                <label class="checkbox-item">
+                    <input type="checkbox"> Humans review all AI recommendations
+                </label>
+                <label class="checkbox-item">
+                    <input type="checkbox"> Humans review borderline cases only
+                </label>
+                <label class="checkbox-item">
+                    <input type="checkbox"> Random sample review
+                </label>
+                <label class="checkbox-item">
+                    <input type="checkbox"> No systematic human review
+                </label>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label>Percentage of AI decisions reviewed by humans</label>
+            <input type="text" placeholder="e.g., 100%, 50%, <10%">
+        </div>
+
+        <div class="form-group">
+            <label>Can humans override AI decisions?</label>
+            <select>
+                <option value="">Select...</option>
+                <option value="yes-always">Yes - Always</option>
+                <option value="yes-documented">Yes - With documentation</option>
+                <option value="limited">Limited circumstances only</option>
+                <option value="no">No</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label>Human Override Rate</label>
+            <input type="text" placeholder="Percentage of AI decisions overridden by humans">
+        </div>
+    </div>
+
+    <!-- Section 6: Transparency & Notice -->
+    <div class="section">
+        <h2>6. Candidate Notice & Transparency (NYC LL144)</h2>
+
+        <div class="form-group">
+            <label>Are candidates notified of AI tool use?</label>
+            <select>
+                <option value="">Select...</option>
+                <option value="yes-10">Yes - 10+ business days before</option>
+                <option value="yes-less">Yes - Less than 10 days before</option>
+                <option value="at-time">At time of application only</option>
+                <option value="no">No notification provided</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label>Is an alternative application process offered?</label>
+            <select>
+                <option value="">Select...</option>
+                <option value="yes-proactive">Yes - Proactively offered</option>
+                <option value="yes-request">Yes - Upon request</option>
+                <option value="no">No alternative offered</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label>Is bias audit summary published on website?</label>
+            <select>
+                <option value="">Select...</option>
+                <option value="yes">Yes</option>
+                <option value="planned">Planned</option>
+                <option value="no">No</option>
+            </select>
+        </div>
+    </div>
+
+    <!-- Section 7: Recommendations -->
+    <div class="section">
+        <h2>7. Audit Findings & Recommendations</h2>
+
+        <div class="form-group">
+            <label>Overall Compliance Status</label>
+            <select>
+                <option value="">Select...</option>
+                <option value="compliant">Compliant - No significant issues identified</option>
+                <option value="minor">Minor Issues - Remediation recommended</option>
+                <option value="major">Major Issues - Immediate action required</option>
+                <option value="non-compliant">Non-Compliant - Significant violations found</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label>Key Findings</label>
+            <textarea placeholder="Summarize key audit findings"></textarea>
+        </div>
+
+        <div class="form-group">
+            <label>Recommended Actions</label>
+            <textarea placeholder="List specific recommended actions to address findings"></textarea>
+        </div>
+
+        <div class="form-group">
+            <label>Timeline for Remediation</label>
+            <textarea placeholder="Proposed timeline for implementing recommended changes"></textarea>
+        </div>
+    </div>
+
+    <!-- Signature Section -->
+    <div class="signature-section">
+        <h2 style="margin-bottom: 10px;">Certification</h2>
+        <p style="color: #6b7280; margin-bottom: 20px;">I certify that this bias audit was conducted in accordance with applicable laws and regulations, and the information provided is accurate to the best of my knowledge.</p>
+
+        <div class="signature-grid">
+            <div>
+                <div class="signature-box"></div>
+                <div class="signature-label">Auditor Signature</div>
+            </div>
+            <div>
+                <div class="signature-box"></div>
+                <div class="signature-label">Date</div>
+            </div>
+            <div>
+                <div class="signature-box"></div>
+                <div class="signature-label">Organization Representative Signature</div>
+            </div>
+            <div>
+                <div class="signature-box"></div>
+                <div class="signature-label">Date</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer">
+        <p><strong>DefensibleHiring.ai</strong> | VanguardLab | Enterprise Compliance Templates</p>
+        <p>This template is provided for informational purposes and does not constitute legal advice.</p>
+        <p style="margin-top: 10px;">partners@VanguardLab.PhysicalAIPros.com</p>
+    </div>
+</body>
+</html>

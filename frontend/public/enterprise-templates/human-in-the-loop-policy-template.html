@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Human-in-the-Loop AI Hiring Policy Template | DefensibleHiring.ai</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            line-height: 1.7;
+            color: #1f2937;
+            max-width: 850px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding-bottom: 30px;
+            border-bottom: 3px solid #059669;
+        }
+
+        .logo { font-size: 0.9rem; color: #6b7280; margin-bottom: 10px; }
+        h1 { font-size: 2rem; color: #111827; margin-bottom: 10px; }
+        .subtitle { color: #6b7280; font-size: 1.1rem; }
+        .version { background: #059669; color: #fff; padding: 4px 12px; border-radius: 20px; font-size: 0.8rem; margin-top: 15px; display: inline-block; }
+
+        .editable-field {
+            background: #fef3c7;
+            border: 1px dashed #f59e0b;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-style: italic;
+        }
+
+        .section {
+            margin-bottom: 35px;
+        }
+
+        .section h2 {
+            font-size: 1.4rem;
+            color: #059669;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #d1fae5;
+        }
+
+        .section h3 {
+            font-size: 1.1rem;
+            color: #374151;
+            margin: 25px 0 12px;
+        }
+
+        p { margin-bottom: 15px; }
+
+        ul, ol {
+            margin: 15px 0;
+            padding-left: 25px;
+        }
+
+        li { margin-bottom: 10px; }
+
+        .policy-box {
+            background: #ecfdf5;
+            border-left: 4px solid #059669;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .warning-box {
+            background: #fef2f2;
+            border-left: 4px solid #dc2626;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .warning-box strong { color: #dc2626; }
+
+        .requirement-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+
+        .requirement-table th,
+        .requirement-table td {
+            padding: 12px 15px;
+            text-align: left;
+            border: 1px solid #e5e7eb;
+        }
+
+        .requirement-table th {
+            background: #059669;
+            color: #fff;
+            font-weight: 600;
+        }
+
+        .requirement-table tr:nth-child(even) { background: #f9fafb; }
+
+        .flowchart {
+            background: #f3f4f6;
+            border-radius: 12px;
+            padding: 25px;
+            margin: 25px 0;
+            font-family: monospace;
+            font-size: 0.9rem;
+            white-space: pre-wrap;
+            line-height: 1.5;
+        }
+
+        .signature-section {
+            margin-top: 50px;
+            padding: 30px;
+            background: #f3f4f6;
+            border-radius: 12px;
+        }
+
+        .signature-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 30px;
+            margin-top: 25px;
+        }
+
+        .signature-box {
+            border-bottom: 2px solid #374151;
+            padding-bottom: 10px;
+            min-height: 50px;
+        }
+
+        .signature-label {
+            font-size: 0.85rem;
+            color: #6b7280;
+            margin-top: 5px;
+        }
+
+        .footer {
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid #e5e7eb;
+            text-align: center;
+            color: #6b7280;
+            font-size: 0.85rem;
+        }
+
+        @media print {
+            .editable-field { background: #fff; border: 1px solid #999; }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="logo">DEFENSIBLEHIRING.AI | ENTERPRISE POLICY TEMPLATE</div>
+        <h1>Human-in-the-Loop AI Hiring Policy</h1>
+        <p class="subtitle">Organizational Policy for AI-Assisted Employment Decisions</p>
+        <div class="version">Template v1.0 | February 2025</div>
+    </div>
+
+    <!-- Policy Statement -->
+    <div class="section">
+        <h2>1. Policy Statement</h2>
+
+        <div class="policy-box">
+            <p><strong><span class="editable-field">[ORGANIZATION NAME]</span></strong> is committed to using artificial intelligence in hiring responsibly and ethically. This policy establishes requirements for human oversight of all AI-assisted employment decisions to ensure fairness, legal compliance, and alignment with our values.</p>
+        </div>
+
+        <p><strong>Effective Date:</strong> <span class="editable-field">[DATE]</span></p>
+        <p><strong>Policy Owner:</strong> <span class="editable-field">[TITLE/DEPARTMENT]</span></p>
+        <p><strong>Review Frequency:</strong> Annual (or upon significant regulatory changes)</p>
+    </div>
+
+    <!-- Scope -->
+    <div class="section">
+        <h2>2. Scope</h2>
+
+        <p>This policy applies to:</p>
+        <ul>
+            <li>All AI-powered or automated tools used in the hiring process</li>
+            <li>Resume screening and parsing software</li>
+            <li>Candidate scoring and ranking algorithms</li>
+            <li>Video interview analysis tools</li>
+            <li>Chatbot-based candidate screening</li>
+            <li>Skills assessment platforms with algorithmic scoring</li>
+            <li>Any tool that uses machine learning to evaluate candidates</li>
+        </ul>
+
+        <p>This policy covers all positions at <span class="editable-field">[ORGANIZATION NAME]</span>, including:</p>
+        <ul>
+            <li>Full-time employees</li>
+            <li>Part-time employees</li>
+            <li>Contract workers</li>
+            <li>Temporary positions</li>
+            <li>Internships</li>
+        </ul>
+    </div>
+
+    <!-- Definitions -->
+    <div class="section">
+        <h2>3. Definitions</h2>
+
+        <table class="requirement-table">
+            <tr>
+                <th>Term</th>
+                <th>Definition</th>
+            </tr>
+            <tr>
+                <td><strong>AI Hiring Tool</strong></td>
+                <td>Any software or algorithm that analyzes, scores, ranks, or filters candidates during the hiring process</td>
+            </tr>
+            <tr>
+                <td><strong>Human-in-the-Loop</strong></td>
+                <td>A system design where humans review, validate, or have authority to override AI-generated recommendations</td>
+            </tr>
+            <tr>
+                <td><strong>Autonomous Decision</strong></td>
+                <td>A decision made by AI without human review or intervention</td>
+            </tr>
+            <tr>
+                <td><strong>Borderline Candidate</strong></td>
+                <td>A candidate whose AI-generated score falls within a defined range requiring mandatory human review</td>
+            </tr>
+            <tr>
+                <td><strong>Adverse Action</strong></td>
+                <td>Any decision to reject, not advance, or terminate consideration of a candidate</td>
+            </tr>
+        </table>
+    </div>
+
+    <!-- Core Requirements -->
+    <div class="section">
+        <h2>4. Human Oversight Requirements</h2>
+
+        <h3>4.1 Mandatory Human Review</h3>
+        <p>Human review is <strong>REQUIRED</strong> for the following:</p>
+
+        <table class="requirement-table">
+            <tr>
+                <th>Scenario</th>
+                <th>Review Requirement</th>
+                <th>Reviewer</th>
+            </tr>
+            <tr>
+                <td>All adverse actions (rejections)</td>
+                <td>100% human review before rejection communication</td>
+                <td>Recruiter or Hiring Manager</td>
+            </tr>
+            <tr>
+                <td>Borderline scores (60-85%)</td>
+                <td>Mandatory human evaluation</td>
+                <td>Recruiter</td>
+            </tr>
+            <tr>
+                <td>Candidates requesting human review</td>
+                <td>Must be provided upon request</td>
+                <td>Hiring Manager</td>
+            </tr>
+            <tr>
+                <td>Accommodation requests</td>
+                <td>Human review of entire application</td>
+                <td>HR + Hiring Manager</td>
+            </tr>
+            <tr>
+                <td>Final hiring decisions</td>
+                <td>Human approval required</td>
+                <td>Hiring Manager</td>
+            </tr>
+        </table>
+
+        <h3>4.2 Score Thresholds</h3>
+        <div class="flowchart">
+┌─────────────────────────────────────────────────────────────────┐
+│                    AI SCORING DECISION FLOW                      │
+└─────────────────────────────────────────────────────────────────┘
+
+  Candidate Score          Action                   Human Involvement
+  ─────────────────────────────────────────────────────────────────
+
+  Score ≥ 85%     →     Auto-Advance             Logged, human may review
+                        (High Confidence)         Optional spot-check
+
+  60% ≤ Score < 85%  →  HUMAN REVIEW QUEUE       MANDATORY human decision
+                        (Borderline)              Document reasoning
+
+  Score < 60%     →     Low Priority Queue       Human may review
+                        (Below Threshold)         Never auto-deleted
+        </div>
+
+        <div class="warning-box">
+            <p><strong>PROHIBITED:</strong> No candidate may be automatically rejected without human review. Low scores result in deprioritization, not automatic rejection.</p>
+        </div>
+
+        <h3>4.3 Human Override Authority</h3>
+        <p>Designated reviewers have full authority to:</p>
+        <ul>
+            <li>Override any AI recommendation (advance or reject)</li>
+            <li>Request additional information or assessment</li>
+            <li>Flag AI decisions for audit review</li>
+            <li>Escalate concerns about AI performance</li>
+        </ul>
+
+        <p>All overrides must be documented with reasoning in the applicant tracking system.</p>
+    </div>
+
+    <!-- Documentation Requirements -->
+    <div class="section">
+        <h2>5. Documentation Requirements</h2>
+
+        <h3>5.1 Decision Logging</h3>
+        <p>All AI-assisted decisions must include:</p>
+        <ul>
+            <li>Timestamp of AI recommendation</li>
+            <li>Score/ranking and factors considered</li>
+            <li>Name of human reviewer (if reviewed)</li>
+            <li>Human decision (concur/override) and reasoning</li>
+            <li>Final disposition of candidate</li>
+        </ul>
+
+        <h3>5.2 Audit Trail Retention</h3>
+        <table class="requirement-table">
+            <tr>
+                <th>Record Type</th>
+                <th>Retention Period</th>
+            </tr>
+            <tr>
+                <td>AI decision logs</td>
+                <td>Minimum 4 years</td>
+            </tr>
+            <tr>
+                <td>Human review documentation</td>
+                <td>Minimum 4 years</td>
+            </tr>
+            <tr>
+                <td>Override records</td>
+                <td>Minimum 4 years</td>
+            </tr>
+            <tr>
+                <td>Bias audit results</td>
+                <td>Minimum 4 years (NYC: publicly accessible)</td>
+            </tr>
+        </table>
+
+        <h3>5.3 Explainability Requirements</h3>
+        <p>AI tools must provide sufficient information for human reviewers to understand:</p>
+        <ul>
+            <li>Which factors contributed to the score</li>
+            <li>The relative weight of each factor</li>
+            <li>Any red flags or concerns identified</li>
+            <li>How the candidate compares to requirements</li>
+        </ul>
+    </div>
+
+    <!-- Candidate Rights -->
+    <div class="section">
+        <h2>6. Candidate Rights & Notifications</h2>
+
+        <h3>6.1 Pre-Application Notice</h3>
+        <p>Candidates must be notified at least <strong>10 business days</strong> before AI tools are used to evaluate their application. Notice must include:</p>
+        <ul>
+            <li>Description of AI tools used</li>
+            <li>Types of data collected and analyzed</li>
+            <li>How to request human review</li>
+            <li>How to request an alternative process</li>
+        </ul>
+
+        <h3>6.2 Alternative Process</h3>
+        <p>Upon request, candidates may:</p>
+        <ul>
+            <li>Opt out of AI-assisted screening</li>
+            <li>Request full human review of their application</li>
+            <li>Request accommodation for disability-related needs</li>
+        </ul>
+
+        <h3>6.3 Post-Decision Rights</h3>
+        <p>Candidates who are not selected may request:</p>
+        <ul>
+            <li>General explanation of factors considered</li>
+            <li>Confirmation of human review</li>
+            <li>Information about how to reapply</li>
+        </ul>
+    </div>
+
+    <!-- Training -->
+    <div class="section">
+        <h2>7. Training Requirements</h2>
+
+        <p>All employees involved in AI-assisted hiring must complete training on:</p>
+
+        <table class="requirement-table">
+            <tr>
+                <th>Topic</th>
+                <th>Audience</th>
+                <th>Frequency</th>
+            </tr>
+            <tr>
+                <td>This Human-in-the-Loop Policy</td>
+                <td>All recruiters, hiring managers</td>
+                <td>Initial + Annual</td>
+            </tr>
+            <tr>
+                <td>AI tool operation and limitations</td>
+                <td>All AI tool users</td>
+                <td>Initial + As updated</td>
+            </tr>
+            <tr>
+                <td>Recognizing and escalating AI bias</td>
+                <td>All recruiters, hiring managers</td>
+                <td>Annual</td>
+            </tr>
+            <tr>
+                <td>Documentation requirements</td>
+                <td>All recruiters</td>
+                <td>Initial + Annual</td>
+            </tr>
+            <tr>
+                <td>Candidate rights and accommodations</td>
+                <td>All recruiters, hiring managers, HR</td>
+                <td>Annual</td>
+            </tr>
+        </table>
+    </div>
+
+    <!-- Monitoring -->
+    <div class="section">
+        <h2>8. Monitoring & Compliance</h2>
+
+        <h3>8.1 Regular Audits</h3>
+        <ul>
+            <li><strong>Monthly:</strong> Review human override rates and patterns</li>
+            <li><strong>Quarterly:</strong> Spot-check documentation compliance</li>
+            <li><strong>Annually:</strong> Full bias audit by independent auditor (NYC LL144)</li>
+        </ul>
+
+        <h3>8.2 Key Metrics Tracked</h3>
+        <ul>
+            <li>Percentage of decisions reviewed by humans</li>
+            <li>Human override rate</li>
+            <li>AI-human agreement rate</li>
+            <li>Time from AI recommendation to human decision</li>
+            <li>Adverse impact ratios by protected class</li>
+        </ul>
+
+        <h3>8.3 Escalation Process</h3>
+        <p>Concerns about AI tool performance or potential bias should be escalated to:</p>
+        <ol>
+            <li><span class="editable-field">[Immediate Supervisor]</span></li>
+            <li><span class="editable-field">[HR Business Partner]</span></li>
+            <li><span class="editable-field">[Chief People Officer/General Counsel]</span></li>
+        </ol>
+    </div>
+
+    <!-- Violations -->
+    <div class="section">
+        <h2>9. Policy Violations</h2>
+
+        <div class="warning-box">
+            <p>Violations of this policy may result in:</p>
+            <ul>
+                <li>Verbal or written warning</li>
+                <li>Mandatory retraining</li>
+                <li>Removal from hiring responsibilities</li>
+                <li>Disciplinary action up to and including termination</li>
+            </ul>
+            <p><strong>Critical violations</strong> (e.g., automatic rejection without human review) must be reported to Legal within 24 hours.</p>
+        </div>
+    </div>
+
+    <!-- Approval -->
+    <div class="signature-section">
+        <h2 style="margin-bottom: 15px;">Policy Approval</h2>
+
+        <div class="signature-grid">
+            <div>
+                <div class="signature-box"></div>
+                <div class="signature-label">Chief Human Resources Officer</div>
+            </div>
+            <div>
+                <div class="signature-box"></div>
+                <div class="signature-label">Date</div>
+            </div>
+            <div>
+                <div class="signature-box"></div>
+                <div class="signature-label">General Counsel</div>
+            </div>
+            <div>
+                <div class="signature-box"></div>
+                <div class="signature-label">Date</div>
+            </div>
+            <div>
+                <div class="signature-box"></div>
+                <div class="signature-label">Chief Executive Officer</div>
+            </div>
+            <div>
+                <div class="signature-box"></div>
+                <div class="signature-label">Date</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer">
+        <p><strong>DefensibleHiring.ai</strong> | VanguardLab | Enterprise Policy Templates</p>
+        <p>This template is provided for informational purposes and does not constitute legal advice.<br>Customize to your organization's needs and consult with legal counsel.</p>
+        <p style="margin-top: 10px;">partners@VanguardLab.PhysicalAIPros.com</p>
+    </div>
+</body>
+</html>
