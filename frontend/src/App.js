@@ -880,16 +880,16 @@ function App() {
 
         {/* How It Works */}
         <div style={styles.card}>
-          <h2 style={{color: '#fff', textAlign: 'center', marginBottom: '30px'}}>How SafetyCaseAI Works</h2>
+          <h2 style={{color: '#fff', textAlign: 'center', marginBottom: '30px'}}>How It Works</h2>
           <div style={{display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '20px'}}>
             {[
-              { step: '1', title: 'Upload System Specs', desc: 'Architecture diagrams, requirements, hazard analysis' },
-              { step: '2', title: 'AI Generates Case', desc: 'Goal Structuring Notation (GSN) safety arguments' },
-              { step: '3', title: 'Expert Review', desc: 'Certified engineers validate & refine' },
-              { step: '4', title: 'Investor Ready', desc: 'PDF export for due diligence packages' }
+              { step: '1️⃣', title: 'Select Template', desc: 'Choose from 9 industry-specific safety case templates' },
+              { step: '2️⃣', title: 'Make Payment', desc: 'Simple payment via PayPal or Venmo with order confirmation' },
+              { step: '3️⃣', title: 'Upload PDF', desc: 'AI extracts all safety data from your PDF automatically' },
+              { step: '4️⃣', title: 'Download Site', desc: 'Get a complete, self-contained HTML website ready to deploy' }
             ].map(item => (
               <div key={item.step} style={{textAlign: 'center'}}>
-                <div style={{width: '50px', height: '50px', background: 'linear-gradient(135deg, #00f5d4, #00bbf9)', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 15px', fontSize: '1.5rem', fontWeight: 700, color: '#0a0a0f'}}>{item.step}</div>
+                <div style={{fontSize: '2.5rem', marginBottom: '15px'}}>{item.step}</div>
                 <div style={{fontWeight: 600, color: '#fff', marginBottom: '8px'}}>{item.title}</div>
                 <div style={{color: '#888', fontSize: '0.85rem'}}>{item.desc}</div>
               </div>
