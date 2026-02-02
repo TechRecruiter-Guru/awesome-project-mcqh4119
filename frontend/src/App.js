@@ -1017,7 +1017,7 @@ function App() {
           <span style={{margin: '0 15px', color: '#333'}}>|</span>
           <span style={{color: '#666', fontSize: '0.75rem'}}>Targeting $50M+ Physical AI Recruiting TAM</span>
           <span style={{margin: '0 15px', color: '#333'}}>|</span>
-          <span style={{color: '#00f5d4', fontSize: '0.75rem'}}>partners@vanguardlab.ai</span>
+          <span style={{color: '#00f5d4', fontSize: '0.75rem'}}>partners@VanguardLab.PhysicalAIPros.com</span>
         </div>
       </footer>
     </div>
