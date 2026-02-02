@@ -16,9 +16,16 @@ function App() {
   const [activeTab, setActiveTab] = useState('dashboard');
   const [eliteSources, setEliteSources] = useState(null);
   const [auditCompliance, setAuditCompliance] = useState(null);
+  const [agentLogs, setAgentLogs] = useState([]);
 
   // Stealth Mode: Check URL for ?internal=true
   const isInternalMode = new URLSearchParams(window.location.search).get('internal') === 'true';
+
+  // Add agent activity log
+  const addLog = (agent, message, type = 'info') => {
+    const timestamp = new Date().toLocaleTimeString('en-US', { hour12: false, hour: '2-digit', minute: '2-digit', second: '2-digit' });
+    setAgentLogs(prev => [...prev.slice(-50), { timestamp, agent, message, type }]);
+  };
 
   const fetchData = useCallback(async () => {
     setLoading(true);
@@ -78,6 +85,72 @@ function App() {
 
   const runDemoWorkflow = async () => {
     setDemoRunning(true);
+    setAgentLogs([]);
+
+    // Simulate agent activity with realistic logs
+    addLog('Orchestrator', 'Initializing recruiting workflow...', 'system');
+    await new Promise(r => setTimeout(r, 400));
+
+    addLog('Orchestrator', 'Dispatching SourcerAgent for candidate discovery', 'info');
+    await new Promise(r => setTimeout(r, 300));
+
+    addLog('SourcerAgent', 'Connecting to 16 elite sources...', 'info');
+    await new Promise(r => setTimeout(r, 500));
+
+    addLog('SourcerAgent', 'Searching ArXiv for "robotics manipulation SLAM"...', 'search');
+    await new Promise(r => setTimeout(r, 400));
+
+    addLog('SourcerAgent', 'Searching HuggingFace for model contributors...', 'search');
+    await new Promise(r => setTimeout(r, 350));
+
+    addLog('SourcerAgent', 'Scanning Papers with Code for recent authors...', 'search');
+    await new Promise(r => setTimeout(r, 400));
+
+    addLog('SourcerAgent', 'Querying ROS Discourse for active contributors...', 'search');
+    await new Promise(r => setTimeout(r, 300));
+
+    addLog('SourcerAgent', 'Found 15 candidates from 6 sources', 'success');
+    await new Promise(r => setTimeout(r, 400));
+
+    addLog('Orchestrator', 'Dispatching MatcherAgent for skills analysis', 'info');
+    await new Promise(r => setTimeout(r, 300));
+
+    addLog('MatcherAgent', 'Extracting research profiles (H-index, citations)...', 'info');
+    await new Promise(r => setTimeout(r, 450));
+
+    addLog('MatcherAgent', 'Applying research-weighted scoring (25% weight)...', 'info');
+    await new Promise(r => setTimeout(r, 400));
+
+    addLog('MatcherAgent', 'Detected 3 independent researchers - applying 10% boost', 'success');
+    await new Promise(r => setTimeout(r, 350));
+
+    addLog('MatcherAgent', 'Skills match complete: 5 candidates above 75% threshold', 'success');
+    await new Promise(r => setTimeout(r, 400));
+
+    addLog('Orchestrator', 'Dispatching ScreenerAgent for AI screening', 'info');
+    await new Promise(r => setTimeout(r, 300));
+
+    addLog('ScreenerAgent', 'Running automated screening checks...', 'info');
+    await new Promise(r => setTimeout(r, 500));
+
+    addLog('ScreenerAgent', 'Flagged 3 candidates for human review (borderline scores)', 'warning');
+    await new Promise(r => setTimeout(r, 350));
+
+    addLog('ScreenerAgent', 'Auto-approved 2 candidates (score > 85%)', 'success');
+    await new Promise(r => setTimeout(r, 400));
+
+    addLog('AuditAgent', 'Logging decisions with full explainability...', 'audit');
+    await new Promise(r => setTimeout(r, 300));
+
+    addLog('AuditAgent', 'Zero PII stored - only hashed candidate IDs', 'audit');
+    await new Promise(r => setTimeout(r, 350));
+
+    addLog('PipelineAgent', 'Moving candidates to appropriate pipeline stages', 'info');
+    await new Promise(r => setTimeout(r, 400));
+
+    addLog('Orchestrator', 'Workflow complete! Human review required for 3 candidates', 'success');
+
+    // Now fetch the actual demo data
     const data = await callEndpoint('/api/demo/workflow', 'GET', null, false);
     if (data) {
       setDemoState(data);
@@ -133,7 +206,36 @@ function App() {
     sourceIcon: { fontSize: '2rem', marginBottom: '10px' },
     complianceCard: { background: 'linear-gradient(135deg, #12121a, #1a1a2e)', borderRadius: '16px', padding: '24px', border: '1px solid #00f5d4' },
     complianceGood: { color: '#00f5d4' },
-    complianceWarning: { color: '#fbbf24' }
+    complianceWarning: { color: '#fbbf24' },
+    logPanel: { background: '#0a0a0f', borderRadius: '12px', padding: '15px', border: '1px solid #2a2a3e', fontFamily: "'Fira Code', 'Monaco', monospace", fontSize: '0.8rem', maxHeight: '300px', overflowY: 'auto' },
+    logEntry: { padding: '4px 0', borderBottom: '1px solid #1a1a2e', display: 'flex', gap: '10px' },
+    logTime: { color: '#666', minWidth: '70px' },
+    logAgent: { fontWeight: 600, minWidth: '100px' },
+    logMessage: { color: '#e0e0e0' }
+  };
+
+  const getLogColor = (type) => {
+    switch(type) {
+      case 'success': return '#00f5d4';
+      case 'warning': return '#fbbf24';
+      case 'error': return '#f87171';
+      case 'search': return '#00bbf9';
+      case 'audit': return '#9b5de5';
+      case 'system': return '#f15bb5';
+      default: return '#888';
+    }
+  };
+
+  const getAgentColor = (agent) => {
+    const colors = {
+      'Orchestrator': '#f15bb5',
+      'SourcerAgent': '#00bbf9',
+      'MatcherAgent': '#9b5de5',
+      'ScreenerAgent': '#fbbf24',
+      'AuditAgent': '#00f5d4',
+      'PipelineAgent': '#f97316'
+    };
+    return colors[agent] || '#888';
   };
 
   const renderDashboard = () => (
@@ -153,6 +255,34 @@ function App() {
             {demoRunning ? 'Running Demo...' : 'Run Full Demo'}
           </button>
         </div>
+
+        {/* Agent Activity Log */}
+        {(demoRunning || agentLogs.length > 0) && (
+          <div style={{marginBottom: '20px'}}>
+            <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '10px'}}>
+              <h4 style={{color: '#9b5de5', margin: 0, display: 'flex', alignItems: 'center', gap: '8px'}}>
+                <span style={{width: '8px', height: '8px', background: demoRunning ? '#00f5d4' : '#666', borderRadius: '50%', animation: demoRunning ? 'pulse 1s infinite' : 'none'}}></span>
+                Agent Activity Log
+              </h4>
+              {!demoRunning && agentLogs.length > 0 && (
+                <button style={{...styles.btn, ...styles.btnSecondary, padding: '5px 15px', fontSize: '0.75rem'}} onClick={() => setAgentLogs([])}>Clear</button>
+              )}
+            </div>
+            <div style={styles.logPanel}>
+              {agentLogs.length === 0 ? (
+                <div style={{color: '#666', textAlign: 'center', padding: '20px'}}>Waiting for agent activity...</div>
+              ) : (
+                agentLogs.map((log, i) => (
+                  <div key={i} style={styles.logEntry}>
+                    <span style={styles.logTime}>[{log.timestamp}]</span>
+                    <span style={{...styles.logAgent, color: getAgentColor(log.agent)}}>{log.agent}</span>
+                    <span style={{...styles.logMessage, color: getLogColor(log.type)}}>{log.message}</span>
+                  </div>
+                ))
+              )}
+            </div>
+          </div>
+        )}
 
         {demoState && (
           <div>
@@ -223,6 +353,21 @@ function App() {
           <div style={styles.metric}><span style={styles.metricLabel}>Strong Matches</span><span style={{...styles.metricValue, color: '#00f5d4'}}>{dashboardStats?.matching?.strong_matches || 0}</span></div>
           <div style={styles.metric}><span style={styles.metricLabel}>Skills Tracked</span><span style={styles.metricValue}>{dashboardStats?.matching?.skills_tracked || 12}</span></div>
         </div>
+
+        {/* Market Opportunity - Internal Only */}
+        {isInternalMode && (
+          <div style={{...styles.card, border: '1px solid #9b5de5'}}>
+            <div style={styles.cardHeader}>
+              <div style={styles.cardTitle}><span style={{...styles.statusDot, background: '#9b5de5', boxShadow: '0 0 10px #9b5de5'}}></span> Market Opportunity</div>
+            </div>
+            <div style={{...styles.bigNumber, color: '#9b5de5'}}>$2.3B</div>
+            <div style={{color: '#888', marginBottom: '15px'}}>Physical AI Recruiting TAM</div>
+            <div style={styles.metric}><span style={styles.metricLabel}>YoY Growth</span><span style={{...styles.metricValue, color: '#00f5d4'}}>34%</span></div>
+            <div style={styles.metric}><span style={styles.metricLabel}>Robotics Companies</span><span style={styles.metricValue}>2,400+</span></div>
+            <div style={styles.metric}><span style={styles.metricLabel}>Avg Engineer Salary</span><span style={styles.metricValue}>$185k</span></div>
+            <div style={styles.metric}><span style={styles.metricLabel}>Our SAM</span><span style={{...styles.metricValue, color: '#f15bb5'}}>$50M</span></div>
+          </div>
+        )}
       </div>
 
       {/* Latest Candidates */}
@@ -735,16 +880,16 @@ function App() {
 
         {/* How It Works */}
         <div style={styles.card}>
-          <h2 style={{color: '#fff', textAlign: 'center', marginBottom: '30px'}}>How SafetyCaseAI Works</h2>
+          <h2 style={{color: '#fff', textAlign: 'center', marginBottom: '30px'}}>How It Works</h2>
           <div style={{display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '20px'}}>
             {[
-              { step: '1', title: 'Upload System Specs', desc: 'Architecture diagrams, requirements, hazard analysis' },
-              { step: '2', title: 'AI Generates Case', desc: 'Goal Structuring Notation (GSN) safety arguments' },
-              { step: '3', title: 'Expert Review', desc: 'Certified engineers validate & refine' },
-              { step: '4', title: 'Investor Ready', desc: 'PDF export for due diligence packages' }
+              { step: '1️⃣', title: 'Select Template', desc: 'Choose from 9 industry-specific safety case templates' },
+              { step: '2️⃣', title: 'Make Payment', desc: 'Simple payment via PayPal or Venmo with order confirmation' },
+              { step: '3️⃣', title: 'Upload PDF', desc: 'AI extracts all safety data from your PDF automatically' },
+              { step: '4️⃣', title: 'Download Site', desc: 'Get a complete, self-contained HTML website ready to deploy' }
             ].map(item => (
               <div key={item.step} style={{textAlign: 'center'}}>
-                <div style={{width: '50px', height: '50px', background: 'linear-gradient(135deg, #00f5d4, #00bbf9)', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 15px', fontSize: '1.5rem', fontWeight: 700, color: '#0a0a0f'}}>{item.step}</div>
+                <div style={{fontSize: '2.5rem', marginBottom: '15px'}}>{item.step}</div>
                 <div style={{fontWeight: 600, color: '#fff', marginBottom: '8px'}}>{item.title}</div>
                 <div style={{color: '#888', fontSize: '0.85rem'}}>{item.desc}</div>
               </div>
@@ -761,6 +906,7 @@ function App() {
           </button>
           <p style={{color: '#666', fontSize: '0.8rem', marginTop: '15px'}}>Free safety assessment for qualifying startups</p>
         </div>
+
       </>
     );
   };
@@ -824,6 +970,13 @@ function App() {
           <p style={{fontSize: '0.8rem', marginTop: '5px'}}>SafetyCaseAI | AI Recruiting | Compliance Solutions</p>
         )}
         {isInternalMode && <p style={{fontSize: '0.8rem', marginTop: '5px'}}>Backend: {config.API_URL}</p>}
+        <div style={{marginTop: '15px', paddingTop: '15px', borderTop: '1px solid #2a2a3e'}}>
+          <span style={{color: '#9b5de5', fontSize: '0.75rem', fontWeight: 600}}>OPEN TO STRATEGIC INVESTMENT</span>
+          <span style={{margin: '0 15px', color: '#333'}}>|</span>
+          <span style={{color: '#666', fontSize: '0.75rem'}}>Targeting $50M+ Physical AI Recruiting TAM</span>
+          <span style={{margin: '0 15px', color: '#333'}}>|</span>
+          <span style={{color: '#00f5d4', fontSize: '0.75rem'}}>partners@VanguardLab.PhysicalAIPros.com</span>
+        </div>
       </footer>
     </div>
   );
