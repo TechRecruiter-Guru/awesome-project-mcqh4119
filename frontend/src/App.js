@@ -17,6 +17,7 @@ function App() {
   const [eliteSources, setEliteSources] = useState(null);
   const [auditCompliance, setAuditCompliance] = useState(null);
   const [agentLogs, setAgentLogs] = useState([]);
+  const [selectedTier, setSelectedTier] = useState(null);
 
   // Stealth Mode: Check URL for ?internal=true
   const isInternalMode = new URLSearchParams(window.location.search).get('internal') === 'true';
@@ -814,8 +815,6 @@ function App() {
   };
 
   const renderDefensibleHiring = () => {
-    const [selectedTier, setSelectedTier] = useState(null);
-
     const pricingTiers = [
       {
         id: 'executive',
