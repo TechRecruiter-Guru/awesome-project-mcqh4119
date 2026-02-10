@@ -1,0 +1,267 @@
+diff --git a/backend/app.py b/backend/app.py
+index 425cd45..9099f4b 100644
+--- a/backend/app.py
++++ b/backend/app.py
+@@ -5,6 +5,8 @@ from datetime import datetime
+ import os
+ import requests
+ import re
++import hmac
++import hashlib
+
+ app = Flask(__name__)
+ CORS(app)
+@@ -341,6 +343,78 @@ class SavedSearch(db.Model):
+         }
+
+
++class BiasAlert(db.Model):
++    """Bias threshold alerts from Agent Platform"""
++    id = db.Column(db.Integer, primary_key=True)
++    job_id = db.Column(db.Integer, db.ForeignKey('job.id'), nullable=True)
++
++    # Alert Details
++    metric = db.Column(db.String(100), nullable=False)
++    value = db.Column(db.Float)
++    threshold = db.Column(db.Float)
++    affected_group = db.Column(db.String(100))
++    recommended_action = db.Column(db.String(200))
++
++    # Status
++    resolved = db.Column(db.Boolean, default=False)
++    resolved_at = db.Column(db.DateTime)
++    resolution_notes = db.Column(db.Text)
++
++    # Timestamps
++    created_at = db.Column(db.DateTime, default=datetime.utcnow)
++
++    def to_dict(self):
++        return {
++            'id': self.id,
++            'job_id': self.job_id,
++            'metric': self.metric,
++            'value': self.value,
++            'threshold': self.threshold,
++            'affected_group': self.affected_group,
++            'recommended_action': self.recommended_action,
++            'resolved': self.resolved,
++            'resolved_at': self.resolved_at.isoformat() if self.resolved_at else None,
++            'resolution_notes': self.resolution_notes,
++            'created_at': self.created_at.isoformat()
++        }
++
++
++class AgentAuditLog(db.Model):
++    """Audit trail for agent decisions - defensible hiring compliance"""
++    id = db.Column(db.Integer, primary_key=True)
++    application_id = db.Column(db.Integer, db.ForeignKey('application.id'), nullable=True)
++
++    # Agent Info
++    agent_name = db.Column(db.String(100))
++    action = db.Column(db.String(100))
++
++    # Decision Data
++    input_data = db.Column(db.Text)
++    output_data = db.Column(db.Text)
++    reasoning = db.Column(db.Text)
++
++    # Compliance
++    protected_attributes_checked = db.Column(db.Boolean, default=True)
++    bias_check_passed = db.Column(db.Boolean, default=True)
++
++    # Timestamps
++    created_at = db.Column(db.DateTime, default=datetime.utcnow)
++
++    def to_dict(self):
++        return {
++            'id': self.id,
++            'application_id': self.application_id,
++            'agent_name': self.agent_name,
++            'action': self.action,
++            'input_data': self.input_data,
++            'output_data': self.output_data,
++            'reasoning': self.reasoning,
++            'protected_attributes_checked': self.protected_attributes_checked,
++            'bias_check_passed': self.bias_check_passed,
++            'created_at': self.created_at.isoformat()
++        }
++
++
+ # ==================== LAZY TABLE INITIALIZATION ====================
+ # Instead of blocking startup with db.create_all(), we initialize on first request
+ # This prevents boot timeouts on Render/Railway/Heroku
+@@ -1404,6 +1478,180 @@ def get_stats():
+     })
+
+
++# ==================== AGENT PLATFORM WEBHOOKS ====================
++
++WEBHOOK_SECRET = os.environ.get('AGENT_WEBHOOK_SECRET', 'dev-secret-change-in-production')
++
++
++def verify_webhook_signature(request):
++    """Verify HMAC signature from agent platform"""
++    signature = request.headers.get('X-Webhook-Signature', '')
++    if not signature:
++        return False
++    payload = request.get_data()
++    expected = f"sha256={hmac.new(WEBHOOK_SECRET.encode(), payload, hashlib.sha256).hexdigest()}"
++    return hmac.compare_digest(signature, expected)
++
++
++@app.route('/webhooks/agent-results', methods=['POST'])
++def receive_agent_results():
++    """Receive screening results from Agent Platform"""
++    if os.environ.get('FLASK_ENV') == 'production':
++        if not verify_webhook_signature(request):
++            return jsonify({"error": "Invalid signature"}), 401
++
++    data = request.get_json()
++    if not data:
++        return jsonify({"error": "No data provided"}), 400
++
++    event = data.get('event')
++    application_id = data.get('application_id')
++    results = data.get('results', {})
++
++    if event == 'screening_complete' and application_id:
++        application = Application.query.get(application_id)
++        if not application:
++            return jsonify({"error": f"Application {application_id} not found"}), 404
++
++        application.technical_score = results.get('technical_score')
++        application.research_score = results.get('research_score')
++        application.culture_fit_score = results.get('culture_fit_score')
++        application.overall_score = results.get('overall_score')
++
++        recommendation = results.get('recommendation', 'review')
++        if recommendation == 'advance_to_human_review':
++            application.status = 'reviewing'
++            application.stage = 'pending_human_review'
++        elif recommendation == 'pass':
++            application.status = 'rejected'
++            application.stage = 'agent_rejected'
++        else:
++            application.status = 'screening'
++            application.stage = 'agent_reviewed'
++
++        reasoning = results.get('reasoning', '')
++        audit_id = results.get('audit_id', '')
++        application.notes = f"[Agent Analysis - {audit_id}]\n{reasoning}\n\nRecommendation: {recommendation}"
++
++        audit_log = AgentAuditLog(
++            application_id=application_id,
++            agent_name='ScreenerAgent',
++            action='screening_complete',
++            output_data=str(results),
++            reasoning=reasoning,
++            bias_check_passed=results.get('bias_check', {}).get('passed', True)
++        )
++        db.session.add(audit_log)
++        db.session.commit()
++
++        return jsonify({"received": True, "application_id": application_id, "status_updated": application.status})
++
++    return jsonify({"received": True, "event": event})
++
++
++@app.route('/webhooks/bias-alert', methods=['POST'])
++def receive_bias_alert():
++    """Receive bias threshold alerts from Agent Platform"""
++    if os.environ.get('FLASK_ENV') == 'production':
++        if not verify_webhook_signature(request):
++            return jsonify({"error": "Invalid signature"}), 401
++
++    data = request.get_json()
++    if not data:
++        return jsonify({"error": "No data provided"}), 400
++
++    alert = BiasAlert(
++        job_id=data.get('job_id'),
++        metric=data.get('metric', 'unknown'),
++        value=data.get('value'),
++        threshold=data.get('threshold', 0.80),
++        affected_group=data.get('affected_group'),
++        recommended_action=data.get('recommended_action')
++    )
++    db.session.add(alert)
++
++    if data.get('recommended_action') == 'pause_automated_screening':
++        job_id = data.get('job_id')
++        if job_id:
++            job = Job.query.get(job_id)
++            if job:
++                job.requirements = (job.requirements or '') + '\n\n[ALERT] Automated screening paused due to bias threshold warning.'
++
++    db.session.commit()
++    return jsonify({"received": True, "alert_id": alert.id})
++
++
++@app.route('/api/bias-alerts', methods=['GET'])
++def get_bias_alerts():
++    """Get all bias alerts"""
++    job_id = request.args.get('job_id', type=int)
++    query = BiasAlert.query
++    if job_id:
++        query = query.filter_by(job_id=job_id)
++    alerts = query.order_by(BiasAlert.created_at.desc()).all()
++    return jsonify({"alerts": [a.to_dict() for a in alerts], "total": len(alerts)})
++
++
++@app.route('/api/bias-alerts/<int:alert_id>/resolve', methods=['POST'])
++def resolve_bias_alert(alert_id):
++    """Mark a bias alert as resolved"""
++    alert = BiasAlert.query.get_or_404(alert_id)
++    data = request.get_json() or {}
++    alert.resolved = True
++    alert.resolved_at = datetime.utcnow()
++    alert.resolution_notes = data.get('notes', 'Resolved by user')
++    db.session.commit()
++    return jsonify(alert.to_dict())
++
++
++@app.route('/api/audit-log', methods=['GET'])
++def get_audit_log():
++    """Get agent audit trail for compliance"""
++    application_id = request.args.get('application_id', type=int)
++    query = AgentAuditLog.query
++    if application_id:
++        query = query.filter_by(application_id=application_id)
++    logs = query.order_by(AgentAuditLog.created_at.desc()).limit(100).all()
++    return jsonify({"audit_logs": [log.to_dict() for log in logs], "total": len(logs)})
++
++
++@app.route('/api/agent-config', methods=['GET'])
++def get_agent_config():
++    """Return configuration for agent platform to connect"""
++    return jsonify({
++        "ats_name": "AI/ML Talent ATS",
++        "version": "2.0.0",
++        "endpoints": {
++            "candidates": "/api/candidates",
++            "jobs": "/api/jobs",
++            "applications": "/api/applications",
++            "match_candidates": "/api/jobs/{job_id}/match-candidates",
++            "impact_score": "/api/candidates/{candidate_id}/impact-score",
++            "webhook_results": "/webhooks/agent-results",
++            "webhook_bias": "/webhooks/bias-alert"
++        },
++        "features": {"ai_matching": True, "github_enrichment": True, "impact_scoring": True}
++    })
++
++
+ # ==================== BOOLEAN SEARCH API ====================
+
+ @app.route('/api/boolean-search', methods=['POST'])
+diff --git a/backend/.env.example b/backend/.env.example
+index abc1234..def5678 100644
+--- a/backend/.env.example
++++ b/backend/.env.example
+@@ -5,3 +5,7 @@ SECRET_KEY=your-secret-key-here
+ # Optional: GitHub Personal Access Token for higher API rate limits
+ # Get one at: https://github.com/settings/tokens
+ GITHUB_TOKEN=your_github_token_here
++
++# Agent Platform Integration (DefensibleHiring.ai)
++# Webhook secret for verifying agent platform callbacks
++AGENT_WEBHOOK_SECRET=your-webhook-secret-here
