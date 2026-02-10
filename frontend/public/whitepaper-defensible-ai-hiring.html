@@ -540,9 +540,10 @@
                 <li>The Solution: Multi-Agent Architecture</li>
                 <li>Human-in-the-Loop: The Critical Differentiator</li>
                 <li>Compliance by Design</li>
-                <li>Technical Architecture</li>
-                <li>Regulatory Framework Analysis</li>
+                <li>Regulatory Framework</li>
+                <li>Security Architecture for Multi-Agent Systems</li>
                 <li>Implementation Best Practices</li>
+                <li>Conclusion</li>
             </ol>
         </div>
 
@@ -957,7 +958,135 @@
 
         <div class="page-break"></div>
 
-        <h1>7. Implementation Best Practices</h1>
+        <h1>7. Security Architecture for Multi-Agent Systems</h1>
+
+        <p class="lead">
+            Agentic AI inter-agent communications pose risks including data leakage and propagation of compromises. A zero-trust security model ensures that even if one agent is compromised, the damage is contained.
+        </p>
+
+        <h2>7.1 Core Security Principles</h2>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Principle</th>
+                    <th>Implementation</th>
+                    <th>Benefit</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Zero Trust</strong></td>
+                    <td>Validate every message with signatures and checksums</td>
+                    <td>No implicit trust between agents</td>
+                </tr>
+                <tr>
+                    <td><strong>Strong Authentication</strong></td>
+                    <td>Ed25519 keypairs, JWT tokens, or mTLS</td>
+                    <td>Verify agent identity before exchange</td>
+                </tr>
+                <tr>
+                    <td><strong>Encryption in Transit</strong></td>
+                    <td>TLS 1.3 / HTTPS for all messages</td>
+                    <td>Confidentiality against eavesdropping</td>
+                </tr>
+                <tr>
+                    <td><strong>Scoped Permissions</strong></td>
+                    <td>Role-based access control (RBAC)</td>
+                    <td>Agents only access what they need</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2>7.2 Agent Communication Patterns</h2>
+
+        <div class="diagram">
+            <pre>
+┌─────────────────────────────────────────────────────────────────┐
+│                    SECURE AGENT ARCHITECTURE                     │
+└─────────────────────────────────────────────────────────────────┘
+
+                         ┌─────────────────┐
+                         │   API GATEWAY   │
+                         │  (OAuth/JWT)    │
+                         │  Rate Limiting  │
+                         │  TLS Termination│
+                         └────────┬────────┘
+                                  │
+              ┌───────────────────┼───────────────────┐
+              │                   │                   │
+              ▼                   ▼                   ▼
+    ┌─────────────────┐ ┌─────────────────┐ ┌─────────────────┐
+    │  SOURCER AGENT  │ │  MATCHER AGENT  │ │ SCREENER AGENT  │
+    │  [Scoped: READ] │ │ [Scoped: SCORE] │ │ [Scoped: FLAG]  │
+    │  Ed25519 Signed │ │  Ed25519 Signed │ │  Ed25519 Signed │
+    └─────────────────┘ └─────────────────┘ └─────────────────┘
+              │                   │                   │
+              └───────────────────┼───────────────────┘
+                                  │
+                         ┌────────▼────────┐
+                         │   AUDIT AGENT   │
+                         │ [Scoped: LOG]   │
+                         │ Immutable Logs  │
+                         │ Anomaly Detect  │
+                         └─────────────────┘
+            </pre>
+        </div>
+
+        <h2>7.3 Security Controls by Phase</h2>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Phase</th>
+                    <th>Security Controls</th>
+                    <th>Implementation Cost</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>MVP (Current)</strong></td>
+                    <td>Zero PII storage, Audit logging, Human oversight</td>
+                    <td>Included</td>
+                </tr>
+                <tr>
+                    <td><strong>Seed Stage</strong></td>
+                    <td>JWT auth, API Gateway, JSON Schema validation</td>
+                    <td>$15,000 - $25,000</td>
+                </tr>
+                <tr>
+                    <td><strong>Series A</strong></td>
+                    <td>mTLS, HashiCorp Vault, SIEM integration, Key rotation</td>
+                    <td>$40,000 - $75,000</td>
+                </tr>
+                <tr>
+                    <td><strong>Enterprise</strong></td>
+                    <td>SOC 2 Type II, Penetration testing, Bug bounty</td>
+                    <td>$100,000+</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2>7.4 Preventing Compromise Propagation</h2>
+
+        <p>Three safeguards prevent a compromised agent from poisoning the pipeline:</p>
+
+        <ol>
+            <li><strong>Human-in-the-Loop Validation:</strong> No autonomous rejections&mdash;humans validate borderline decisions, breaking any automated attack chain.</li>
+            <li><strong>Anomaly Detection:</strong> The AuditAgent tracks decision patterns; unusual scoring triggers alerts before damage spreads.</li>
+            <li><strong>Scoped Permissions:</strong> Each agent has limited capabilities&mdash;SourcerAgent cannot modify pipeline stages; ScreenerAgent cannot access raw source data.</li>
+        </ol>
+
+        <div class="exec-summary">
+            <h3>Security as Compliance Feature</h3>
+            <p>
+                The same zero-trust architecture that prevents AI compromise propagation also prevents Workday-style lawsuits. Human oversight isn't just a security control&mdash;it's your legal defense.
+            </p>
+        </div>
+
+        <div class="page-break"></div>
+
+        <h1>8. Implementation Best Practices</h1>
 
         <h2>For Employers</h2>
 
@@ -987,7 +1116,7 @@
 
         <div class="page-break"></div>
 
-        <h1>8. Conclusion</h1>
+        <h1>9. Conclusion</h1>
 
         <p class="lead">
             The <em>Mobley v. Workday</em> litigation signals a fundamental shift in AI hiring accountability. Black-box systems that make autonomous rejection decisions face unprecedented legal exposure, with potential liability extending to both employers and AI vendors.
