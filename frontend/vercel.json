@@ -5,8 +5,9 @@
   "outputDirectory": "build",
   "build": {
     "env": {
-      "NODE_VERSION": "18",
-      "SKIP_PREFLIGHT_CHECK": "true"
+      "NODE_VERSION": "24",
+      "SKIP_PREFLIGHT_CHECK": "true",
+      "NODE_OPTIONS": "--openssl-legacy-provider"
     }
   }
 }
