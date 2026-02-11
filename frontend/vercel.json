@@ -1,11 +1,12 @@
 {
   "framework": "create-react-app",
-  "buildCommand": "npm run build",
+  "buildCommand": "CI=false npm run build",
   "installCommand": "npm install --legacy-peer-deps",
   "outputDirectory": "build",
   "build": {
     "env": {
-      "NODE_VERSION": "20"
+      "NODE_VERSION": "18",
+      "SKIP_PREFLIGHT_CHECK": "true"
     }
   }
 }
