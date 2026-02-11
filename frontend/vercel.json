@@ -1,13 +1,6 @@
 {
   "framework": "create-react-app",
-  "buildCommand": "CI=false npm run build",
-  "installCommand": "npm install --legacy-peer-deps",
-  "outputDirectory": "build",
-  "build": {
-    "env": {
-      "NODE_VERSION": "24",
-      "SKIP_PREFLIGHT_CHECK": "true",
-      "NODE_OPTIONS": "--openssl-legacy-provider"
-    }
-  }
+  "buildCommand": "npm run build",
+  "installCommand": "npm install",
+  "outputDirectory": "build"
 }
