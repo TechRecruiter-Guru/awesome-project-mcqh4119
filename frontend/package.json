@@ -23,6 +23,9 @@
     "react-scripts": "5.0.1",
     "axios": "^1.6.0"
   },
+  "engines": {
+    "node": ">=18.0.0 <20.0.0"
+  },
   "browserslist": {
     "production": [
       ">0.2%",
