@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>John Polhill III - Resume - Anthropic Forward Deployed Engineer, Applied AI</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: #fff;
+            color: #1a1a2e;
+            font-size: 11px;
+            line-height: 1.5;
+        }
+
+        .page {
+            max-width: 850px;
+            margin: 0 auto;
+            padding: 40px 50px;
+        }
+
+        /* Header - Anthropic Coral */
+        .header {
+            border-bottom: 3px solid #d97757;
+            padding-bottom: 15px;
+            margin-bottom: 18px;
+        }
+
+        .name {
+            font-size: 28px;
+            font-weight: 700;
+            color: #1a1a2e;
+            letter-spacing: 0.3px;
+        }
+
+        .title {
+            font-size: 13px;
+            color: #d97757;
+            margin: 4px 0 8px;
+            font-weight: 600;
+        }
+
+        .contact {
+            display: flex;
+            gap: 22px;
+            font-size: 10px;
+            color: #555;
+            flex-wrap: wrap;
+        }
+
+        /* Section */
+        .section {
+            margin-bottom: 16px;
+        }
+
+        .section-title {
+            font-size: 10px;
+            font-weight: 700;
+            color: #d97757;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            border-bottom: 1.5px solid #d97757;
+            padding-bottom: 3px;
+            margin-bottom: 10px;
+        }
+
+        /* Summary */
+        .summary {
+            font-size: 11px;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        /* Experience */
+        .job {
+            margin-bottom: 16px;
+        }
+
+        .job-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 3px;
+        }
+
+        .job-title {
+            font-size: 12px;
+            font-weight: 700;
+            color: #1a1a2e;
+        }
+
+        .job-company {
+            font-size: 11px;
+            font-weight: 600;
+            color: #d97757;
+        }
+
+        .job-date {
+            font-size: 10px;
+            color: #666;
+            text-align: right;
+            white-space: nowrap;
+        }
+
+        .job ul {
+            padding-left: 15px;
+            margin-top: 5px;
+        }
+
+        .job li {
+            margin-bottom: 4px;
+            color: #333;
+            font-size: 11px;
+        }
+
+        .job li strong {
+            color: #1a1a2e;
+        }
+
+        /* Technical Founder Callout */
+        .founder-box {
+            background: linear-gradient(135deg, #fef3f0 0%, #fde8e2 100%);
+            border: 2px solid #d97757;
+            border-radius: 10px;
+            padding: 15px 20px;
+            margin-bottom: 18px;
+        }
+
+        .founder-box h4 {
+            color: #c45a3a;
+            font-size: 11px;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .founder-box p {
+            font-size: 11px;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        /* MCP/Agent Skills Box */
+        .agent-box {
+            background: linear-gradient(135deg, #f0f4ff 0%, #e5ebff 100%);
+            border: 2px solid #5865f2;
+            border-radius: 10px;
+            padding: 15px 20px;
+            margin-bottom: 18px;
+        }
+
+        .agent-box h4 {
+            color: #4752c4;
+            font-size: 11px;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .agent-box p {
+            font-size: 11px;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        /* Skills */
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+        }
+
+        .skill-category h4 {
+            font-size: 9px;
+            font-weight: 700;
+            color: #d97757;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 5px;
+        }
+
+        .tag {
+            display: inline-block;
+            background: #fef3f0;
+            color: #c45a3a;
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 9px;
+            margin: 2px;
+            font-weight: 600;
+            border: 1px solid #fde8e2;
+        }
+
+        /* Metrics */
+        .metrics {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            margin-bottom: 16px;
+        }
+
+        .metric {
+            background: #fef3f0;
+            border-left: 3px solid #d97757;
+            padding: 10px 12px;
+            border-radius: 0 6px 6px 0;
+            text-align: center;
+        }
+
+        .metric .value {
+            font-size: 20px;
+            font-weight: 700;
+            color: #c45a3a;
+        }
+
+        .metric .label {
+            font-size: 8px;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* Anthropic Alignment Grid */
+        .alignment-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin: 10px 0;
+        }
+
+        .alignment-item {
+            background: #f8f9fa;
+            padding: 12px;
+            border-radius: 8px;
+            border-left: 3px solid #d97757;
+        }
+
+        .alignment-item strong {
+            color: #c45a3a;
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .alignment-item p {
+            font-size: 10px;
+            color: #555;
+            margin-top: 4px;
+        }
+
+        /* Print */
+        @media print {
+            body { font-size: 10.5px; }
+            .page { padding: 30px 40px; }
+        }
+    </style>
+</head>
+<body>
+<div class="page">
+
+    <!-- HEADER -->
+    <div class="header">
+        <div class="name">JOHN POLHILL III</div>
+        <div class="title">Forward Deployed Engineer | Technical Founder | Agent Architecture & Constitutional AI Specialist</div>
+        <div class="contact">
+            <span>jp@vanguardlab.physicalaipros.com</span>
+            <span>vanguardlab.physicalaipros.com/marketplace</span>
+            <span>linkedin.com/in/johnpolhilliii</span>
+            <span>SF Bay Area — Relocation Ready</span>
+        </div>
+    </div>
+
+    <!-- TECHNICAL FOUNDER CALLOUT -->
+    <div class="founder-box">
+        <h4>Technical Founder — "Former technical founders are encouraged to apply"</h4>
+        <p>
+            I built the entire stack. A <strong>119-tool AI platform</strong>, a <strong>5-agent production pipeline</strong>, and a <strong>commercial marketplace launching this week</strong> selling Constitutional AI implementation tools to AGI labs — including Anthropic competitors. I preserved <strong>90%+ of creation prompts</strong> as a reproducible methodology library. I operate autonomously, thrive under ambiguity, and ship production systems end-to-end. This is what technical founders do. I'm ready to do it for Anthropic's strategic customers.
+        </p>
+    </div>
+
+    <!-- MCP/AGENT SKILLS BOX -->
+    <div class="agent-box">
+        <h4>MCP Servers, Sub-Agents, Agent Skills — I Build These</h4>
+        <p>
+            My production system includes <strong>5 specialized sub-agents</strong> (Sourcer, Matcher, Screener, Pipeline, Audit) with coordinated handoffs, state management, and evaluation frameworks. I've built <strong>agent skills for production workflows</strong> — tool-use patterns, retrieval pipelines, multi-step reasoning chains. The marketplace I'm launching sells <strong>agent scaffolding systems</strong> as deployable tools. These are the exact technical artifacts Anthropic FDEs deliver to customers.
+        </p>
+    </div>
+
+    <!-- METRICS -->
+    <div class="metrics">
+        <div class="metric">
+            <div class="value">119</div>
+            <div class="label">Production Tools Built</div>
+        </div>
+        <div class="metric">
+            <div class="value">5</div>
+            <div class="label">Sub-Agent Pipeline</div>
+        </div>
+        <div class="metric">
+            <div class="value">90%+</div>
+            <div class="label">Prompt Library Preserved</div>
+        </div>
+        <div class="metric">
+            <div class="value">LIVE</div>
+            <div class="label">Commercial Launch</div>
+        </div>
+    </div>
+
+    <!-- SUMMARY -->
+    <div class="section">
+        <div class="section-title">Summary</div>
+        <div class="summary">
+            Technical founder with <strong>production experience building LLM-powered systems at scale</strong>. Built a 119-tool AI platform including Constitutional AI safety frameworks, RLHF pipeline tools, multi-agent architectures, and evaluation systems. Designed and deployed 5 specialized sub-agents with coordinated handoffs — the same technical artifacts Anthropic FDEs deliver to enterprise customers. Maintained 90%+ of creation prompts as reproducible methodology, demonstrating systematic approach to <strong>advanced prompt engineering and agent development</strong>. Launching commercial marketplace this week selling AI framework implementation to AGI labs. Strong Python proficiency, TypeScript experience, and passion for <strong>advancing safe, beneficial AI systems</strong> through practical deployment.
+        </p>
+    </div>
+
+    <!-- JOB REQUIREMENT ALIGNMENT -->
+    <div class="section">
+        <div class="section-title">Direct Alignment with Anthropic FDE Requirements</div>
+        <div class="alignment-grid">
+            <div class="alignment-item">
+                <strong>"Former technical founders encouraged"</strong>
+                <p>Built entire platform solo — 119 tools, 5-agent system, commercial marketplace. Full technical ownership.</p>
+            </div>
+            <div class="alignment-item">
+                <strong>"Production experience with LLMs"</strong>
+                <p>Live production systems, prompt engineering library (90%+), agent development, deployment at scale.</p>
+            </div>
+            <div class="alignment-item">
+                <strong>"MCP servers, sub-agents, agent skills"</strong>
+                <p>5 specialized sub-agents (Sourcer→Matcher→Screener→Pipeline→Audit), agent scaffolding tools for sale.</p>
+            </div>
+            <div class="alignment-item">
+                <strong>"Advanced prompt engineering"</strong>
+                <p>Preserved 90%+ of creation prompts as methodology library. Reproducible, systematic approach.</p>
+            </div>
+            <div class="alignment-item">
+                <strong>"Strong Python proficiency"</strong>
+                <p>Primary development language. Backend APIs, automation pipelines, LLM integrations.</p>
+            </div>
+            <div class="alignment-item">
+                <strong>"Typescript, Java, etc."</strong>
+                <p>TypeScript/JavaScript for frontend and tooling. React, Node.js production experience.</p>
+            </div>
+            <div class="alignment-item">
+                <strong>"High agency, navigate ambiguity"</strong>
+                <p>Built everything with no roadmap. Technical founder DNA — figure it out, ship it, iterate.</p>
+            </div>
+            <div class="alignment-item">
+                <strong>"Passion for safe, beneficial AI"</strong>
+                <p>Marketplace literally sells Constitutional AI implementation tools. Safety frameworks are the product.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- EXPERIENCE -->
+    <div class="section">
+        <div class="section-title">Professional Experience</div>
+
+        <!-- VanguardLab -->
+        <div class="job">
+            <div class="job-header">
+                <div>
+                    <div class="job-title">Technical Founder & AI Framework Implementation Architect</div>
+                    <div class="job-company">VanguardLab | PhysicalAIPros.com</div>
+                </div>
+                <div class="job-date">2022 – Present<br>Remote / SF Ready</div>
+            </div>
+            <ul>
+                <li><strong>Built 119 production AI tools end-to-end</strong> — Constitutional AI safety frameworks, RLHF pipeline tools, agent scaffolding systems, and compliance guardrails. Full technical ownership as solo founder.</li>
+                <li><strong>Designed 5-agent production architecture</strong> with specialized sub-agents: Sourcer (candidate discovery), Matcher (skills alignment), Screener (qualification), Pipeline (workflow), Audit (compliance). Coordinated handoffs, state management, evaluation frameworks.</li>
+                <li><strong>Preserved 90%+ of creation prompts</strong> as reproducible methodology library — systematic approach to advanced prompt engineering enabling consistent, scalable agent development.</li>
+                <li><strong>Launching AI Framework Implementation Marketplace</strong> this week — commercial platform selling Constitutional AI tools, RLHF frameworks, and agent scaffolding to AGI labs (OpenAI, Anthropic, DeepMind, xAI).</li>
+                <li><strong>Built complete deployment infrastructure</strong> — frontend (React/JS), backend APIs (Python/Node), demo gating system (IP-locked tokens), payment integration. Production-grade, customer-ready.</li>
+                <li><strong>Established research partnerships</strong> with Wharton (Dr. Joseph Walther) connecting academic communication theory to AI system design — demonstrating cross-organizational collaboration.</li>
+                <li><strong>Created evaluation frameworks</strong> for agent performance — metrics pipelines, quality scoring, A/B testing infrastructure for continuous improvement.</li>
+            </ul>
+        </div>
+
+        <!-- Enterprise Technical -->
+        <div class="job">
+            <div class="job-header">
+                <div>
+                    <div class="job-title">Senior Technical Implementation Specialist</div>
+                    <div class="job-company">Enterprise Technology (Microsoft Ecosystem)</div>
+                </div>
+                <div class="job-date">2018 – 2022<br>Seattle / Remote</div>
+            </div>
+            <ul>
+                <li><strong>Customer-facing technical deployment</strong> — embedded with enterprise clients to ship production applications, translating requirements into working systems.</li>
+                <li><strong>White-glove deployment support</strong> — hands-on implementation in customer environments, ensuring products met enterprise requirements.</li>
+                <li><strong>Cross-organizational collaboration</strong> — balanced competing priorities between engineering, product, and customer success teams with integrity.</li>
+                <li><strong>Identified repeatable deployment patterns</strong> and contributed insights back to product teams — reducing implementation time by 35%.</li>
+                <li><strong>Technical documentation and training</strong> — created runbooks, implementation guides, and trained customer teams on system operation.</li>
+            </ul>
+        </div>
+
+        <!-- Earlier Career -->
+        <div class="job">
+            <div class="job-header">
+                <div>
+                    <div class="job-title">Technical Solutions Engineer</div>
+                    <div class="job-company">Technology Implementation & Consulting</div>
+                </div>
+                <div class="job-date">2016 – 2018<br>Pacific Northwest</div>
+            </div>
+            <ul>
+                <li><strong>Full-cycle technical implementation</strong> — from requirements gathering through deployment and customer success.</li>
+                <li><strong>Operated autonomously</strong> in ambiguous environments — figured out solutions without clear roadmaps.</li>
+                <li><strong>High cooperation mindset</strong> — treated customer problems as personal responsibility, drove to resolution.</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- TECHNICAL SKILLS -->
+    <div class="section">
+        <div class="section-title">Technical Skills</div>
+        <div class="skills-grid">
+            <div class="skill-category">
+                <h4>LLM & Agent Development</h4>
+                <p>
+                    <span class="tag">Claude API</span>
+                    <span class="tag">Prompt Engineering</span>
+                    <span class="tag">Agent Scaffolding</span>
+                    <span class="tag">Sub-Agents</span>
+                    <span class="tag">MCP Patterns</span>
+                    <span class="tag">Evaluation Frameworks</span>
+                </p>
+            </div>
+            <div class="skill-category">
+                <h4>Languages & Deployment</h4>
+                <p>
+                    <span class="tag">Python</span>
+                    <span class="tag">TypeScript</span>
+                    <span class="tag">JavaScript</span>
+                    <span class="tag">React</span>
+                    <span class="tag">Node.js</span>
+                    <span class="tag">REST APIs</span>
+                    <span class="tag">Cloud Deploy</span>
+                </p>
+            </div>
+            <div class="skill-category">
+                <h4>AI Safety & Alignment</h4>
+                <p>
+                    <span class="tag">Constitutional AI</span>
+                    <span class="tag">RLHF Pipelines</span>
+                    <span class="tag">Safety Guardrails</span>
+                    <span class="tag">Compliance Frameworks</span>
+                    <span class="tag">Responsible Deployment</span>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- WHAT I BRING -->
+    <div class="section">
+        <div class="section-title">What I Bring to Anthropic</div>
+        <ul style="padding-left: 15px; font-size: 11px;">
+            <li style="margin-bottom: 5px;"><strong>Technical founder track record</strong> — I built the whole thing. 119 tools, 5-agent system, commercial marketplace. I operate autonomously and ship.</li>
+            <li style="margin-bottom: 5px;"><strong>MCP/agent expertise</strong> — My production system IS sub-agents and agent skills. This is what I build. Ready to build it for Anthropic's customers.</li>
+            <li style="margin-bottom: 5px;"><strong>Constitutional AI practitioner</strong> — I don't just understand the research; I sell implementation tools. Safety frameworks are my product line.</li>
+            <li style="margin-bottom: 5px;"><strong>Prompt engineering depth</strong> — 90%+ prompt library preserved. Systematic, reproducible methodology, not ad-hoc prompting.</li>
+            <li style="margin-bottom: 5px;"><strong>Customer deployment experience</strong> — Years of enterprise technical implementation. White-glove deployment is familiar territory.</li>
+            <li style="margin-bottom: 5px;"><strong>Mission alignment</strong> — I'm building tools to make AI safer and more beneficial. That's literally what I sell. Anthropic's mission is my business model.</li>
+        </ul>
+    </div>
+
+    <!-- EDUCATION -->
+    <div class="section">
+        <div class="section-title">Education & Continuous Learning</div>
+        <div style="font-size: 11px;">
+            <strong style="color: #1a1a2e;">Bachelor's Degree — Business Administration</strong>
+            <span style="color: #666; margin-left: 10px;">| Self-directed: Constitutional AI, RLHF, multi-agent systems, AI safety research</span>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <div style="margin-top: 16px; padding-top: 12px; border-top: 1px solid #ddd; font-size: 9px; color: #888; text-align: center;">
+        Live Platform: vanguardlab.physicalaipros.com/marketplace | Portfolio: physicalaipros.com | Ready to deploy Claude for Anthropic's strategic customers
+    </div>
+
+</div>
+</body>
+</html>
