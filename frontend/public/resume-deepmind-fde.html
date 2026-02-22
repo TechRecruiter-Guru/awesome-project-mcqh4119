@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>John Polhill III - Resume - Google DeepMind Forward Deployment Engineer</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Google Sans', 'Segoe UI', Arial, sans-serif;
+            background: #fff;
+            color: #202124;
+            font-size: 11px;
+            line-height: 1.5;
+        }
+
+        .page {
+            max-width: 850px;
+            margin: 0 auto;
+            padding: 40px 50px;
+        }
+
+        /* Header - Google DeepMind Colors */
+        .header {
+            border-bottom: 3px solid #4285f4;
+            padding-bottom: 15px;
+            margin-bottom: 18px;
+        }
+
+        .name {
+            font-size: 28px;
+            font-weight: 700;
+            color: #202124;
+            letter-spacing: 0.3px;
+        }
+
+        .title {
+            font-size: 13px;
+            color: #4285f4;
+            margin: 4px 0 8px;
+            font-weight: 600;
+        }
+
+        .contact {
+            display: flex;
+            gap: 22px;
+            font-size: 10px;
+            color: #5f6368;
+            flex-wrap: wrap;
+        }
+
+        /* Section */
+        .section {
+            margin-bottom: 16px;
+        }
+
+        .section-title {
+            font-size: 10px;
+            font-weight: 700;
+            color: #4285f4;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            border-bottom: 1.5px solid #4285f4;
+            padding-bottom: 3px;
+            margin-bottom: 10px;
+        }
+
+        /* Summary */
+        .summary {
+            font-size: 11px;
+            color: #3c4043;
+            line-height: 1.6;
+        }
+
+        /* Experience */
+        .job {
+            margin-bottom: 16px;
+        }
+
+        .job-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 3px;
+        }
+
+        .job-title {
+            font-size: 12px;
+            font-weight: 700;
+            color: #202124;
+        }
+
+        .job-company {
+            font-size: 11px;
+            font-weight: 600;
+            color: #4285f4;
+        }
+
+        .job-date {
+            font-size: 10px;
+            color: #5f6368;
+            text-align: right;
+            white-space: nowrap;
+        }
+
+        .job ul {
+            padding-left: 15px;
+            margin-top: 5px;
+        }
+
+        .job li {
+            margin-bottom: 4px;
+            color: #3c4043;
+            font-size: 11px;
+        }
+
+        .job li strong {
+            color: #202124;
+        }
+
+        /* Highlight Box - DeepMind style */
+        .highlight-box {
+            background: linear-gradient(135deg, #e8f0fe 0%, #d2e3fc 100%);
+            border: 1px solid #4285f4;
+            border-radius: 10px;
+            padding: 15px 20px;
+            margin-bottom: 18px;
+        }
+
+        .highlight-box h4 {
+            color: #1a73e8;
+            font-size: 11px;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .highlight-box p {
+            font-size: 11px;
+            color: #3c4043;
+            line-height: 1.6;
+        }
+
+        /* Live Product Box */
+        .live-product {
+            background: linear-gradient(135deg, #e6f4ea 0%, #ceead6 100%);
+            border: 2px solid #34a853;
+            border-radius: 10px;
+            padding: 15px 20px;
+            margin-bottom: 18px;
+        }
+
+        .live-product h4 {
+            color: #1e8e3e;
+            font-size: 11px;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .live-product p {
+            font-size: 11px;
+            color: #3c4043;
+            line-height: 1.6;
+        }
+
+        /* Skills */
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+        }
+
+        .skill-category h4 {
+            font-size: 9px;
+            font-weight: 700;
+            color: #4285f4;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 5px;
+        }
+
+        .tag {
+            display: inline-block;
+            background: #e8f0fe;
+            color: #1a73e8;
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 9px;
+            margin: 2px;
+            font-weight: 600;
+            border: 1px solid #d2e3fc;
+        }
+
+        /* Metrics - Google colors */
+        .metrics {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            margin-bottom: 16px;
+        }
+
+        .metric {
+            background: #f8f9fa;
+            border-left: 3px solid #4285f4;
+            padding: 10px 12px;
+            border-radius: 0 6px 6px 0;
+            text-align: center;
+        }
+
+        .metric:nth-child(2) { border-left-color: #ea4335; }
+        .metric:nth-child(3) { border-left-color: #fbbc04; }
+        .metric:nth-child(4) { border-left-color: #34a853; }
+
+        .metric .value {
+            font-size: 20px;
+            font-weight: 700;
+            color: #202124;
+        }
+
+        .metric .label {
+            font-size: 8px;
+            color: #5f6368;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* Research Translation Grid */
+        .translation-grid {
+            display: grid;
+            grid-template-columns: 1fr auto 1fr;
+            gap: 10px;
+            align-items: center;
+            margin: 10px 0;
+        }
+
+        .research-side, .product-side {
+            background: #f8f9fa;
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 10px;
+        }
+
+        .research-side {
+            border-left: 3px solid #ea4335;
+        }
+
+        .product-side {
+            border-left: 3px solid #34a853;
+        }
+
+        .arrow {
+            font-size: 24px;
+            color: #4285f4;
+        }
+
+        /* Print */
+        @media print {
+            body { font-size: 10.5px; }
+            .page { padding: 30px 40px; }
+        }
+    </style>
+</head>
+<body>
+<div class="page">
+
+    <!-- HEADER -->
+    <div class="header">
+        <div class="name">JOHN POLHILL III</div>
+        <div class="title">Forward Deployment Engineer | AI Framework Implementation Architect | Research → Production Specialist</div>
+        <div class="contact">
+            <span>jp@vanguardlab.physicalaipros.com</span>
+            <span>vanguardlab.physicalaipros.com/marketplace</span>
+            <span>linkedin.com/in/johnpolhilliii</span>
+            <span>SF Bay Area — Relocation Ready</span>
+        </div>
+    </div>
+
+    <!-- WHY DEEPMIND -->
+    <div class="highlight-box">
+        <h4>Why Google DeepMind</h4>
+        <p>
+            I build systems that translate AI research into deployed products. My live marketplace (launching this week) operationalizes <strong>Constitutional AI, RLHF pipelines, and safety frameworks</strong> — turning research papers into tools organizations actually use. DeepMind's mission of "solving intelligence to advance science and benefit humanity" requires FDEs who can bridge the gap between breakthrough research and real-world deployment. I've already built the bridge — 119 production tools, a prompt library that reproduces the methodology, and a commercial platform selling framework implementation to AGI labs.
+        </p>
+    </div>
+
+    <!-- LIVE PRODUCT LAUNCH -->
+    <div class="live-product">
+        <h4>Live Product: AI Framework Implementation Marketplace — Launching This Week</h4>
+        <p>
+            <strong>vanguardlab.physicalaipros.com/marketplace</strong> — A complete implementation platform targeting AGI/ASI organizations (OpenAI, Anthropic, DeepMind, xAI). Sells production-ready Constitutional AI tools, RLHF pipeline frameworks, safety guardrail systems, and talent acquisition infrastructure. Dual offering: <strong>Framework Implementation Tools</strong> (operationalized research) + <strong>Implementation Talent Systems</strong> (find engineers who can ship). 2-demo gated access, IP-locked tokens, Venmo checkout. Built end-to-end: frontend, backend, payment flow, demo infrastructure.
+        </p>
+    </div>
+
+    <!-- METRICS -->
+    <div class="metrics">
+        <div class="metric">
+            <div class="value">119</div>
+            <div class="label">Production Tools Built</div>
+        </div>
+        <div class="metric">
+            <div class="value">90%+</div>
+            <div class="label">Prompt Library Preserved</div>
+        </div>
+        <div class="metric">
+            <div class="value">5</div>
+            <div class="label">Agent Architectures</div>
+        </div>
+        <div class="metric">
+            <div class="value">LIVE</div>
+            <div class="label">Commercial Platform</div>
+        </div>
+    </div>
+
+    <!-- SUMMARY -->
+    <div class="section">
+        <div class="section-title">Summary</div>
+        <div class="summary">
+            Forward Deployment Engineer specializing in <strong>translating AI research into production systems</strong>. Built and deployed a 119-tool AI platform operationalizing Constitutional AI principles, RLHF methodologies, and safety frameworks. Created multi-agent architectures (Sourcer, Matcher, Screener, Pipeline, Audit) that demonstrate real-world agentic deployment. Maintained 90%+ of creation prompts as a reproducible methodology library — enabling systematic research-to-production translation. Currently launching a commercial marketplace selling AI framework implementation tools to AGI labs. Strong at bridging research concepts and deployed products, customer-facing technical work, and building systems that scale.
+        </div>
+    </div>
+
+    <!-- RESEARCH TO PRODUCTION -->
+    <div class="section">
+        <div class="section-title">Research → Production Translation Examples</div>
+        <div class="translation-grid">
+            <div class="research-side">
+                <strong>Constitutional AI Paper</strong><br>
+                Anthropic's principles for AI alignment
+            </div>
+            <div class="arrow">→</div>
+            <div class="product-side">
+                <strong>Production Safety Frameworks</strong><br>
+                Deployed guardrail tools for enterprise
+            </div>
+        </div>
+        <div class="translation-grid">
+            <div class="research-side">
+                <strong>RLHF Methodology</strong><br>
+                Reinforcement Learning from Human Feedback
+            </div>
+            <div class="arrow">→</div>
+            <div class="product-side">
+                <strong>RLHF Pipeline Tools</strong><br>
+                Operational feedback collection systems
+            </div>
+        </div>
+        <div class="translation-grid">
+            <div class="research-side">
+                <strong>Multi-Agent Systems Research</strong><br>
+                Coordination, specialization, handoffs
+            </div>
+            <div class="arrow">→</div>
+            <div class="product-side">
+                <strong>5-Agent Production Pipeline</strong><br>
+                Sourcer→Matcher→Screener→Pipeline→Audit
+            </div>
+        </div>
+    </div>
+
+    <!-- EXPERIENCE -->
+    <div class="section">
+        <div class="section-title">Professional Experience</div>
+
+        <!-- VanguardLab -->
+        <div class="job">
+            <div class="job-header">
+                <div>
+                    <div class="job-title">Founder & AI Framework Implementation Architect</div>
+                    <div class="job-company">VanguardLab | PhysicalAIPros.com</div>
+                </div>
+                <div class="job-date">2022 – Present<br>Remote / SF Ready</div>
+            </div>
+            <ul>
+                <li><strong>Built and deployed 119 production AI tools</strong> operationalizing research concepts — Constitutional AI safety frameworks, RLHF feedback pipelines, agent scaffolding systems, and compliance guardrails.</li>
+                <li><strong>Launching commercial AI Framework Implementation Marketplace</strong> this week — dual offering of framework tools + talent acquisition systems, targeting AGI/ASI organizations including OpenAI, Anthropic, and DeepMind.</li>
+                <li><strong>Designed multi-agent production architecture</strong> with 5 specialized agents (Sourcer, Matcher, Screener, Pipeline, Audit) demonstrating real-world coordination, state management, and graceful handoffs.</li>
+                <li><strong>Maintained 90%+ of creation prompts</strong> as reproducible methodology library — systematic approach to translating research papers into deployable tools.</li>
+                <li><strong>Built complete deployment infrastructure</strong> — frontend, backend APIs, demo gating system (2 per email, IP-locked tokens), payment integration, and customer-facing product experience.</li>
+                <li><strong>Created Physical AI domain specialization</strong> — 16-source talent discovery pipeline (arXiv, ROS Discourse, ICRA/IROS networks, HuggingFace) demonstrating research community engagement.</li>
+                <li><strong>Established research partnerships</strong> with Wharton (Dr. Joseph Walther - communication theory), connecting academic research to practical AI system design.</li>
+            </ul>
+        </div>
+
+        <!-- Enterprise Technical -->
+        <div class="job">
+            <div class="job-header">
+                <div>
+                    <div class="job-title">Senior Technical Implementation Specialist</div>
+                    <div class="job-company">Enterprise Technology (Microsoft Ecosystem)</div>
+                </div>
+                <div class="job-date">2018 – 2022<br>Seattle / Remote</div>
+            </div>
+            <ul>
+                <li><strong>Customer-facing technical deployment</strong> — worked directly with enterprise clients to implement complex technical solutions, translating requirements into working systems.</li>
+                <li><strong>Cross-functional technical communication</strong> — bridged engineering teams and business stakeholders, explaining technical concepts to non-technical audiences.</li>
+                <li><strong>Production system ownership</strong> — managed deployment pipelines, monitoring, and iterative improvement based on customer feedback.</li>
+                <li><strong>Technical documentation and training</strong> — created implementation guides, runbooks, and trained customer teams on system operation.</li>
+                <li><strong>Problem decomposition expertise</strong> — broke complex deployment challenges into manageable phases, reducing implementation time by 35%.</li>
+            </ul>
+        </div>
+
+        <!-- Earlier Career -->
+        <div class="job">
+            <div class="job-header">
+                <div>
+                    <div class="job-title">Technical Solutions Engineer</div>
+                    <div class="job-company">Technology Implementation & Consulting</div>
+                </div>
+                <div class="job-date">2016 – 2018<br>Pacific Northwest</div>
+            </div>
+            <ul>
+                <li><strong>Full-cycle technical implementation</strong> — from requirements gathering through deployment and customer success.</li>
+                <li><strong>Rapid prototyping and iteration</strong> — built POCs to validate approaches before full implementation.</li>
+                <li><strong>Customer empathy and ownership</strong> — treated customer problems as personal responsibility, driving to resolution.</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- TECHNICAL SKILLS -->
+    <div class="section">
+        <div class="section-title">Technical Skills</div>
+        <div class="skills-grid">
+            <div class="skill-category">
+                <h4>AI/ML Frameworks</h4>
+                <p>
+                    <span class="tag">Constitutional AI</span>
+                    <span class="tag">RLHF Pipelines</span>
+                    <span class="tag">Agent Scaffolding</span>
+                    <span class="tag">Safety Guardrails</span>
+                    <span class="tag">Multi-Agent Systems</span>
+                    <span class="tag">LLM APIs</span>
+                </p>
+            </div>
+            <div class="skill-category">
+                <h4>Development & Deployment</h4>
+                <p>
+                    <span class="tag">Python</span>
+                    <span class="tag">JavaScript/TypeScript</span>
+                    <span class="tag">React</span>
+                    <span class="tag">Node.js</span>
+                    <span class="tag">REST APIs</span>
+                    <span class="tag">Vercel/Cloud Deploy</span>
+                </p>
+            </div>
+            <div class="skill-category">
+                <h4>FDE Core Skills</h4>
+                <p>
+                    <span class="tag">Research Translation</span>
+                    <span class="tag">Customer Deployment</span>
+                    <span class="tag">Technical Communication</span>
+                    <span class="tag">Problem Decomposition</span>
+                    <span class="tag">Product Ownership</span>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- WHAT I BRING -->
+    <div class="section">
+        <div class="section-title">What I Bring to DeepMind</div>
+        <ul style="padding-left: 15px; font-size: 11px;">
+            <li style="margin-bottom: 5px;"><strong>Research-to-production track record</strong> — I've already translated Constitutional AI, RLHF, and agent research into 119 deployed tools. This is the core FDE skill.</li>
+            <li style="margin-bottom: 5px;"><strong>Live commercial platform</strong> — Not concepts, not prototypes. A marketplace launching this week, selling AI framework implementation to AGI labs.</li>
+            <li style="margin-bottom: 5px;"><strong>Reproducible methodology</strong> — 90%+ prompt library preserved means I can systematically translate new research into products, not just one-off builds.</li>
+            <li style="margin-bottom: 5px;"><strong>Customer-facing technical work</strong> — Years of enterprise deployment, working directly with customers to implement complex systems.</li>
+            <li style="margin-bottom: 5px;"><strong>AGI/Safety domain knowledge</strong> — Deep familiarity with the research landscape, Constitutional AI principles, and safety framework requirements.</li>
+            <li style="margin-bottom: 5px;"><strong>Builder mentality</strong> — I ship. The marketplace, the tools, the agent architectures — all built and deployed, not theoretical.</li>
+        </ul>
+    </div>
+
+    <!-- EDUCATION -->
+    <div class="section">
+        <div class="section-title">Education & Continuous Learning</div>
+        <div style="font-size: 11px;">
+            <strong style="color: #202124;">Bachelor's Degree — Business Administration</strong>
+            <span style="color: #5f6368; margin-left: 10px;">| Self-directed: AI safety research, Constitutional AI, RLHF methodologies, multi-agent systems</span>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <div style="margin-top: 16px; padding-top: 12px; border-top: 1px solid #dadce0; font-size: 9px; color: #80868b; text-align: center;">
+        Live Platform: vanguardlab.physicalaipros.com/marketplace | Portfolio: physicalaipros.com | Ready to translate DeepMind research into products
+    </div>
+
+</div>
+</body>
+</html>
