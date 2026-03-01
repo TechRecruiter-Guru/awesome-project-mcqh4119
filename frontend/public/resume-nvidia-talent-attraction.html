@@ -142,18 +142,17 @@
             line-height: 1.6;
         }
 
-        /* AI Tools Box */
+        /* AI Tools Box - Print Friendly */
         .ai-tools-box {
-            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+            background: linear-gradient(135deg, #e8f5e0 0%, #d9efd0 100%);
             border: 2px solid #76B900;
             border-radius: 10px;
             padding: 15px 20px;
             margin-bottom: 18px;
-            color: white;
         }
 
         .ai-tools-box h4 {
-            color: #76B900;
+            color: #4a7a00;
             font-size: 11px;
             margin-bottom: 8px;
             text-transform: uppercase;
@@ -162,7 +161,7 @@
 
         .ai-tools-box p {
             font-size: 11px;
-            color: #e0e0e0;
+            color: #333;
             line-height: 1.6;
         }
 
@@ -194,7 +193,7 @@
             border: 1px solid #d4e8be;
         }
 
-        /* Metrics */
+        /* Metrics - Print Friendly */
         .metrics {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
@@ -203,7 +202,7 @@
         }
 
         .metric {
-            background: #1a1a1a;
+            background: #f0f7e6;
             border-left: 3px solid #76B900;
             padding: 10px 12px;
             border-radius: 0 6px 6px 0;
@@ -213,12 +212,12 @@
         .metric .value {
             font-size: 20px;
             font-weight: 800;
-            color: #76B900;
+            color: #4a7a00;
         }
 
         .metric .label {
             font-size: 8px;
-            color: #999;
+            color: #555;
             text-transform: uppercase;
             letter-spacing: 0.5px;
         }
@@ -251,7 +250,7 @@
             margin-top: 3px;
         }
 
-        /* Marketplace Products */
+        /* Marketplace Products - Print Friendly */
         .products-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -260,16 +259,17 @@
         }
 
         .product-item {
-            background: #1a1a1a;
-            color: white;
+            background: #f0f7e6;
             padding: 10px;
             border-radius: 6px;
             text-align: center;
             border-top: 3px solid #76B900;
+            border: 1px solid #d4e8be;
+            border-top: 3px solid #76B900;
         }
 
         .product-item strong {
-            color: #76B900;
+            color: #4a7a00;
             font-size: 9px;
             display: block;
             margin-bottom: 4px;
@@ -277,17 +277,16 @@
 
         .product-item span {
             font-size: 8px;
-            color: #aaa;
+            color: #555;
         }
 
-        /* Print */
+        /* Print - Optimized for interview team printing */
         @media print {
             body { font-size: 10.5px; }
-            .page { padding: 30px 40px; }
-            .ai-tools-box, .metric, .product-item {
-                -webkit-print-color-adjust: exact;
-                print-color-adjust: exact;
-            }
+            .page { padding: 20px 30px; margin: 0; }
+            .header { page-break-after: avoid; }
+            .section { page-break-inside: avoid; }
+            .job { page-break-inside: avoid; }
         }
     </style>
 </head>
