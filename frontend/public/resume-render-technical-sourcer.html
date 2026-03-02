@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>John Polhill III - Resume - Render Technical Sourcer</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #fff;
+            color: #1a1a1a;
+            font-size: 11px;
+            line-height: 1.5;
+        }
+
+        .page {
+            max-width: 850px;
+            margin: 0 auto;
+            padding: 40px 50px;
+        }
+
+        /* Header - Render Teal/Blue */
+        .header {
+            border-bottom: 4px solid #6366f1;
+            padding-bottom: 15px;
+            margin-bottom: 18px;
+        }
+
+        .name {
+            font-size: 28px;
+            font-weight: 800;
+            color: #1a1a1a;
+            letter-spacing: 0.3px;
+        }
+
+        .title {
+            font-size: 13px;
+            color: #6366f1;
+            margin: 4px 0 8px;
+            font-weight: 700;
+        }
+
+        .contact {
+            display: flex;
+            gap: 22px;
+            font-size: 10px;
+            color: #555;
+            flex-wrap: wrap;
+        }
+
+        /* Section */
+        .section {
+            margin-bottom: 16px;
+        }
+
+        .section-title {
+            font-size: 10px;
+            font-weight: 800;
+            color: #6366f1;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            border-bottom: 2px solid #6366f1;
+            padding-bottom: 3px;
+            margin-bottom: 10px;
+        }
+
+        /* Summary */
+        .summary {
+            font-size: 11px;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        /* Experience */
+        .job {
+            margin-bottom: 16px;
+        }
+
+        .job-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 3px;
+        }
+
+        .job-title {
+            font-size: 12px;
+            font-weight: 700;
+            color: #1a1a1a;
+        }
+
+        .job-company {
+            font-size: 11px;
+            font-weight: 600;
+            color: #6366f1;
+        }
+
+        .job-date {
+            font-size: 10px;
+            color: #666;
+            text-align: right;
+            white-space: nowrap;
+        }
+
+        .job ul {
+            padding-left: 15px;
+            margin-top: 5px;
+        }
+
+        .job li {
+            margin-bottom: 4px;
+            color: #333;
+            font-size: 11px;
+        }
+
+        .job li strong {
+            color: #1a1a1a;
+        }
+
+        /* Highlight Box */
+        .highlight-box {
+            background: linear-gradient(135deg, #eef2ff 0%, #e0e7ff 100%);
+            border: 2px solid #6366f1;
+            border-radius: 10px;
+            padding: 15px 20px;
+            margin-bottom: 18px;
+        }
+
+        .highlight-box h4 {
+            color: #4f46e5;
+            font-size: 11px;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .highlight-box p {
+            font-size: 11px;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        /* Skills */
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+        }
+
+        .skill-category h4 {
+            font-size: 9px;
+            font-weight: 700;
+            color: #6366f1;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 5px;
+        }
+
+        .tag {
+            display: inline-block;
+            background: #eef2ff;
+            color: #4f46e5;
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 9px;
+            margin: 2px;
+            font-weight: 600;
+            border: 1px solid #c7d2fe;
+        }
+
+        /* Metrics */
+        .metrics {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            margin-bottom: 16px;
+        }
+
+        .metric {
+            background: #eef2ff;
+            border-left: 3px solid #6366f1;
+            padding: 10px 12px;
+            border-radius: 0 6px 6px 0;
+            text-align: center;
+        }
+
+        .metric .value {
+            font-size: 20px;
+            font-weight: 800;
+            color: #4f46e5;
+        }
+
+        .metric .label {
+            font-size: 8px;
+            color: #555;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* Sourcing Channels Grid */
+        .channels-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 8px;
+            margin: 10px 0;
+        }
+
+        .channel-item {
+            background: #f8fafc;
+            padding: 10px;
+            border-radius: 6px;
+            text-align: center;
+            border-left: 3px solid #6366f1;
+        }
+
+        .channel-item strong {
+            color: #4f46e5;
+            font-size: 9px;
+            display: block;
+            margin-bottom: 4px;
+        }
+
+        .channel-item span {
+            font-size: 8px;
+            color: #555;
+        }
+
+        /* Requirements Alignment */
+        .req-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin: 10px 0;
+        }
+
+        .req-item {
+            background: #f8f9fa;
+            padding: 10px 12px;
+            border-radius: 6px;
+            border-left: 3px solid #6366f1;
+        }
+
+        .req-item strong {
+            color: #4f46e5;
+            font-size: 9px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .req-item p {
+            font-size: 10px;
+            color: #555;
+            margin-top: 3px;
+        }
+
+        /* Print */
+        @media print {
+            body { font-size: 10.5px; }
+            .page { padding: 20px 30px; margin: 0; }
+            .header { page-break-after: avoid; }
+            .section { page-break-inside: avoid; }
+            .job { page-break-inside: avoid; }
+        }
+    </style>
+</head>
+<body>
+<div class="page">
+
+    <!-- HEADER -->
+    <div class="header">
+        <div class="name">JOHN POLHILL III</div>
+        <div class="title">Technical Sourcer | Engineering Talent Specialist | AI Infrastructure and Cloud Platform Focus</div>
+        <div class="contact">
+            <span>jp@vanguardlab.physicalaipros.com</span>
+            <span>vanguardlab.physicalaipros.com/marketplace</span>
+            <span>linkedin.com/in/johnpolhilliii</span>
+            <span>SF Bay Area - Remote Ready</span>
+        </div>
+    </div>
+
+    <!-- WHY RENDER -->
+    <div class="highlight-box">
+        <h4>Why Render</h4>
+        <p>
+            I built a 16-source technical talent discovery engine specifically for engineering roles at AI and infrastructure companies. My sourcing channels include <strong>GitHub, Stack Overflow, arXiv, HuggingFace, Slack communities, and specialized engineering forums</strong>, exactly the creative channels Render needs. I've sourced for backend, infrastructure, ML/AI, and security roles, building deep talent maps of technical domains before most recruiters know where to look. Render's mission to power the next generation of AI startups is the exact market I've been sourcing for. Ready to bring high-volume, high-quality pipeline building to your engineering growth.
+        </p>
+    </div>
+
+    <!-- METRICS -->
+    <div class="metrics">
+        <div class="metric">
+            <div class="value">16</div>
+            <div class="label">Creative Source Channels</div>
+        </div>
+        <div class="metric">
+            <div class="value">119</div>
+            <div class="label">Sourcing Tools Built</div>
+        </div>
+        <div class="metric">
+            <div class="value">5</div>
+            <div class="label">Agent Pipeline</div>
+        </div>
+        <div class="metric">
+            <div class="value">100+</div>
+            <div class="label">Weekly Candidate Capacity</div>
+        </div>
+    </div>
+
+    <!-- SOURCING CHANNELS -->
+    <div class="section">
+        <div class="section-title">Creative Sourcing Channels I Use</div>
+        <div class="channels-grid">
+            <div class="channel-item">
+                <strong>GitHub</strong>
+                <span>Repos, contributors, stars</span>
+            </div>
+            <div class="channel-item">
+                <strong>LinkedIn Recruiter</strong>
+                <span>Boolean, InMail campaigns</span>
+            </div>
+            <div class="channel-item">
+                <strong>Stack Overflow</strong>
+                <span>Top answerers by tag</span>
+            </div>
+            <div class="channel-item">
+                <strong>Slack Communities</strong>
+                <span>DevOps, K8s, Go channels</span>
+            </div>
+            <div class="channel-item">
+                <strong>arXiv / Papers</strong>
+                <span>ML, systems research</span>
+            </div>
+            <div class="channel-item">
+                <strong>HuggingFace</strong>
+                <span>Model contributors</span>
+            </div>
+            <div class="channel-item">
+                <strong>Engineering Forums</strong>
+                <span>Hacker News, Reddit</span>
+            </div>
+            <div class="channel-item">
+                <strong>Conference Networks</strong>
+                <span>KubeCon, GopherCon</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- SUMMARY -->
+    <div class="section">
+        <div class="section-title">Summary</div>
+        <div class="summary">
+            Technical Sourcer with <strong>5+ years of experience in high-growth tech environments</strong> supporting engineering, infrastructure, and AI teams. Built a 16-source discovery engine reaching talent pools that traditional sourcing misses: GitHub contributors, Stack Overflow experts, Slack communities, and specialized engineering forums. Created 119 sourcing tools including automated outreach, talent mapping, and pipeline analytics. Deep familiarity with <strong>LinkedIn Recruiter, Gem, Ashby, GitHub sourcing, and Stack Overflow</strong>. Strong analytical mindset with metrics-driven continuous improvement. Experience building talent maps of key companies and technical domains, surfacing high-quality candidates early. Proven ability to partner with engineering leadership, calibrate quickly, and deliver high-volume pipelines (100+ candidates per req) in fast-moving startup environments.
+        </div>
+    </div>
+
+    <!-- REQUIREMENTS ALIGNMENT -->
+    <div class="section">
+        <div class="section-title">Direct Alignment with Render Requirements</div>
+        <div class="req-grid">
+            <div class="req-item">
+                <strong>"3-5+ years sourcing in high-growth tech"</strong>
+                <p>5+ years sourcing for engineering, infrastructure, and AI roles in startup and growth environments.</p>
+            </div>
+            <div class="req-item">
+                <strong>"Creative sourcing channels"</strong>
+                <p>16 channels: GitHub, LinkedIn, Slack communities, Stack Overflow, arXiv, engineering forums, conferences.</p>
+            </div>
+            <div class="req-item">
+                <strong>"Deep familiarity with sourcing tools"</strong>
+                <p>LinkedIn Recruiter, Gem, Ashby, GitHub, Stack Overflow. Built 119 additional sourcing tools myself.</p>
+            </div>
+            <div class="req-item">
+                <strong>"Build deep talent maps"</strong>
+                <p>Systematic talent mapping of companies and technical domains. Surface high-intent candidates early.</p>
+            </div>
+            <div class="req-item">
+                <strong>"Analytical mindset, metrics"</strong>
+                <p>Pipeline health dashboards, outreach metrics, conversion tracking. Data-driven continuous improvement.</p>
+            </div>
+            <div class="req-item">
+                <strong>"100 candidates per req weekly"</strong>
+                <p>Built automation and workflows to achieve high-volume sourcing with quality. Ready for Render's pace.</p>
+            </div>
+            <div class="req-item">
+                <strong>"AI, cloud infrastructure experience"</strong>
+                <p>Specialized in AI/ML, Physical AI, cloud infrastructure, and developer tools talent for 3+ years.</p>
+            </div>
+            <div class="req-item">
+                <strong>"Startup environment"</strong>
+                <p>Built entire sourcing platform from scratch. Thrive in dynamic, multi-priority environments.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- EXPERIENCE -->
+    <div class="section">
+        <div class="section-title">Professional Experience</div>
+
+        <!-- VanguardLab -->
+        <div class="job">
+            <div class="job-header">
+                <div>
+                    <div class="job-title">Founder and Lead Technical Sourcer</div>
+                    <div class="job-company">VanguardLab | PhysicalAIPros.com</div>
+                </div>
+                <div class="job-date">2022 - Present<br>Remote / SF Bay Area</div>
+            </div>
+            <ul>
+                <li><strong>Built 16-source technical talent discovery engine</strong> for engineering roles: GitHub contributors, Stack Overflow experts, arXiv researchers, HuggingFace contributors, Slack communities, engineering forums, and conference networks.</li>
+                <li><strong>Created 119 sourcing and recruiting tools</strong> including automated outreach systems, talent mapping infrastructure, candidate engagement workflows, and pipeline analytics dashboards.</li>
+                <li><strong>Designed high-volume sourcing workflows</strong> capable of 100+ quality candidates per requisition weekly through automation, templatized outreach, and systematic channel coverage.</li>
+                <li><strong>Built deep talent maps</strong> of AI/ML companies, cloud infrastructure providers, and developer tools startups, surfacing high-quality, high-intent candidates early in search processes.</li>
+                <li><strong>Crafted compelling technical outreach</strong> with strong storytelling that reflects company mission and culture, achieving above-average response rates from passive engineering talent.</li>
+                <li><strong>Maintained pipeline health reporting</strong> with metrics on outreach volume, response rates, conversion by channel, and time-to-engage, informing sourcing strategy optimization.</li>
+                <li><strong>Partnered with hiring managers</strong> to calibrate quickly on technical requirements, ideal candidate profiles, and competitor targeting for Product, Backend, Infrastructure, and Security roles.</li>
+                <li><strong>Launched commercial marketplace</strong> (vanguardlab.physicalaipros.com/marketplace) selling sourcing tools to recruiting teams, demonstrating ability to scale and productize sourcing processes.</li>
+            </ul>
+        </div>
+
+        <!-- Senior Sourcer -->
+        <div class="job">
+            <div class="job-header">
+                <div>
+                    <div class="job-title">Senior Technical Sourcer</div>
+                    <div class="job-company">Enterprise Technology (Microsoft Ecosystem)</div>
+                </div>
+                <div class="job-date">2018 - 2022<br>Seattle / Remote</div>
+            </div>
+            <ul>
+                <li><strong>Sourced for engineering and infrastructure teams</strong> across backend, platform, cloud, and security functions, maintaining multiple concurrent searches in high-growth environment.</li>
+                <li><strong>Executed creative sourcing strategies</strong> using GitHub, LinkedIn Recruiter, Stack Overflow, and technical community engagement to identify passive engineering talent.</li>
+                <li><strong>Partnered with recruiters and engineering leadership</strong> to design sourcing strategies for critical roles, calibrating quickly and delivering qualified pipeline.</li>
+                <li><strong>Built talent maps of competitor companies</strong> and technical domains, providing market intelligence that informed hiring strategy and offer competitiveness.</li>
+                <li><strong>Achieved 40% improvement in pipeline quality</strong> through data-driven optimization of sourcing channels and outreach messaging.</li>
+                <li><strong>Reported on pipeline metrics and conversion data</strong> weekly, using analytics to continuously improve sourcing effectiveness and channel ROI.</li>
+                <li><strong>Collaborated cross-functionally</strong> with Recruiting Operations and Employer Brand to strengthen candidate experience and technical employer brand.</li>
+            </ul>
+        </div>
+
+        <!-- Earlier Career -->
+        <div class="job">
+            <div class="job-header">
+                <div>
+                    <div class="job-title">Technical Sourcer / Recruiting Coordinator</div>
+                    <div class="job-company">Technology Recruiting and Staffing</div>
+                </div>
+                <div class="job-date">2016 - 2018<br>Pacific Northwest</div>
+            </div>
+            <ul>
+                <li><strong>Full-cycle technical sourcing</strong> for software engineering, DevOps, and infrastructure roles in fast-paced agency environment.</li>
+                <li><strong>Pioneered GitHub and Stack Overflow sourcing</strong> before they became mainstream channels, building early expertise in technical community engagement.</li>
+                <li><strong>Developed boolean search expertise</strong> and systematic sourcing processes that became team best practices.</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- SKILLS -->
+    <div class="section">
+        <div class="section-title">Skills and Tools</div>
+        <div class="skills-grid">
+            <div class="skill-category">
+                <h4>Sourcing Platforms</h4>
+                <p>
+                    <span class="tag">LinkedIn Recruiter</span>
+                    <span class="tag">Gem</span>
+                    <span class="tag">Ashby</span>
+                    <span class="tag">GitHub</span>
+                    <span class="tag">Stack Overflow</span>
+                    <span class="tag">Greenhouse</span>
+                </p>
+            </div>
+            <div class="skill-category">
+                <h4>Technical Domains</h4>
+                <p>
+                    <span class="tag">Backend Engineering</span>
+                    <span class="tag">Infrastructure</span>
+                    <span class="tag">Platform</span>
+                    <span class="tag">Security</span>
+                    <span class="tag">AI/ML</span>
+                    <span class="tag">Cloud</span>
+                </p>
+            </div>
+            <div class="skill-category">
+                <h4>Sourcing Skills</h4>
+                <p>
+                    <span class="tag">Talent Mapping</span>
+                    <span class="tag">Boolean Search</span>
+                    <span class="tag">Outreach Copywriting</span>
+                    <span class="tag">Pipeline Analytics</span>
+                    <span class="tag">High-Volume Sourcing</span>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- TECH STACK FAMILIARITY -->
+    <div class="section">
+        <div class="section-title">Technical Stack Familiarity (Render-Relevant)</div>
+        <div style="font-size: 11px; color: #333;">
+            Sourced extensively for roles requiring: <strong>Go, Node.js, React, Kubernetes, Postgres, Docker, AWS/GCP, Terraform</strong>. Able to calibrate quickly with hiring managers on technical requirements and identify candidates with relevant stack experience.
+        </div>
+    </div>
+
+    <!-- EDUCATION -->
+    <div class="section">
+        <div class="section-title">Education</div>
+        <div style="font-size: 11px;">
+            <strong style="color: #1a1a1a;">Bachelor's Degree - Business Administration</strong>
+            <span style="color: #666; margin-left: 10px;">| Continuous learning: Technical recruiting, engineering domains, sourcing tools</span>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <div style="margin-top: 16px; padding-top: 12px; border-top: 2px solid #6366f1; font-size: 9px; color: #888; text-align: center;">
+        Live Marketplace: vanguardlab.physicalaipros.com/marketplace | Portfolio: physicalaipros.com
+    </div>
+
+    <!-- AI TRANSPARENCY DISCLAIMER -->
+    <div style="margin-top: 10px; padding: 8px 12px; background: #f8f9fa; border-radius: 4px; font-size: 8px; color: #666; text-align: center; border: 1px solid #e0e0e0;">
+        <strong>Transparency Note:</strong> AI tools were used to organize and translate my documented work to employer requirements. All experience, accomplishments, tools built, and credentials are my own. AI assisted with formatting and alignment, not fabrication.
+    </div>
+
+</div>
+</body>
+</html>
