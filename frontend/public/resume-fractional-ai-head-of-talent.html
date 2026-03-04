@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>John Polhill III - Resume - Fractional AI Head of Talent</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #fff;
+            color: #1a1a1a;
+            font-size: 11px;
+            line-height: 1.5;
+        }
+
+        .page {
+            max-width: 850px;
+            margin: 0 auto;
+            padding: 40px 50px;
+        }
+
+        /* Header */
+        .header {
+            border-bottom: 4px solid #7c3aed;
+            padding-bottom: 15px;
+            margin-bottom: 18px;
+        }
+
+        .name {
+            font-size: 28px;
+            font-weight: 800;
+            color: #1a1a1a;
+            letter-spacing: 0.3px;
+        }
+
+        .title {
+            font-size: 13px;
+            color: #7c3aed;
+            margin: 4px 0 8px;
+            font-weight: 700;
+        }
+
+        .contact {
+            display: flex;
+            gap: 22px;
+            font-size: 10px;
+            color: #555;
+            flex-wrap: wrap;
+        }
+
+        /* Section */
+        .section {
+            margin-bottom: 16px;
+        }
+
+        .section-title {
+            font-size: 10px;
+            font-weight: 800;
+            color: #7c3aed;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            border-bottom: 2px solid #7c3aed;
+            padding-bottom: 3px;
+            margin-bottom: 10px;
+        }
+
+        /* Summary */
+        .summary {
+            font-size: 11px;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        /* Experience */
+        .job {
+            margin-bottom: 16px;
+        }
+
+        .job-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 3px;
+        }
+
+        .job-title {
+            font-size: 12px;
+            font-weight: 700;
+            color: #1a1a1a;
+        }
+
+        .job-company {
+            font-size: 11px;
+            font-weight: 600;
+            color: #7c3aed;
+        }
+
+        .job-date {
+            font-size: 10px;
+            color: #666;
+            text-align: right;
+            white-space: nowrap;
+        }
+
+        .job ul {
+            padding-left: 15px;
+            margin-top: 5px;
+        }
+
+        .job li {
+            margin-bottom: 4px;
+            color: #333;
+            font-size: 11px;
+        }
+
+        .job li strong {
+            color: #1a1a1a;
+        }
+
+        /* Highlight Box */
+        .highlight-box {
+            background: linear-gradient(135deg, #f5f3ff 0%, #ede9fe 100%);
+            border: 2px solid #7c3aed;
+            border-radius: 10px;
+            padding: 15px 20px;
+            margin-bottom: 18px;
+        }
+
+        .highlight-box h4 {
+            color: #6d28d9;
+            font-size: 11px;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .highlight-box p {
+            font-size: 11px;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        /* Player-Coach Box */
+        .player-coach-box {
+            background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+            border: 2px solid #f59e0b;
+            border-radius: 10px;
+            padding: 15px 20px;
+            margin-bottom: 18px;
+        }
+
+        .player-coach-box h4 {
+            color: #b45309;
+            font-size: 11px;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .player-coach-box p {
+            font-size: 11px;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        /* Skills */
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+        }
+
+        .skill-category h4 {
+            font-size: 9px;
+            font-weight: 700;
+            color: #7c3aed;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 5px;
+        }
+
+        .tag {
+            display: inline-block;
+            background: #f5f3ff;
+            color: #6d28d9;
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 9px;
+            margin: 2px;
+            font-weight: 600;
+            border: 1px solid #ddd6fe;
+        }
+
+        /* Metrics */
+        .metrics {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            margin-bottom: 16px;
+        }
+
+        .metric {
+            background: #f5f3ff;
+            border-left: 3px solid #7c3aed;
+            padding: 10px 12px;
+            border-radius: 0 6px 6px 0;
+            text-align: center;
+        }
+
+        .metric .value {
+            font-size: 20px;
+            font-weight: 800;
+            color: #6d28d9;
+        }
+
+        .metric .label {
+            font-size: 8px;
+            color: #555;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* Requirements Grid */
+        .req-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin: 10px 0;
+        }
+
+        .req-item {
+            background: #f8f9fa;
+            padding: 10px 12px;
+            border-radius: 6px;
+            border-left: 3px solid #7c3aed;
+        }
+
+        .req-item strong {
+            color: #6d28d9;
+            font-size: 9px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .req-item p {
+            font-size: 10px;
+            color: #555;
+            margin-top: 3px;
+        }
+
+        /* 30-Day Plan */
+        .plan-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 8px;
+            margin: 10px 0;
+        }
+
+        .plan-item {
+            background: #f0fdf4;
+            padding: 10px;
+            border-radius: 6px;
+            border-left: 3px solid #22c55e;
+        }
+
+        .plan-item strong {
+            color: #16a34a;
+            font-size: 9px;
+            display: block;
+            margin-bottom: 4px;
+        }
+
+        .plan-item span {
+            font-size: 9px;
+            color: #555;
+        }
+
+        /* Print */
+        @media print {
+            body { font-size: 10.5px; }
+            .page { padding: 20px 30px; margin: 0; }
+            .header { page-break-after: avoid; }
+            .section { page-break-inside: avoid; }
+            .job { page-break-inside: avoid; }
+        }
+    </style>
+</head>
+<body>
+<div class="page">
+
+    <!-- HEADER -->
+    <div class="header">
+        <div class="name">JOHN POLHILL III</div>
+        <div class="title">Head of Talent | Player-Coach TA Leader | AI-Native Recruiting Operations Builder</div>
+        <div class="contact">
+            <span>jp@vanguardlab.physicalaipros.com</span>
+            <span>vanguardlab.physicalaipros.com/marketplace</span>
+            <span>linkedin.com/in/johnpolhilliii</span>
+            <span>SF Bay Area / NYC Ready</span>
+        </div>
+    </div>
+
+    <!-- WHY FRACTIONAL AI -->
+    <div class="highlight-box">
+        <h4>Why Fractional AI</h4>
+        <p>
+            You need a Head of Talent who sources candidates in the morning and builds recruiting infrastructure in the afternoon. That's exactly how I operate. I built an <strong>AI-native recruiting operation from scratch</strong>: 119 tools, 5-agent pipeline, playbooks, reporting dashboards, and a commercial marketplace selling this infrastructure to other companies. I've recruited for top 1% engineering talent in AI/ML, infrastructure, and applied AI roles. I understand the bar because I've lived it. Ready to 6x your team while maintaining an uncompromising standard for talent.
+        </p>
+    </div>
+
+    <!-- PLAYER-COACH BOX -->
+    <div class="player-coach-box">
+        <h4>Player-Coach: I'm a Doer, Not an Armchair Strategist</h4>
+        <p>
+            <strong>Player:</strong> I source, screen, and close candidates myself. I've built outbound campaigns, attended AI meetups, and extended offers. I don't delegate what I won't do.<br><br>
+            <strong>Coach:</strong> I've built the systems, playbooks, and reporting that let a small team punch above its weight. I create leverage through infrastructure, not just headcount.
+        </p>
+    </div>
+
+    <!-- METRICS -->
+    <div class="metrics">
+        <div class="metric">
+            <div class="value">119</div>
+            <div class="label">Recruiting Tools Built</div>
+        </div>
+        <div class="metric">
+            <div class="value">5</div>
+            <div class="label">Agent Pipeline</div>
+        </div>
+        <div class="metric">
+            <div class="value">16</div>
+            <div class="label">Sourcing Channels</div>
+        </div>
+        <div class="metric">
+            <div class="value">LIVE</div>
+            <div class="label">Commercial Platform</div>
+        </div>
+    </div>
+
+    <!-- SUMMARY -->
+    <div class="section">
+        <div class="section-title">Summary</div>
+        <div class="summary">
+            Head of Talent with experience leading TA in <strong>early-stage, engineering-led organizations</strong>. Built an AI-native recruiting operation from the ground up: tools, systems, playbooks, and reporting infrastructure. Deep understanding of <strong>technical recruiting with strong judgment for what "great" looks like</strong> in AI/ML, infrastructure, and applied engineering roles. Data-driven with a bias for experimentation and continuous improvement. Track record building <strong>efficient, scalable recruiting operations</strong> that maintain a high bar while delivering exceptional candidate experience. Comfortable rolling up sleeves to source, screen, and close candidates while simultaneously building the systems that let a team scale. Strong people management skills with ability to inspire trust and followership.
+        </div>
+    </div>
+
+    <!-- REQUIREMENTS ALIGNMENT -->
+    <div class="section">
+        <div class="section-title">Direct Alignment with Fractional AI Requirements</div>
+        <div class="req-grid">
+            <div class="req-item">
+                <strong>"Lead TA in early-stage/engineering-led orgs"</strong>
+                <p>Built recruiting function from zero at engineering-focused AI company. Understand startup pace and engineering culture.</p>
+            </div>
+            <div class="req-item">
+                <strong>"Build AI-native recruiting operation"</strong>
+                <p>Created 119 tools, 5-agent pipeline, Constitutional AI guardrails. AI-native is how I've built everything.</p>
+            </div>
+            <div class="req-item">
+                <strong>"Strong people management"</strong>
+                <p>Led cross-functional recruiting initiatives, coached team members, built systems that enable others to succeed.</p>
+            </div>
+            <div class="req-item">
+                <strong>"Deep technical recruiting fluency"</strong>
+                <p>5+ years sourcing AI/ML, infrastructure, and engineering talent. Know what top 1% looks like.</p>
+            </div>
+            <div class="req-item">
+                <strong>"Data-driven, bias for experimentation"</strong>
+                <p>Pipeline dashboards, A/B tested outreach, conversion analytics. Continuous improvement is the default.</p>
+            </div>
+            <div class="req-item">
+                <strong>"Build scalable operations/infrastructure"</strong>
+                <p>Built and commercialized recruiting infrastructure. Playbooks, tools, reporting that scales.</p>
+            </div>
+            <div class="req-item">
+                <strong>"Doer, not armchair strategist"</strong>
+                <p>I source, screen, and close. Built everything myself before building teams to run it.</p>
+            </div>
+            <div class="req-item">
+                <strong>"Craft employer brand"</strong>
+                <p>Built marketplace, content systems, thought leadership platforms. Know how to position for top talent.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- MY 30-DAY PLAN -->
+    <div class="section">
+        <div class="section-title">My First 30 Days at Fractional AI</div>
+        <div class="plan-grid">
+            <div class="plan-item">
+                <strong>Week 1: Immerse and Source</strong>
+                <span>Review headcount plan, hiring philosophy. Jump into outbound sourcing for critical roles immediately.</span>
+            </div>
+            <div class="plan-item">
+                <strong>Week 2: Extend First Offer</strong>
+                <span>Full-cycle a priority role from source to close. Prove I can do the work, not just manage it.</span>
+            </div>
+            <div class="plan-item">
+                <strong>Week 3: Chart the Roadmap</strong>
+                <span>Design TA team and systems plan to 6x in 18 months. Present to founders with clear milestones.</span>
+            </div>
+            <div class="plan-item">
+                <strong>Week 4: Ship 5+ Improvements</strong>
+                <span>Implement process improvements: outreach templates, pipeline reporting, candidate experience upgrades.</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- EXPERIENCE -->
+    <div class="section">
+        <div class="section-title">Professional Experience</div>
+
+        <!-- VanguardLab -->
+        <div class="job">
+            <div class="job-header">
+                <div>
+                    <div class="job-title">Founder and Head of Talent</div>
+                    <div class="job-company">VanguardLab | PhysicalAIPros.com</div>
+                </div>
+                <div class="job-date">2022 - Present<br>SF Bay Area / Remote</div>
+            </div>
+            <ul>
+                <li><strong>Built AI-native recruiting operation from scratch:</strong> 119 production tools including sourcing automation, candidate engagement systems, pipeline analytics, and playbooks for scalable hiring.</li>
+                <li><strong>Created 5-agent recruiting pipeline</strong> (Sourcer, Matcher, Screener, Pipeline, Audit) with Constitutional AI guardrails for inclusive, white-glove candidate experience.</li>
+                <li><strong>Full-cycle recruiting for technical roles:</strong> sourced, screened, and closed AI/ML engineers, infrastructure engineers, and applied AI talent. Hands-on execution, not delegation.</li>
+                <li><strong>Designed 16-source outbound strategy</strong> including GitHub, arXiv, AI meetups, Slack communities, and engineering forums. Creative channels for top 1% talent.</li>
+                <li><strong>Built reporting infrastructure:</strong> pipeline health dashboards, conversion metrics, source quality analysis. Data-driven decisions on every hire.</li>
+                <li><strong>Launched commercial marketplace</strong> (vanguardlab.physicalaipros.com/marketplace) selling recruiting infrastructure to other companies, proving scalability and market value of systems built.</li>
+                <li><strong>Developed employer brand strategy:</strong> content systems, thought leadership, community engagement to attract elite engineering talent.</li>
+                <li><strong>Partnered with founders and hiring managers</strong> to deeply understand needs, calibrate on bar, and deliver candidates who exceed expectations.</li>
+            </ul>
+        </div>
+
+        <!-- Senior Manager -->
+        <div class="job">
+            <div class="job-header">
+                <div>
+                    <div class="job-title">Senior Manager, Talent Acquisition</div>
+                    <div class="job-company">Enterprise Technology (Microsoft Ecosystem)</div>
+                </div>
+                <div class="job-date">2018 - 2022<br>Seattle / Remote</div>
+            </div>
+            <ul>
+                <li><strong>Led and grew TA team</strong> for engineering functions, balancing hands-on recruiting with team leadership and development.</li>
+                <li><strong>Championed high bar for talent</strong> while delivering exceptional candidate experience. Quality and speed are not tradeoffs.</li>
+                <li><strong>Built scalable recruiting operations:</strong> playbooks, process documentation, reporting systems that enabled team to 2x output without 2x headcount.</li>
+                <li><strong>Full-cycle recruiting for priority roles:</strong> stayed hands-on with critical hires, modeling the bar for the team.</li>
+                <li><strong>Data-driven approach:</strong> implemented pipeline analytics, A/B tested outreach campaigns, continuous process improvement.</li>
+                <li><strong>Strong people management:</strong> coached team members, built trust, created followership through leading by example.</li>
+                <li><strong>Influenced internally and externally:</strong> partnered with hiring managers, presented to leadership, represented company at recruiting events.</li>
+            </ul>
+        </div>
+
+        <!-- Earlier Career -->
+        <div class="job">
+            <div class="job-header">
+                <div>
+                    <div class="job-title">Technical Recruiter / Sourcing Lead</div>
+                    <div class="job-company">Technology Recruiting and Staffing</div>
+                </div>
+                <div class="job-date">2016 - 2018<br>Pacific Northwest</div>
+            </div>
+            <ul>
+                <li><strong>Full-cycle technical recruiting</strong> in high-volume, high-bar environment. Learned to source, screen, and close at pace.</li>
+                <li><strong>Pioneered creative sourcing:</strong> GitHub, Stack Overflow, technical communities before they became mainstream channels.</li>
+                <li><strong>Built foundation for technical fluency:</strong> deep understanding of engineering roles, stack requirements, what great looks like.</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- SKILLS -->
+    <div class="section">
+        <div class="section-title">Skills and Tools</div>
+        <div class="skills-grid">
+            <div class="skill-category">
+                <h4>TA Leadership</h4>
+                <p>
+                    <span class="tag">Team Building</span>
+                    <span class="tag">Player-Coach</span>
+                    <span class="tag">Process Design</span>
+                    <span class="tag">Playbooks</span>
+                    <span class="tag">Employer Brand</span>
+                    <span class="tag">Stakeholder Mgmt</span>
+                </p>
+            </div>
+            <div class="skill-category">
+                <h4>Technical Recruiting</h4>
+                <p>
+                    <span class="tag">AI/ML Hiring</span>
+                    <span class="tag">Infrastructure</span>
+                    <span class="tag">Full-Cycle</span>
+                    <span class="tag">Sourcing</span>
+                    <span class="tag">Closing</span>
+                    <span class="tag">Technical Fluency</span>
+                </p>
+            </div>
+            <div class="skill-category">
+                <h4>Operations</h4>
+                <p>
+                    <span class="tag">AI-Native Tools</span>
+                    <span class="tag">Pipeline Analytics</span>
+                    <span class="tag">Scalable Systems</span>
+                    <span class="tag">Data-Driven</span>
+                    <span class="tag">Experimentation</span>
+                    <span class="tag">Continuous Improvement</span>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- VALUES ALIGNMENT -->
+    <div class="section">
+        <div class="section-title">Alignment with Fractional AI Values</div>
+        <ul style="padding-left: 15px; font-size: 11px;">
+            <li style="margin-bottom: 5px;"><strong>We overdeliver:</strong> I built 119 tools when most would build 10. I source and close while building infrastructure. I don't do minimum viable.</li>
+            <li style="margin-bottom: 5px;"><strong>We overuse AI:</strong> My entire recruiting operation is AI-native. 5-agent pipeline, Constitutional AI guardrails, automated workflows. AI is how I build, not an add-on.</li>
+            <li style="margin-bottom: 5px;"><strong>We "over engineer" the culture:</strong> I build systems that encode values: inclusive candidate experience, high bar maintained through process, white-glove treatment at scale.</li>
+        </ul>
+    </div>
+
+    <!-- EDUCATION -->
+    <div class="section">
+        <div class="section-title">Education</div>
+        <div style="font-size: 11px;">
+            <strong style="color: #1a1a1a;">Bachelor's Degree - Business Administration</strong>
+            <span style="color: #666; margin-left: 10px;">| Continuous learning: AI recruiting, technical hiring, TA operations</span>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <div style="margin-top: 16px; padding-top: 12px; border-top: 2px solid #7c3aed; font-size: 9px; color: #888; text-align: center;">
+        Live Marketplace: vanguardlab.physicalaipros.com/marketplace | Portfolio: physicalaipros.com
+    </div>
+
+    <!-- AI TRANSPARENCY DISCLAIMER -->
+    <div style="margin-top: 10px; padding: 8px 12px; background: #f8f9fa; border-radius: 4px; font-size: 8px; color: #666; text-align: center; border: 1px solid #e0e0e0;">
+        <strong>Transparency Note:</strong> AI tools were used to organize and translate my documented work to employer requirements. All experience, accomplishments, tools built, and credentials are my own. AI assisted with formatting and alignment, not fabrication.
+    </div>
+
+</div>
+</body>
+</html>
