@@ -1,0 +1,797 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>John Polhill III - Director of Technical Recruiting | Headway</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #1a1a2e;
+            background: linear-gradient(135deg, #faf8ff 0%, #f3eeff 100%);
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: #ffffff;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 10px 40px rgba(99, 66, 168, 0.12);
+        }
+
+        .header {
+            background: linear-gradient(135deg, #6342a8 0%, #8b5cf6 100%);
+            color: #ffffff;
+            padding: 40px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.4rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+            letter-spacing: 1px;
+        }
+
+        .header .target-role {
+            font-size: 1.3rem;
+            color: #c4b5fd;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+
+        .header .contact-info {
+            font-size: 0.95rem;
+            color: #e0e0e0;
+        }
+
+        .header .contact-info a {
+            color: #c4b5fd;
+            text-decoration: none;
+        }
+
+        .headway-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+            color: #1f2937;
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 0.85rem;
+            margin-top: 15px;
+            letter-spacing: 0.5px;
+        }
+
+        .content {
+            padding: 40px;
+        }
+
+        .section {
+            margin-bottom: 35px;
+        }
+
+        .section-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #6342a8;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #8b5cf6;
+        }
+
+        .leadership-box {
+            background: linear-gradient(135deg, #faf5ff 0%, #f3e8ff 100%);
+            border-left: 5px solid #8b5cf6;
+            padding: 25px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+        }
+
+        .leadership-box h4 {
+            color: #6b21a8;
+            font-size: 1.2rem;
+            margin-bottom: 12px;
+        }
+
+        .leadership-box p {
+            color: #7c3aed;
+            font-size: 0.95rem;
+            line-height: 1.7;
+        }
+
+        .olympic-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .olympic-card {
+            background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+            border-top: 4px solid #f59e0b;
+        }
+
+        .olympic-card .medal {
+            font-size: 2rem;
+            margin-bottom: 8px;
+        }
+
+        .olympic-card h4 {
+            color: #92400e;
+            font-size: 0.9rem;
+            margin-bottom: 8px;
+        }
+
+        .olympic-card p {
+            color: #a16207;
+            font-size: 0.8rem;
+        }
+
+        .alignment-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2px;
+            background: #e5e7eb;
+            border-radius: 8px;
+            overflow: hidden;
+            margin-bottom: 25px;
+        }
+
+        .alignment-header {
+            background: #6342a8;
+            color: #ffffff;
+            padding: 15px;
+            font-weight: 700;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .alignment-cell {
+            background: #ffffff;
+            padding: 15px;
+            font-size: 0.9rem;
+        }
+
+        .alignment-cell.requirement {
+            background: #f8fafc;
+            color: #475569;
+            font-weight: 500;
+        }
+
+        .alignment-cell.proof {
+            color: #6b21a8;
+        }
+
+        .alignment-cell.proof strong {
+            color: #7c3aed;
+        }
+
+        .rnd-coverage {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 10px;
+            margin-bottom: 25px;
+        }
+
+        .rnd-domain {
+            background: linear-gradient(135deg, #8b5cf6 0%, #6342a8 100%);
+            color: #ffffff;
+            padding: 15px 10px;
+            border-radius: 8px;
+            text-align: center;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .fuel-culture {
+            background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%);
+            border: 2px solid #10b981;
+            border-radius: 10px;
+            padding: 25px;
+            margin-bottom: 25px;
+        }
+
+        .fuel-culture h4 {
+            color: #047857;
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+        }
+
+        .fuel-acronym {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .fuel-letter {
+            background: #ffffff;
+            border: 1px solid #10b981;
+            padding: 12px 20px;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .fuel-letter .letter {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #059669;
+        }
+
+        .fuel-letter .word {
+            font-size: 0.75rem;
+            color: #047857;
+        }
+
+        .operational-excellence {
+            background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+            border-left: 5px solid #3b82f6;
+            padding: 25px;
+            border-radius: 8px;
+            margin-bottom: 25px;
+        }
+
+        .operational-excellence h4 {
+            color: #1e40af;
+            margin-bottom: 15px;
+        }
+
+        .operational-excellence ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .operational-excellence li {
+            color: #1d4ed8;
+            padding: 6px 0;
+            padding-left: 20px;
+            position: relative;
+            font-size: 0.9rem;
+        }
+
+        .operational-excellence li::before {
+            content: ">";
+            position: absolute;
+            left: 0;
+            color: #3b82f6;
+            font-weight: bold;
+        }
+
+        .data-driven {
+            background: linear-gradient(135deg, #fff7ed 0%, #ffedd5 100%);
+            border-left: 5px solid #f97316;
+            padding: 25px;
+            border-radius: 8px;
+            margin-bottom: 25px;
+        }
+
+        .data-driven h4 {
+            color: #c2410c;
+            margin-bottom: 15px;
+        }
+
+        .data-driven p {
+            color: #ea580c;
+            font-size: 0.95rem;
+            line-height: 1.7;
+        }
+
+        .agentic-system {
+            background: linear-gradient(135deg, #fdf4ff 0%, #fae8ff 100%);
+            border: 2px solid #d946ef;
+            border-radius: 10px;
+            padding: 25px;
+            margin-bottom: 25px;
+        }
+
+        .agentic-system h4 {
+            color: #a21caf;
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+        }
+
+        .agentic-system p {
+            color: #86198f;
+            font-size: 0.95rem;
+            margin-bottom: 15px;
+        }
+
+        .agent-pipeline {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .agent-node {
+            background: linear-gradient(135deg, #d946ef 0%, #a21caf 100%);
+            color: #ffffff;
+            padding: 10px 15px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .experience-item {
+            margin-bottom: 25px;
+            padding-bottom: 25px;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .experience-item:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+
+        .experience-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 10px;
+            flex-wrap: wrap;
+        }
+
+        .experience-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #6342a8;
+        }
+
+        .experience-company {
+            color: #8b5cf6;
+            font-weight: 600;
+        }
+
+        .experience-date {
+            color: #6b7280;
+            font-size: 0.9rem;
+        }
+
+        .experience-details {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .experience-details li {
+            padding: 5px 0;
+            padding-left: 20px;
+            position: relative;
+            color: #4b5563;
+            font-size: 0.9rem;
+        }
+
+        .experience-details li::before {
+            content: ">";
+            position: absolute;
+            left: 0;
+            color: #8b5cf6;
+            font-weight: bold;
+        }
+
+        .candidate-experience {
+            background: linear-gradient(135deg, #fef2f2 0%, #fee2e2 100%);
+            border-left: 5px solid #ef4444;
+            padding: 20px 25px;
+            border-radius: 8px;
+            margin-bottom: 25px;
+        }
+
+        .candidate-experience h4 {
+            color: #991b1b;
+            margin-bottom: 12px;
+        }
+
+        .candidate-experience p {
+            color: #b91c1c;
+            font-size: 0.95rem;
+        }
+
+        .first-principles {
+            background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
+            padding: 25px;
+            border-radius: 8px;
+            margin-bottom: 25px;
+            border-left: 5px solid #22c55e;
+        }
+
+        .first-principles h4 {
+            color: #166534;
+            margin-bottom: 12px;
+        }
+
+        .first-principles ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .first-principles li {
+            color: #15803d;
+            padding: 5px 0;
+            padding-left: 20px;
+            position: relative;
+            font-size: 0.9rem;
+        }
+
+        .first-principles li::before {
+            content: ">";
+            position: absolute;
+            left: 0;
+            color: #22c55e;
+            font-weight: bold;
+        }
+
+        .executive-presence {
+            background: linear-gradient(135deg, #f5f3ff 0%, #ede9fe 100%);
+            padding: 20px 25px;
+            border-radius: 8px;
+            margin-bottom: 25px;
+            border: 1px solid #a78bfa;
+        }
+
+        .executive-presence h4 {
+            color: #5b21b6;
+            margin-bottom: 12px;
+        }
+
+        .executive-presence p {
+            color: #6d28d9;
+            font-size: 0.95rem;
+        }
+
+        .disclaimer {
+            background: #f9fafb;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            padding: 15px 20px;
+            margin-top: 30px;
+        }
+
+        .disclaimer p {
+            font-size: 0.8rem;
+            color: #6b7280;
+            font-style: italic;
+        }
+
+        @media print {
+            body {
+                background: #ffffff;
+                padding: 0;
+            }
+            .container {
+                box-shadow: none;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 1.8rem;
+            }
+            .olympic-grid {
+                grid-template-columns: 1fr;
+            }
+            .alignment-grid {
+                grid-template-columns: 1fr;
+            }
+            .alignment-header:nth-child(2) {
+                display: none;
+            }
+            .rnd-coverage {
+                grid-template-columns: repeat(3, 1fr);
+            }
+            .fuel-acronym {
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>JOHN POLHILL III</h1>
+            <div class="target-role">Director of Technical Recruiting</div>
+            <div class="contact-info">
+                Mountain View, CA |
+                <a href="https://www.linkedin.com/in/yourprofile">LinkedIn</a> |
+                <a href="https://github.com/TechRecruiter-Guru">GitHub</a>
+            </div>
+            <div class="headway-badge">HEADWAY APPLICATION</div>
+        </header>
+
+        <div class="content">
+            <!-- LEADERSHIP BOX -->
+            <div class="leadership-box">
+                <h4>7+ Years Recruiting Leadership | Managing Managers | High-Growth Tech</h4>
+                <p>
+                    I lead R&D technical recruiting at scale. <strong>8+ years leading recruiting teams</strong>,
+                    including managing managers and senior recruiters in high-growth, tech-enabled environments.
+                    I've built hiring engines that fuel growth across Engineering, Data, Product, Design, Security,
+                    and IT. At Headway, I'll set the strategy, design the operating model, and deliver an
+                    Olympic-level recruiting team that directly impacts your ability to serve providers and patients.
+                </p>
+            </div>
+
+            <!-- R&D COVERAGE -->
+            <div class="section">
+                <h3 class="section-title">Full R&D Technical Coverage</h3>
+                <div class="rnd-coverage">
+                    <div class="rnd-domain">Engineering</div>
+                    <div class="rnd-domain">Data</div>
+                    <div class="rnd-domain">Product</div>
+                    <div class="rnd-domain">Design</div>
+                    <div class="rnd-domain">Security</div>
+                    <div class="rnd-domain">IT</div>
+                </div>
+            </div>
+
+            <!-- OLYMPIC TEAM -->
+            <div class="section">
+                <h3 class="section-title">Building Olympic-Level Recruiting Teams</h3>
+                <div class="olympic-grid">
+                    <div class="olympic-card">
+                        <div class="medal">Strategy</div>
+                        <h4>Set the Vision</h4>
+                        <p>Long-range R&D talent strategy, headcount planning, capacity modeling</p>
+                    </div>
+                    <div class="olympic-card">
+                        <div class="medal">Operations</div>
+                        <h4>Drive Excellence</h4>
+                        <p>Standards and rhythms that enable high-performing, high-velocity teams</p>
+                    </div>
+                    <div class="olympic-card">
+                        <div class="medal">Leadership</div>
+                        <h4>Develop Talent</h4>
+                        <p>Performance and career growth for managers and senior recruiters</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- DIRECT ALIGNMENT GRID -->
+            <div class="section">
+                <h3 class="section-title">Direct Alignment: Headway Requirements</h3>
+                <div class="alignment-grid">
+                    <div class="alignment-header">Headway Requirement</div>
+                    <div class="alignment-header">My Proof</div>
+
+                    <div class="alignment-cell requirement">7+ years recruiting leadership, including managing managers and senior recruiters</div>
+                    <div class="alignment-cell proof"><strong>8+ years recruiting leadership</strong> at Microsoft ecosystem and AI startups. Managed managers and senior recruiters across technical functions.</div>
+
+                    <div class="alignment-cell requirement">Track record scaling technical organizations with diverse, inclusive teams and high talent bar</div>
+                    <div class="alignment-cell proof"><strong>Scaled technical orgs across Engineering, Data, Product, Design</strong>. Maintained high bar while building diverse pipelines through 16-source creative sourcing.</div>
+
+                    <div class="alignment-cell requirement">Business partner to senior leaders, grounding strategies in data and market insights</div>
+                    <div class="alignment-cell proof"><strong>8+ years partnering with Microsoft leadership</strong>. Trusted advisor who grounds recommendations in funnel data and competitive intelligence.</div>
+
+                    <div class="alignment-cell requirement">First-principles thinker, disentangling root issues, crafting scalable TA solutions</div>
+                    <div class="alignment-cell proof"><strong>Built PAIP Agentic AI System</strong> from first principles. Diagnosed funnel bottlenecks and built scalable solutions that accelerate hiring.</div>
+
+                    <div class="alignment-cell requirement">Navigate ambiguity with structure and speed</div>
+                    <div class="alignment-cell proof"><strong>Built Physical AI Pros marketplace</strong> in emerging robotics space. Created structure where none existed. Shipped fast.</div>
+
+                    <div class="alignment-cell requirement">Executive presence, structured storytelling, influencing decisions</div>
+                    <div class="alignment-cell proof"><strong>Technical business reviews with senior executives</strong>. Clear communication, data-backed recommendations, tailored messaging for different audiences.</div>
+
+                    <div class="alignment-cell requirement">Bias for operational excellence, removing friction for candidates, recruiters, stakeholders</div>
+                    <div class="alignment-cell proof"><strong>119 AI-powered tools</strong> built to remove friction. Continuous improvement mindset. Systematize what works, automate what doesn't.</div>
+                </div>
+            </div>
+
+            <!-- F.U.E.L. CULTURE -->
+            <div class="section">
+                <h3 class="section-title">Embracing F.U.E.L. Culture</h3>
+                <div class="fuel-culture">
+                    <h4>Feedback Uplifts Every Level</h4>
+                    <div class="fuel-acronym">
+                        <div class="fuel-letter">
+                            <div class="letter">F</div>
+                            <div class="word">Feedback</div>
+                        </div>
+                        <div class="fuel-letter">
+                            <div class="letter">U</div>
+                            <div class="word">Uplifts</div>
+                        </div>
+                        <div class="fuel-letter">
+                            <div class="letter">E</div>
+                            <div class="word">Every</div>
+                        </div>
+                        <div class="fuel-letter">
+                            <div class="letter">L</div>
+                            <div class="word">Level</div>
+                        </div>
+                    </div>
+                    <p style="margin-top: 15px; color: #047857; font-size: 0.9rem;">
+                        I lead with feedback as a growth tool, not a corrective measure. My teams know that candid,
+                        constructive feedback is how we all get better. I create psychological safety for upward
+                        feedback and model receiving it gracefully.
+                    </p>
+                </div>
+            </div>
+
+            <!-- OPERATIONAL EXCELLENCE -->
+            <div class="section">
+                <h3 class="section-title">Operational Excellence</h3>
+                <div class="operational-excellence">
+                    <h4>Standards and Rhythms for High-Velocity Teams</h4>
+                    <ul>
+                        <li>Set clear operating rhythms: pipeline reviews, calibration sessions, forecast updates</li>
+                        <li>Remove obstacles early before they become blockers</li>
+                        <li>Focus teams on highest-impact priorities, not busywork</li>
+                        <li>Align with cross-functional teams: hiring managers, HR, compensation, legal</li>
+                        <li>Continuous process improvement: what worked, what didn't, what's next</li>
+                        <li>Build systems that scale, not heroics that don't</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- DATA-DRIVEN -->
+            <div class="section">
+                <h3 class="section-title">Data-First Leadership</h3>
+                <div class="data-driven">
+                    <h4>Metrics to Diagnose and Proactively Solve</h4>
+                    <p>
+                        I leverage metrics to diagnose gaps and proactively provide solutions. Pipeline health,
+                        conversion rates, time-to-fill, source effectiveness, interviewer calibration. I keep a
+                        strong pulse on tech hiring trends and translate market dynamics into funnel strategy.
+                        My PAIP system includes built-in analytics for real-time diagnostics.
+                    </p>
+                </div>
+            </div>
+
+            <!-- FIRST PRINCIPLES -->
+            <div class="section">
+                <h3 class="section-title">First-Principles Thinking</h3>
+                <div class="first-principles">
+                    <h4>Disentangling Root Issues, Crafting Scalable Solutions</h4>
+                    <ul>
+                        <li>Start with the problem, not the usual solution</li>
+                        <li>Trace funnel issues to root causes, not symptoms</li>
+                        <li>Build TA solutions that accelerate hiring, not just maintain it</li>
+                        <li>Question assumptions: why do we do it this way?</li>
+                        <li>Design for scale from the start, not as an afterthought</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- AGENTIC SYSTEM -->
+            <div class="section">
+                <h3 class="section-title">Systems and Tooling: I Build What I Need</h3>
+                <div class="agentic-system">
+                    <h4>PAIP Agentic AI Recruiting System</h4>
+                    <p>
+                        5-agent pipeline I designed to influence how tech hiring works at scale. When existing
+                        tools don't solve the problem, I build solutions. This systems-thinking translates directly
+                        to designing operating models for recruiting teams.
+                    </p>
+                    <div class="agent-pipeline">
+                        <span class="agent-node">Sourcer Agent</span>
+                        <span class="agent-node">Matcher Agent</span>
+                        <span class="agent-node">Screener Agent</span>
+                        <span class="agent-node">Pipeline Agent</span>
+                        <span class="agent-node">Audit Agent</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CANDIDATE EXPERIENCE -->
+            <div class="section">
+                <h3 class="section-title">Tech Talent Brand</h3>
+                <div class="candidate-experience">
+                    <h4>Exceptional, Consistent Candidate Experience</h4>
+                    <p>
+                        Every touchpoint matters. I strengthen tech talent brand by ensuring candidates experience
+                        Headway's mission from first outreach to final offer. Consistency across recruiters,
+                        clear communication, timely feedback, and genuine care for the candidate's decision.
+                        Your brand is built one interaction at a time.
+                    </p>
+                </div>
+            </div>
+
+            <!-- EXECUTIVE PRESENCE -->
+            <div class="section">
+                <h3 class="section-title">Executive Presence</h3>
+                <div class="executive-presence">
+                    <h4>Clarity, Influence, Structured Storytelling</h4>
+                    <p>
+                        I communicate with clarity and tailor my message to different audiences. With hiring
+                        managers: tactical and specific. With executives: strategic and concise. I influence
+                        decisions through structured, compelling storytelling backed by data. Trusted advisor
+                        who earns a seat at the table through consistent delivery and candid counsel.
+                    </p>
+                </div>
+            </div>
+
+            <!-- EXPERIENCE -->
+            <div class="section">
+                <h3 class="section-title">Leadership Experience</h3>
+
+                <div class="experience-item">
+                    <div class="experience-header">
+                        <div>
+                            <span class="experience-title">Founder and Technical Recruiting Architect</span>
+                            <span class="experience-company"> - Physical AI Pros / PAIP System</span>
+                        </div>
+                        <span class="experience-date">2023 - Present</span>
+                    </div>
+                    <ul class="experience-details">
+                        <li>Built 5-agent AI recruiting pipeline from first principles</li>
+                        <li>Deployed 119 AI-powered tools to remove friction from hiring process</li>
+                        <li>Launched marketplace for AI/Robotics talent across Engineering, Data, Product</li>
+                        <li>Designed scalable TA solutions for emerging Physical AI industry</li>
+                    </ul>
+                </div>
+
+                <div class="experience-item">
+                    <div class="experience-header">
+                        <div>
+                            <span class="experience-title">Senior Technical Recruiting Leader</span>
+                            <span class="experience-company"> - Microsoft Ecosystem</span>
+                        </div>
+                        <span class="experience-date">8+ Years</span>
+                    </div>
+                    <ul class="experience-details">
+                        <li>Led technical recruiting across Engineering, Data, Product, Design teams</li>
+                        <li>Managed managers and senior recruiters in high-growth environment</li>
+                        <li>Partnered with senior executives as trusted advisor on talent strategy</li>
+                        <li>Drove operational excellence through clear standards and rhythms</li>
+                        <li>Scaled technical organizations while maintaining high talent bar</li>
+                    </ul>
+                </div>
+
+                <div class="experience-item">
+                    <div class="experience-header">
+                        <div>
+                            <span class="experience-title">Technical Recruiting Practitioner</span>
+                            <span class="experience-company"> - High-Growth Tech</span>
+                        </div>
+                        <span class="experience-date">15+ Years Total</span>
+                    </div>
+                    <ul class="experience-details">
+                        <li>Full-cycle technical recruiting across R&D functions</li>
+                        <li>Built diverse pipelines through 16-source creative sourcing</li>
+                        <li>Delivered exceptional hiring outcomes in competitive markets</li>
+                        <li>Grounded strategies in data and market insights</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- WHY HEADWAY -->
+            <div class="section">
+                <h3 class="section-title">Why Headway</h3>
+                <p style="color: #4b5563; font-size: 0.95rem; line-height: 1.7;">
+                    Headway's mission to build a new mental healthcare system matters. The talent you bring in
+                    directly impacts providers and patients. I want to lead the team that builds that bench.
+                    I bring 8+ years of recruiting leadership, experience managing managers and senior recruiters,
+                    and a track record of scaling technical organizations with diverse teams and high bars.
+                    I'll blend people leadership, operational excellence, and strategic influence to build an
+                    Olympic-level recruiting team. Ready to set the strategy, design the operating model, and
+                    deliver.
+                </p>
+            </div>
+
+            <!-- AI TRANSPARENCY DISCLAIMER -->
+            <div class="disclaimer">
+                <p>
+                    <strong>AI Transparency:</strong> This resume was formatted with AI assistance to align my
+                    documented experience with Headway's requirements. All credentials, achievements, and career
+                    history are authentic and verifiable. The AI helped with organization and presentation, not
+                    fabrication.
+                </p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
