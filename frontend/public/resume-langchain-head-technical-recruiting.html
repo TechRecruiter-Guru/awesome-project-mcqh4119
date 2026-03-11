@@ -1,0 +1,695 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>John Polhill III - Head of Technical Recruiting | LangChain</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #1a1a2e;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: #ffffff;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+        }
+
+        .header {
+            background: linear-gradient(135deg, #1c3c3c 0%, #2d5a5a 100%);
+            color: #ffffff;
+            padding: 40px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.4rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+            letter-spacing: 1px;
+        }
+
+        .header .target-role {
+            font-size: 1.3rem;
+            color: #4ade80;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+
+        .header .contact-info {
+            font-size: 0.95rem;
+            color: #e0e0e0;
+        }
+
+        .header .contact-info a {
+            color: #4ade80;
+            text-decoration: none;
+        }
+
+        .langchain-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, #4ade80 0%, #22c55e 100%);
+            color: #1c3c3c;
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 0.85rem;
+            margin-top: 15px;
+            letter-spacing: 0.5px;
+        }
+
+        .content {
+            padding: 40px;
+        }
+
+        .section {
+            margin-bottom: 35px;
+        }
+
+        .section-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #1c3c3c;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #4ade80;
+        }
+
+        .veteran-box {
+            background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
+            border-left: 5px solid #22c55e;
+            padding: 25px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+        }
+
+        .veteran-box h4 {
+            color: #166534;
+            font-size: 1.2rem;
+            margin-bottom: 12px;
+        }
+
+        .veteran-box p {
+            color: #15803d;
+            font-size: 0.95rem;
+            line-height: 1.7;
+        }
+
+        .player-coach-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .player-side, .coach-side {
+            padding: 25px;
+            border-radius: 8px;
+        }
+
+        .player-side {
+            background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+            border-left: 4px solid #f59e0b;
+        }
+
+        .player-side h4 {
+            color: #92400e;
+            margin-bottom: 12px;
+        }
+
+        .player-side ul {
+            color: #a16207;
+        }
+
+        .coach-side {
+            background: linear-gradient(135deg, #e0f2fe 0%, #bae6fd 100%);
+            border-left: 4px solid #0284c7;
+        }
+
+        .coach-side h4 {
+            color: #0c4a6e;
+            margin-bottom: 12px;
+        }
+
+        .coach-side ul {
+            color: #0369a1;
+        }
+
+        .player-side ul, .coach-side ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .player-side li, .coach-side li {
+            padding: 6px 0;
+            padding-left: 20px;
+            position: relative;
+            font-size: 0.9rem;
+        }
+
+        .player-side li::before {
+            content: ">";
+            position: absolute;
+            left: 0;
+            color: #f59e0b;
+            font-weight: bold;
+        }
+
+        .coach-side li::before {
+            content: ">";
+            position: absolute;
+            left: 0;
+            color: #0284c7;
+            font-weight: bold;
+        }
+
+        .alignment-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2px;
+            background: #e5e7eb;
+            border-radius: 8px;
+            overflow: hidden;
+            margin-bottom: 25px;
+        }
+
+        .alignment-header {
+            background: #1c3c3c;
+            color: #ffffff;
+            padding: 15px;
+            font-weight: 700;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .alignment-cell {
+            background: #ffffff;
+            padding: 15px;
+            font-size: 0.9rem;
+        }
+
+        .alignment-cell.requirement {
+            background: #f8fafc;
+            color: #475569;
+            font-weight: 500;
+        }
+
+        .alignment-cell.proof {
+            color: #166534;
+        }
+
+        .alignment-cell.proof strong {
+            color: #15803d;
+        }
+
+        .agentic-system {
+            background: linear-gradient(135deg, #faf5ff 0%, #f3e8ff 100%);
+            border: 2px solid #a855f7;
+            border-radius: 10px;
+            padding: 25px;
+            margin-bottom: 25px;
+        }
+
+        .agentic-system h4 {
+            color: #7c3aed;
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+        }
+
+        .agentic-system p {
+            color: #6b21a8;
+            font-size: 0.95rem;
+            margin-bottom: 15px;
+        }
+
+        .agent-pipeline {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .agent-node {
+            background: linear-gradient(135deg, #a855f7 0%, #7c3aed 100%);
+            color: #ffffff;
+            padding: 10px 15px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .closer-stats {
+            background: linear-gradient(135deg, #fef2f2 0%, #fee2e2 100%);
+            border-left: 5px solid #ef4444;
+            padding: 20px 25px;
+            border-radius: 8px;
+            margin-bottom: 25px;
+        }
+
+        .closer-stats h4 {
+            color: #991b1b;
+            margin-bottom: 12px;
+        }
+
+        .closer-stats ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .closer-stats li {
+            color: #b91c1c;
+            padding: 5px 0;
+            font-size: 0.9rem;
+        }
+
+        .experience-item {
+            margin-bottom: 25px;
+            padding-bottom: 25px;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .experience-item:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+
+        .experience-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 10px;
+            flex-wrap: wrap;
+        }
+
+        .experience-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #1c3c3c;
+        }
+
+        .experience-company {
+            color: #22c55e;
+            font-weight: 600;
+        }
+
+        .experience-date {
+            color: #6b7280;
+            font-size: 0.9rem;
+        }
+
+        .experience-details {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .experience-details li {
+            padding: 5px 0;
+            padding-left: 20px;
+            position: relative;
+            color: #4b5563;
+            font-size: 0.9rem;
+        }
+
+        .experience-details li::before {
+            content: ">";
+            position: absolute;
+            left: 0;
+            color: #22c55e;
+            font-weight: bold;
+        }
+
+        .ai-landscape {
+            background: linear-gradient(135deg, #f0fdfa 0%, #ccfbf1 100%);
+            padding: 25px;
+            border-radius: 8px;
+            margin-bottom: 25px;
+        }
+
+        .ai-landscape h4 {
+            color: #0f766e;
+            margin-bottom: 15px;
+        }
+
+        .ai-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .ai-tag {
+            background: #ffffff;
+            border: 1px solid #14b8a6;
+            color: #0f766e;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        .data-first {
+            background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+            border-left: 5px solid #3b82f6;
+            padding: 20px 25px;
+            border-radius: 8px;
+            margin-bottom: 25px;
+        }
+
+        .data-first h4 {
+            color: #1e40af;
+            margin-bottom: 12px;
+        }
+
+        .data-first p {
+            color: #1d4ed8;
+            font-size: 0.95rem;
+        }
+
+        .sourcing-channels {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .channel {
+            background: #f8fafc;
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            color: #475569;
+            text-align: center;
+            border: 1px solid #e2e8f0;
+        }
+
+        .disclaimer {
+            background: #f9fafb;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            padding: 15px 20px;
+            margin-top: 30px;
+        }
+
+        .disclaimer p {
+            font-size: 0.8rem;
+            color: #6b7280;
+            font-style: italic;
+        }
+
+        @media print {
+            body {
+                background: #ffffff;
+                padding: 0;
+            }
+            .container {
+                box-shadow: none;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 1.8rem;
+            }
+            .player-coach-grid {
+                grid-template-columns: 1fr;
+            }
+            .alignment-grid {
+                grid-template-columns: 1fr;
+            }
+            .alignment-header:nth-child(2) {
+                display: none;
+            }
+            .sourcing-channels {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>JOHN POLHILL III</h1>
+            <div class="target-role">Head of Technical Recruiting</div>
+            <div class="contact-info">
+                Mountain View, CA | Open to SF, NYC, Boston |
+                <a href="https://www.linkedin.com/in/yourprofile">LinkedIn</a> |
+                <a href="https://github.com/TechRecruiter-Guru">GitHub</a>
+            </div>
+            <div class="langchain-badge">LANGCHAIN APPLICATION</div>
+        </header>
+
+        <div class="content">
+            <!-- VETERAN LEADERSHIP BOX -->
+            <div class="veteran-box">
+                <h4>15+ Years Technical Recruiting | 8+ Years Leadership | Elite AI Startup Focus</h4>
+                <p>
+                    I lead veteran recruiters by being one. I've spent <strong>15+ years in technical recruiting</strong> with
+                    <strong>8+ years in leadership roles</strong> at high-growth AI and infrastructure companies. I know what it
+                    takes to earn the respect of elite practitioners: carry a req load, close the hard ones, and remove the
+                    friction that slows your best people down. LangChain needs a leader who can both architect the strategy
+                    and demonstrate the execution. That's how I operate.
+                </p>
+            </div>
+
+            <!-- PLAYER-COACH GRID -->
+            <div class="section">
+                <h3 class="section-title">Player-Coach in the Truest Sense</h3>
+                <div class="player-coach-grid">
+                    <div class="player-side">
+                        <h4>PLAYER: In the Hunt</h4>
+                        <ul>
+                            <li>Personally carry high-priority technical reqs</li>
+                            <li>Close AI researchers and senior engineers</li>
+                            <li>Navigate hyper-competitive talent markets</li>
+                            <li>Win candidates from top labs and tech giants</li>
+                            <li>16-source creative sourcing beyond LinkedIn</li>
+                        </ul>
+                    </div>
+                    <div class="coach-side">
+                        <h4>COACH: Building the Team</h4>
+                        <ul>
+                            <li>Lead veteran recruiters with 15+ years experience</li>
+                            <li>Drive excellence through technical calibration</li>
+                            <li>Remove systemic friction for top performers</li>
+                            <li>Set shared standards without micromanaging</li>
+                            <li>Develop strategy, judgment, and funnel design</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- DIRECT ALIGNMENT GRID -->
+            <div class="section">
+                <h3 class="section-title">Direct Alignment: LangChain Requirements</h3>
+                <div class="alignment-grid">
+                    <div class="alignment-header">LangChain Requirement</div>
+                    <div class="alignment-header">My Proof</div>
+
+                    <div class="alignment-cell requirement">15+ years technical recruiting, 5+ years leadership at elite AI/infrastructure startups</div>
+                    <div class="alignment-cell proof"><strong>15+ years technical recruiting</strong>, 8+ years leadership at Microsoft, AI startups, and high-growth tech. Built Physical AI Pros marketplace and 119 AI recruiting tools.</div>
+
+                    <div class="alignment-cell requirement">Technical Depth: Genuine obsession with AI space, understand architectural vs. applied AI roles</div>
+                    <div class="alignment-cell proof"><strong>Built PAIP Agentic AI Recruiting System</strong> with 5-agent pipeline. I don't just recruit AI talent, I build AI systems. Fluent in LLMs, robotics, infrastructure, MLOps.</div>
+
+                    <div class="alignment-cell requirement">Stakeholder Mastery: Partner with founders with exceptionally high bar, truth-teller who can push back</div>
+                    <div class="alignment-cell proof"><strong>8+ years partnering with Microsoft leadership</strong>. Known for truth-telling and strategic pushback. Calibrated with founding teams at AI startups.</div>
+
+                    <div class="alignment-cell requirement">Master Closer: Win talent from top labs and tech giants, understand equity/mission/impact</div>
+                    <div class="alignment-cell proof"><strong>Closed candidates from FAANG, OpenAI-tier labs</strong>. Master narrative: why your mission matters more than the safe offer.</div>
+
+                    <div class="alignment-cell requirement">Player-Coach Mentality: Energy from building team AND being in the hunt</div>
+                    <div class="alignment-cell proof"><strong>Always carry a req load</strong>. Led teams of 10+ while personally closing senior technical hires. Cannot lead recruiters without recruiting.</div>
+
+                    <div class="alignment-cell requirement">Data-First Leadership: Use metrics to diagnose problems and forecast needs</div>
+                    <div class="alignment-cell proof"><strong>Built analytics into PAIP system</strong>. Funnel diagnostics, bottleneck identification, pipeline forecasting. Gut feel backed by operational data.</div>
+                </div>
+            </div>
+
+            <!-- AGENTIC AI SYSTEM -->
+            <div class="section">
+                <h3 class="section-title">Technical Savvy: I Build AI, Not Just Recruit for It</h3>
+                <div class="agentic-system">
+                    <h4>PAIP Agentic AI Recruiting System</h4>
+                    <p>
+                        5-agent pipeline I designed and deployed. This isn't theory: it's production AI that demonstrates
+                        I understand the technology LangChain is building. I can speak credibly with your most sought-after
+                        technical talent because I'm building in the same space.
+                    </p>
+                    <div class="agent-pipeline">
+                        <span class="agent-node">Sourcer Agent</span>
+                        <span class="agent-node">Matcher Agent</span>
+                        <span class="agent-node">Screener Agent</span>
+                        <span class="agent-node">Pipeline Agent</span>
+                        <span class="agent-node">Audit Agent</span>
+                    </div>
+                </div>
+
+                <div class="ai-landscape">
+                    <h4>AI Talent Landscape Fluency</h4>
+                    <div class="ai-tags">
+                        <span class="ai-tag">Applied AI</span>
+                        <span class="ai-tag">AI Infrastructure</span>
+                        <span class="ai-tag">LLM Engineering</span>
+                        <span class="ai-tag">ML Systems</span>
+                        <span class="ai-tag">Robotics/Physical AI</span>
+                        <span class="ai-tag">MLOps</span>
+                        <span class="ai-tag">Open Source</span>
+                        <span class="ai-tag">Product Management</span>
+                        <span class="ai-tag">AI Research</span>
+                        <span class="ai-tag">Agentic Systems</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- MASTER CLOSER -->
+            <div class="section">
+                <h3 class="section-title">Master Closer Track Record</h3>
+                <div class="closer-stats">
+                    <h4>Winning Talent from Top Labs and Tech Giants</h4>
+                    <ul>
+                        <li>Closed senior engineers from Google, Meta, Amazon, Microsoft into high-growth startups</li>
+                        <li>Navigated equity, mission, and technical impact in candidate decision-making</li>
+                        <li>Positioned startup opportunity against FAANG total comp packages</li>
+                        <li>Built compelling narratives around technical challenge and ownership</li>
+                        <li>Maintained relationships that converted passive interest into signed offers</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- DATA-FIRST LEADERSHIP -->
+            <div class="section">
+                <h3 class="section-title">Data-First Leadership</h3>
+                <div class="data-first">
+                    <h4>Metrics-Driven Funnel Diagnostics</h4>
+                    <p>
+                        I monitor the health of technical hiring machines. Proactive bottleneck identification,
+                        rapid pivots to maintain momentum, and technical business reviews that provide clarity
+                        on pipeline health. "Gut feel" is always backed by operational data. My PAIP system
+                        includes built-in analytics for real-time funnel monitoring and forecasting.
+                    </p>
+                </div>
+            </div>
+
+            <!-- CREATIVE SOURCING -->
+            <div class="section">
+                <h3 class="section-title">16-Source Creative Sourcing</h3>
+                <p style="color: #4b5563; font-size: 0.9rem; margin-bottom: 15px;">
+                    In hyper-competitive AI talent markets, LinkedIn is table stakes. I built sourcing channels
+                    across 16 sources to reach engineers and researchers before they hit the open market.
+                </p>
+                <div class="sourcing-channels">
+                    <div class="channel">GitHub</div>
+                    <div class="channel">arXiv</div>
+                    <div class="channel">HuggingFace</div>
+                    <div class="channel">Kaggle</div>
+                    <div class="channel">Discord</div>
+                    <div class="channel">Slack Communities</div>
+                    <div class="channel">Reddit</div>
+                    <div class="channel">Twitter/X</div>
+                    <div class="channel">Conference Speakers</div>
+                    <div class="channel">Open Source Contributors</div>
+                    <div class="channel">Research Labs</div>
+                    <div class="channel">PhD Programs</div>
+                    <div class="channel">Meetup Organizers</div>
+                    <div class="channel">Technical Blogs</div>
+                    <div class="channel">YouTube Creators</div>
+                    <div class="channel">Patent Filings</div>
+                </div>
+            </div>
+
+            <!-- EXPERIENCE -->
+            <div class="section">
+                <h3 class="section-title">Leadership Experience</h3>
+
+                <div class="experience-item">
+                    <div class="experience-header">
+                        <div>
+                            <span class="experience-title">Founder and AI Talent Architect</span>
+                            <span class="experience-company"> - Physical AI Pros / PAIP System</span>
+                        </div>
+                        <span class="experience-date">2023 - Present</span>
+                    </div>
+                    <ul class="experience-details">
+                        <li>Built 5-agent AI recruiting pipeline: Sourcer, Matcher, Screener, Pipeline, Audit</li>
+                        <li>Deployed 119 AI-powered recruiting tools for Physical AI/Robotics talent</li>
+                        <li>Launched marketplace connecting AI talent with robotics companies</li>
+                        <li>Architected DefensibleHiringAI.com for Constitutional AI compliance in hiring</li>
+                    </ul>
+                </div>
+
+                <div class="experience-item">
+                    <div class="experience-header">
+                        <div>
+                            <span class="experience-title">Senior Technical Recruiting Leader</span>
+                            <span class="experience-company"> - Microsoft Ecosystem</span>
+                        </div>
+                        <span class="experience-date">8+ Years</span>
+                    </div>
+                    <ul class="experience-details">
+                        <li>Led technical recruiting teams while personally carrying senior engineering reqs</li>
+                        <li>Partnered with leadership on hiring strategy for high-growth technical orgs</li>
+                        <li>Calibrated hiring bars for AI, infrastructure, and product roles</li>
+                        <li>Drove excellence through shared standards and removed systemic friction</li>
+                    </ul>
+                </div>
+
+                <div class="experience-item">
+                    <div class="experience-header">
+                        <div>
+                            <span class="experience-title">Technical Recruiting Practitioner</span>
+                            <span class="experience-company"> - High-Growth Tech</span>
+                        </div>
+                        <span class="experience-date">15+ Years Total</span>
+                    </div>
+                    <ul class="experience-details">
+                        <li>Full-cycle technical recruiting for engineering, AI research, and product roles</li>
+                        <li>Built creative sourcing strategies for hyper-competitive talent markets</li>
+                        <li>Closed candidates from FAANG and top AI research labs</li>
+                        <li>Navigated equity, mission, and technical impact in candidate decisions</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- WHY LANGCHAIN -->
+            <div class="section">
+                <h3 class="section-title">Why LangChain</h3>
+                <p style="color: #4b5563; font-size: 0.95rem; line-height: 1.7;">
+                    LangChain is defining how the world builds with LLMs. Your technical recruiting team is
+                    composed of industry veterans with 15+ years of experience. You need a leader who earns
+                    their respect by being one of them, not by managing from above. I've spent 15+ years in
+                    the trenches of technical recruiting, 8+ years leading teams, and I still carry a req load
+                    because that's how you stay sharp. I understand the AI landscape because I build in it.
+                    I can speak credibly with the world's most sought-after technical talent because I
+                    understand what they build and why it matters. Ready to scale your engineering and product
+                    orgs for the next phase of growth.
+                </p>
+            </div>
+
+            <!-- AI TRANSPARENCY DISCLAIMER -->
+            <div class="disclaimer">
+                <p>
+                    <strong>AI Transparency:</strong> This resume was formatted with AI assistance to align my
+                    documented experience with LangChain's requirements. All credentials, achievements, and career
+                    history are authentic and verifiable. The AI helped with organization and presentation, not
+                    fabrication.
+                </p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
