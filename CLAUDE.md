@@ -125,5 +125,5 @@ This file contains everything needed to maintain continuity.
 ## Contact Context
 
 - Location: Mountain View, CA (open to SF, NYC, Boston relocation)
-- LinkedIn: linkedin.com/in/yourprofile (update with actual)
+- LinkedIn: linkedin.com/in/physicalai
 - GitHub: github.com/TechRecruiter-Guru
