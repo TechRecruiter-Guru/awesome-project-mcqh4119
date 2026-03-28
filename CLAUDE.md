@@ -39,6 +39,12 @@ This file provides context for any Claude session working in this repository.
 - Constitutional AI compliance framework for recruiting
 - Bias detection, audit trails, governance
 
+### Anthropic Certifications
+1. **Introduction to Model Context Protocol** - MCP architecture and implementation
+2. **Claude Code in Action** - Production Claude Code workflows
+3. **Introduction to Agent Skills** - Building agentic AI capabilities
+4. **Building with the Claude API** - API integration and development
+
 ---
 
 ## Work Categories
