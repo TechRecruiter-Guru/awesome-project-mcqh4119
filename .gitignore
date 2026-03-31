@@ -18,3 +18,5 @@ build/
 
 # Logs
 *.log
+# Private resumes - eyes only
+.resumes/

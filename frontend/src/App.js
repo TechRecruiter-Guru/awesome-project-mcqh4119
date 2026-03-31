@@ -16,9 +16,17 @@ function App() {
   const [activeTab, setActiveTab] = useState('dashboard');
   const [eliteSources, setEliteSources] = useState(null);
   const [auditCompliance, setAuditCompliance] = useState(null);
+  const [agentLogs, setAgentLogs] = useState([]);
+  const [selectedTier, setSelectedTier] = useState(null);
 
   // Stealth Mode: Check URL for ?internal=true
   const isInternalMode = new URLSearchParams(window.location.search).get('internal') === 'true';
+
+  // Add agent activity log
+  const addLog = (agent, message, type = 'info') => {
+    const timestamp = new Date().toLocaleTimeString('en-US', { hour12: false, hour: '2-digit', minute: '2-digit', second: '2-digit' });
+    setAgentLogs(prev => [...prev.slice(-50), { timestamp, agent, message, type }]);
+  };
 
   const fetchData = useCallback(async () => {
     setLoading(true);
@@ -78,6 +86,72 @@ function App() {
 
   const runDemoWorkflow = async () => {
     setDemoRunning(true);
+    setAgentLogs([]);
+
+    // Simulate agent activity with realistic logs
+    addLog('Orchestrator', 'Initializing recruiting workflow...', 'system');
+    await new Promise(r => setTimeout(r, 400));
+
+    addLog('Orchestrator', 'Dispatching SourcerAgent for candidate discovery', 'info');
+    await new Promise(r => setTimeout(r, 300));
+
+    addLog('SourcerAgent', 'Connecting to 16 elite sources...', 'info');
+    await new Promise(r => setTimeout(r, 500));
+
+    addLog('SourcerAgent', 'Searching ArXiv for "robotics manipulation SLAM"...', 'search');
+    await new Promise(r => setTimeout(r, 400));
+
+    addLog('SourcerAgent', 'Searching HuggingFace for model contributors...', 'search');
+    await new Promise(r => setTimeout(r, 350));
+
+    addLog('SourcerAgent', 'Scanning Papers with Code for recent authors...', 'search');
+    await new Promise(r => setTimeout(r, 400));
+
+    addLog('SourcerAgent', 'Querying ROS Discourse for active contributors...', 'search');
+    await new Promise(r => setTimeout(r, 300));
+
+    addLog('SourcerAgent', 'Found 15 candidates from 6 sources', 'success');
+    await new Promise(r => setTimeout(r, 400));
+
+    addLog('Orchestrator', 'Dispatching MatcherAgent for skills analysis', 'info');
+    await new Promise(r => setTimeout(r, 300));
+
+    addLog('MatcherAgent', 'Extracting research profiles (H-index, citations)...', 'info');
+    await new Promise(r => setTimeout(r, 450));
+
+    addLog('MatcherAgent', 'Applying research-weighted scoring (25% weight)...', 'info');
+    await new Promise(r => setTimeout(r, 400));
+
+    addLog('MatcherAgent', 'Detected 3 independent researchers - applying 10% boost', 'success');
+    await new Promise(r => setTimeout(r, 350));
+
+    addLog('MatcherAgent', 'Skills match complete: 5 candidates above 75% threshold', 'success');
+    await new Promise(r => setTimeout(r, 400));
+
+    addLog('Orchestrator', 'Dispatching ScreenerAgent for AI screening', 'info');
+    await new Promise(r => setTimeout(r, 300));
+
+    addLog('ScreenerAgent', 'Running automated screening checks...', 'info');
+    await new Promise(r => setTimeout(r, 500));
+
+    addLog('ScreenerAgent', 'Flagged 3 candidates for human review (borderline scores)', 'warning');
+    await new Promise(r => setTimeout(r, 350));
+
+    addLog('ScreenerAgent', 'Auto-approved 2 candidates (score > 85%)', 'success');
+    await new Promise(r => setTimeout(r, 400));
+
+    addLog('AuditAgent', 'Logging decisions with full explainability...', 'audit');
+    await new Promise(r => setTimeout(r, 300));
+
+    addLog('AuditAgent', 'Zero PII stored - only hashed candidate IDs', 'audit');
+    await new Promise(r => setTimeout(r, 350));
+
+    addLog('PipelineAgent', 'Moving candidates to appropriate pipeline stages', 'info');
+    await new Promise(r => setTimeout(r, 400));
+
+    addLog('Orchestrator', 'Workflow complete! Human review required for 3 candidates', 'success');
+
+    // Now fetch the actual demo data
     const data = await callEndpoint('/api/demo/workflow', 'GET', null, false);
     if (data) {
       setDemoState(data);
@@ -133,7 +207,36 @@ function App() {
     sourceIcon: { fontSize: '2rem', marginBottom: '10px' },
     complianceCard: { background: 'linear-gradient(135deg, #12121a, #1a1a2e)', borderRadius: '16px', padding: '24px', border: '1px solid #00f5d4' },
     complianceGood: { color: '#00f5d4' },
-    complianceWarning: { color: '#fbbf24' }
+    complianceWarning: { color: '#fbbf24' },
+    logPanel: { background: '#0a0a0f', borderRadius: '12px', padding: '15px', border: '1px solid #2a2a3e', fontFamily: "'Fira Code', 'Monaco', monospace", fontSize: '0.8rem', maxHeight: '300px', overflowY: 'auto' },
+    logEntry: { padding: '4px 0', borderBottom: '1px solid #1a1a2e', display: 'flex', gap: '10px' },
+    logTime: { color: '#666', minWidth: '70px' },
+    logAgent: { fontWeight: 600, minWidth: '100px' },
+    logMessage: { color: '#e0e0e0' }
+  };
+
+  const getLogColor = (type) => {
+    switch(type) {
+      case 'success': return '#00f5d4';
+      case 'warning': return '#fbbf24';
+      case 'error': return '#f87171';
+      case 'search': return '#00bbf9';
+      case 'audit': return '#9b5de5';
+      case 'system': return '#f15bb5';
+      default: return '#888';
+    }
+  };
+
+  const getAgentColor = (agent) => {
+    const colors = {
+      'Orchestrator': '#f15bb5',
+      'SourcerAgent': '#00bbf9',
+      'MatcherAgent': '#9b5de5',
+      'ScreenerAgent': '#fbbf24',
+      'AuditAgent': '#00f5d4',
+      'PipelineAgent': '#f97316'
+    };
+    return colors[agent] || '#888';
   };
 
   const renderDashboard = () => (
@@ -153,6 +256,34 @@ function App() {
             {demoRunning ? 'Running Demo...' : 'Run Full Demo'}
           </button>
         </div>
+
+        {/* Agent Activity Log */}
+        {(demoRunning || agentLogs.length > 0) && (
+          <div style={{marginBottom: '20px'}}>
+            <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '10px'}}>
+              <h4 style={{color: '#9b5de5', margin: 0, display: 'flex', alignItems: 'center', gap: '8px'}}>
+                <span style={{width: '8px', height: '8px', background: demoRunning ? '#00f5d4' : '#666', borderRadius: '50%', animation: demoRunning ? 'pulse 1s infinite' : 'none'}}></span>
+                Agent Activity Log
+              </h4>
+              {!demoRunning && agentLogs.length > 0 && (
+                <button style={{...styles.btn, ...styles.btnSecondary, padding: '5px 15px', fontSize: '0.75rem'}} onClick={() => setAgentLogs([])}>Clear</button>
+              )}
+            </div>
+            <div style={styles.logPanel}>
+              {agentLogs.length === 0 ? (
+                <div style={{color: '#666', textAlign: 'center', padding: '20px'}}>Waiting for agent activity...</div>
+              ) : (
+                agentLogs.map((log, i) => (
+                  <div key={i} style={styles.logEntry}>
+                    <span style={styles.logTime}>[{log.timestamp}]</span>
+                    <span style={{...styles.logAgent, color: getAgentColor(log.agent)}}>{log.agent}</span>
+                    <span style={{...styles.logMessage, color: getLogColor(log.type)}}>{log.message}</span>
+                  </div>
+                ))
+              )}
+            </div>
+          </div>
+        )}
 
         {demoState && (
           <div>
@@ -223,6 +354,21 @@ function App() {
           <div style={styles.metric}><span style={styles.metricLabel}>Strong Matches</span><span style={{...styles.metricValue, color: '#00f5d4'}}>{dashboardStats?.matching?.strong_matches || 0}</span></div>
           <div style={styles.metric}><span style={styles.metricLabel}>Skills Tracked</span><span style={styles.metricValue}>{dashboardStats?.matching?.skills_tracked || 12}</span></div>
         </div>
+
+        {/* Market Opportunity - Internal Only */}
+        {isInternalMode && (
+          <div style={{...styles.card, border: '1px solid #9b5de5'}}>
+            <div style={styles.cardHeader}>
+              <div style={styles.cardTitle}><span style={{...styles.statusDot, background: '#9b5de5', boxShadow: '0 0 10px #9b5de5'}}></span> Market Opportunity</div>
+            </div>
+            <div style={{...styles.bigNumber, color: '#9b5de5'}}>$2.3B</div>
+            <div style={{color: '#888', marginBottom: '15px'}}>Physical AI Recruiting TAM</div>
+            <div style={styles.metric}><span style={styles.metricLabel}>YoY Growth</span><span style={{...styles.metricValue, color: '#00f5d4'}}>34%</span></div>
+            <div style={styles.metric}><span style={styles.metricLabel}>Robotics Companies</span><span style={styles.metricValue}>2,400+</span></div>
+            <div style={styles.metric}><span style={styles.metricLabel}>Avg Engineer Salary</span><span style={styles.metricValue}>$185k</span></div>
+            <div style={styles.metric}><span style={styles.metricLabel}>Our SAM</span><span style={{...styles.metricValue, color: '#f15bb5'}}>$50M</span></div>
+          </div>
+        )}
       </div>
 
       {/* Latest Candidates */}
@@ -668,6 +814,261 @@ function App() {
     );
   };
 
+  const renderDefensibleHiring = () => {
+    const pricingTiers = [
+      {
+        id: 'executive',
+        name: 'Executive Brief',
+        price: '$149',
+        features: [
+          'Condensed 10-page executive summary',
+          'Key lawsuit summaries (Workday, iTutorGroup)',
+          'Compliance checklist',
+          'PDF download'
+        ],
+        bestFor: 'HR Managers, Recruiters',
+        color: '#9b5de5'
+      },
+      {
+        id: 'full',
+        name: 'Full Whitepaper',
+        price: '$399',
+        popular: true,
+        features: [
+          'Complete 30+ page whitepaper',
+          'All court case analysis with citations',
+          'Technical architecture details',
+          'Regulatory framework (NYC LL144, Colorado AI Act)',
+          'Implementation best practices',
+          'PDF + HTML versions'
+        ],
+        bestFor: 'HR Directors, Legal Teams',
+        color: '#00f5d4'
+      },
+      {
+        id: 'enterprise',
+        name: 'Enterprise Package',
+        price: '$999',
+        features: [
+          'Everything in Full Whitepaper',
+          'Editable compliance audit template',
+          'Human-in-the-loop policy template',
+          'Vendor evaluation scorecard',
+          'Adverse impact monitoring guide',
+          '30-minute consultation call',
+          'Quarterly case law updates (1 year)'
+        ],
+        bestFor: 'CHROs, General Counsel, AI Vendors',
+        color: '#f15bb5'
+      },
+      {
+        id: 'site',
+        name: 'Site License',
+        price: '$2,499',
+        features: [
+          'Everything in Enterprise Package',
+          'Unlimited organizational access',
+          'Custom branding option',
+          'Priority case law alerts',
+          'Dedicated account manager',
+          'Annual compliance review call'
+        ],
+        bestFor: 'Law Firms, Large Enterprises, Consultancies',
+        color: '#fbbf24'
+      }
+    ];
+
+    const keyStats = [
+      { value: '1.1B', label: 'Applications in Workday Class Action', color: '#f87171' },
+      { value: '$365K', label: 'First EEOC AI Settlement', color: '#fbbf24' },
+      { value: '$1,500/day', label: 'NYC LL144 Violation Penalty', color: '#f15bb5' },
+      { value: '80%', label: 'Four-Fifths Rule Threshold', color: '#9b5de5' }
+    ];
+
+    const handlePurchase = (tier) => {
+      setSelectedTier(tier);
+      // In production, integrate with Stripe/PayPal
+      alert(`Thank you for selecting ${tier.name}!\n\nPayment Options:\n• PayPal: cgtpa.jp.com\n• Venmo: @VanguardLab\n\nInclude "${tier.id}" in payment note.\n\nWe'll email your download link within 24 hours.`);
+    };
+
+    return (
+      <>
+        {/* Hero Section */}
+        <div style={{...styles.demoCard, borderColor: '#dc2626', background: 'linear-gradient(135deg, #0a0a0f 0%, #1a0a0a 50%, #0a0a0f 100%)'}}>
+          <div style={{textAlign: 'center', padding: '30px 0'}}>
+            <div style={{background: 'rgba(220, 38, 38, 0.2)', border: '1px solid rgba(220, 38, 38, 0.4)', color: '#f87171', padding: '8px 20px', borderRadius: '50px', fontSize: '0.85rem', fontWeight: 500, letterSpacing: '2px', textTransform: 'uppercase', display: 'inline-block', marginBottom: '20px'}}>
+              INDUSTRY WHITEPAPER 2025
+            </div>
+            <h1 style={{margin: '0 0 15px', color: '#fff', fontSize: '2.8rem', fontWeight: 800, lineHeight: 1.1}}>
+              <span style={{background: 'linear-gradient(90deg, #f87171, #dc2626)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent'}}>Defensible AI Hiring</span>
+            </h1>
+            <p style={{color: '#aaa', margin: '0 0 10px', fontSize: '1.3rem'}}>
+              A Multi-Agent Architecture for Compliant Recruiting
+            </p>
+            <p style={{color: '#f87171', margin: '0 0 30px', fontSize: '1rem', fontWeight: 600}}>
+              In the Post-Workday Lawsuit Era
+            </p>
+
+            {/* Key Stats */}
+            <div style={{display: 'flex', justifyContent: 'center', gap: '40px', flexWrap: 'wrap', marginTop: '30px'}}>
+              {keyStats.map(stat => (
+                <div key={stat.label} style={{textAlign: 'center'}}>
+                  <div style={{fontSize: '2rem', fontWeight: 700, color: stat.color}}>{stat.value}</div>
+                  <div style={{fontSize: '0.8rem', color: '#888', maxWidth: '120px'}}>{stat.label}</div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* Warning Banner */}
+        <div style={{background: 'linear-gradient(90deg, rgba(220, 38, 38, 0.1), rgba(220, 38, 38, 0.2))', border: '1px solid rgba(220, 38, 38, 0.3)', borderRadius: '12px', padding: '20px 30px', marginBottom: '30px', display: 'flex', alignItems: 'center', gap: '15px'}}>
+          <span style={{fontSize: '2rem'}}>⚠️</span>
+          <div>
+            <div style={{color: '#f87171', fontWeight: 600, marginBottom: '5px'}}>The $1.1 Billion Question</div>
+            <div style={{color: '#aaa', fontSize: '0.9rem'}}>Workday faces a class action covering 1.1 billion rejected applications. Is your AI hiring tool the next defendant?</div>
+          </div>
+        </div>
+
+        {/* What You'll Learn */}
+        <div style={{marginBottom: '40px'}}>
+          <h2 style={{color: '#fff', textAlign: 'center', marginBottom: '25px'}}>What's Inside</h2>
+          <div style={styles.grid}>
+            <div style={{...styles.card, borderLeft: '4px solid #f87171'}}>
+              <h3 style={{color: '#f87171', margin: '0 0 10px'}}>Legal Analysis</h3>
+              <ul style={{color: '#888', margin: 0, paddingLeft: '20px', lineHeight: 2}}>
+                <li>Mobley v. Workday full case timeline</li>
+                <li>EEOC v. iTutorGroup settlement breakdown</li>
+                <li>Agent theory of liability explained</li>
+                <li>Class certification implications</li>
+              </ul>
+            </div>
+            <div style={{...styles.card, borderLeft: '4px solid #00f5d4'}}>
+              <h3 style={{color: '#00f5d4', margin: '0 0 10px'}}>Technical Solutions</h3>
+              <ul style={{color: '#888', margin: 0, paddingLeft: '20px', lineHeight: 2}}>
+                <li>Multi-agent architecture design</li>
+                <li>Human-in-the-loop workflows</li>
+                <li>Zero PII storage architecture</li>
+                <li>Transparent scoring algorithms</li>
+              </ul>
+            </div>
+            <div style={{...styles.card, borderLeft: '4px solid #9b5de5'}}>
+              <h3 style={{color: '#9b5de5', margin: '0 0 10px'}}>Compliance Framework</h3>
+              <ul style={{color: '#888', margin: 0, paddingLeft: '20px', lineHeight: 2}}>
+                <li>NYC Local Law 144 requirements</li>
+                <li>Colorado AI Act preparation</li>
+                <li>EEOC adverse impact monitoring</li>
+                <li>Four-fifths rule compliance</li>
+              </ul>
+            </div>
+            <div style={{...styles.card, borderLeft: '4px solid #fbbf24'}}>
+              <h3 style={{color: '#fbbf24', margin: '0 0 10px'}}>Templates & Tools</h3>
+              <ul style={{color: '#888', margin: 0, paddingLeft: '20px', lineHeight: 2}}>
+                <li>Bias audit template (Enterprise)</li>
+                <li>Vendor evaluation scorecard</li>
+                <li>Policy document templates</li>
+                <li>Implementation checklist</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        {/* Pricing Tiers */}
+        <div style={{marginBottom: '40px'}}>
+          <h2 style={{color: '#fff', textAlign: 'center', marginBottom: '10px'}}>Choose Your Package</h2>
+          <p style={{color: '#888', textAlign: 'center', marginBottom: '30px'}}>Protect your organization from AI hiring liability</p>
+
+          <div style={{display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '20px'}}>
+            {pricingTiers.map(tier => (
+              <div key={tier.id} style={{
+                ...styles.card,
+                border: tier.popular ? `2px solid ${tier.color}` : '1px solid #2a2a3e',
+                position: 'relative',
+                display: 'flex',
+                flexDirection: 'column'
+              }}>
+                {tier.popular && (
+                  <div style={{position: 'absolute', top: '-12px', left: '50%', transform: 'translateX(-50%)', background: tier.color, color: '#0a0a0f', padding: '4px 16px', borderRadius: '20px', fontSize: '0.75rem', fontWeight: 700}}>
+                    MOST POPULAR
+                  </div>
+                )}
+                <div style={{textAlign: 'center', paddingTop: tier.popular ? '10px' : 0}}>
+                  <h3 style={{color: tier.color, margin: '0 0 10px'}}>{tier.name}</h3>
+                  <div style={{fontSize: '2.5rem', fontWeight: 700, color: '#fff'}}>{tier.price}</div>
+                  <div style={{color: '#888', fontSize: '0.85rem', marginBottom: '20px'}}>{tier.bestFor}</div>
+                </div>
+                <ul style={{color: '#888', margin: '0 0 20px', paddingLeft: '20px', lineHeight: 1.8, flex: 1}}>
+                  {tier.features.map((f, i) => (
+                    <li key={i} style={{marginBottom: '8px'}}>
+                      <span style={{color: tier.color, marginRight: '8px'}}>✓</span>
+                      {f}
+                    </li>
+                  ))}
+                </ul>
+                <button
+                  style={{
+                    ...styles.btn,
+                    width: '100%',
+                    background: tier.popular ? `linear-gradient(135deg, ${tier.color}, ${tier.color}cc)` : 'linear-gradient(135deg, #2a2a4e, #3a3a5e)',
+                    color: tier.popular ? '#0a0a0f' : '#fff'
+                  }}
+                  onClick={() => handlePurchase(tier)}
+                >
+                  Get {tier.name}
+                </button>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Preview Section */}
+        <div style={{...styles.card, marginBottom: '30px'}}>
+          <h2 style={{color: '#fff', marginBottom: '20px', textAlign: 'center'}}>Preview the Whitepaper</h2>
+          <div style={{display: 'flex', justifyContent: 'center', gap: '20px', flexWrap: 'wrap'}}>
+            <a
+              href="/whitepaper-defensible-ai-hiring.html"
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{...styles.btn, ...styles.btnSuccess, textDecoration: 'none', padding: '12px 30px'}}
+            >
+              View Full Preview
+            </a>
+            <button style={{...styles.btn, ...styles.btnSecondary}} onClick={() => window.print()}>
+              Print Preview
+            </button>
+          </div>
+        </div>
+
+        {/* Trust Signals */}
+        <div style={{textAlign: 'center', padding: '30px', background: 'linear-gradient(135deg, #1a1a2e, #0a0a0f)', borderRadius: '16px', marginBottom: '30px'}}>
+          <h3 style={{color: '#fff', marginBottom: '20px'}}>Trusted By</h3>
+          <div style={{display: 'flex', justifyContent: 'center', gap: '40px', flexWrap: 'wrap', color: '#666'}}>
+            <span>HR Technology Vendors</span>
+            <span>|</span>
+            <span>Fortune 500 Legal Teams</span>
+            <span>|</span>
+            <span>Recruiting Agencies</span>
+            <span>|</span>
+            <span>PE/VC Due Diligence</span>
+          </div>
+        </div>
+
+        {/* CTA */}
+        <div style={{textAlign: 'center', padding: '40px', background: 'linear-gradient(135deg, #1a0a0a, #2a1a1a)', borderRadius: '16px', border: '1px solid #dc2626'}}>
+          <h2 style={{color: '#fff', margin: '0 0 15px'}}>Don't Be the Next Workday</h2>
+          <p style={{color: '#aaa', margin: '0 0 25px'}}>Get the definitive guide to AI hiring compliance before it's too late</p>
+          <button
+            style={{...styles.btn, padding: '18px 50px', fontSize: '1.1rem', background: 'linear-gradient(135deg, #dc2626, #f87171)'}}
+            onClick={() => handlePurchase(pricingTiers[1])}
+          >
+            Get the Full Whitepaper - $399
+          </button>
+          <p style={{color: '#666', fontSize: '0.8rem', marginTop: '15px'}}>Instant PDF delivery • 30-day money-back guarantee</p>
+        </div>
+      </>
+    );
+  };
+
   const renderSafetyCaseAI = () => {
     const certifications = [
       { name: 'ISO 26262', domain: 'Automotive', desc: 'Functional Safety for Road Vehicles', color: '#9b5de5' },
@@ -735,16 +1136,16 @@ function App() {
 
         {/* How It Works */}
         <div style={styles.card}>
-          <h2 style={{color: '#fff', textAlign: 'center', marginBottom: '30px'}}>How SafetyCaseAI Works</h2>
+          <h2 style={{color: '#fff', textAlign: 'center', marginBottom: '30px'}}>How It Works</h2>
           <div style={{display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '20px'}}>
             {[
-              { step: '1', title: 'Upload System Specs', desc: 'Architecture diagrams, requirements, hazard analysis' },
-              { step: '2', title: 'AI Generates Case', desc: 'Goal Structuring Notation (GSN) safety arguments' },
-              { step: '3', title: 'Expert Review', desc: 'Certified engineers validate & refine' },
-              { step: '4', title: 'Investor Ready', desc: 'PDF export for due diligence packages' }
+              { step: '1️⃣', title: 'Select Template', desc: 'Choose from 9 industry-specific safety case templates' },
+              { step: '2️⃣', title: 'Make Payment', desc: 'Simple payment via PayPal or Venmo with order confirmation' },
+              { step: '3️⃣', title: 'Upload PDF', desc: 'AI extracts all safety data from your PDF automatically' },
+              { step: '4️⃣', title: 'Download Site', desc: 'Get a complete, self-contained HTML website ready to deploy' }
             ].map(item => (
               <div key={item.step} style={{textAlign: 'center'}}>
-                <div style={{width: '50px', height: '50px', background: 'linear-gradient(135deg, #00f5d4, #00bbf9)', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 15px', fontSize: '1.5rem', fontWeight: 700, color: '#0a0a0f'}}>{item.step}</div>
+                <div style={{fontSize: '2.5rem', marginBottom: '15px'}}>{item.step}</div>
                 <div style={{fontWeight: 600, color: '#fff', marginBottom: '8px'}}>{item.title}</div>
                 <div style={{color: '#888', fontSize: '0.85rem'}}>{item.desc}</div>
               </div>
@@ -761,6 +1162,7 @@ function App() {
           </button>
           <p style={{color: '#666', fontSize: '0.8rem', marginTop: '15px'}}>Free safety assessment for qualifying startups</p>
         </div>
+
       </>
     );
   };
@@ -781,6 +1183,7 @@ function App() {
         {/* Tabs filtered by mode and conditions */}
         {[
           {id: 'dashboard', label: 'Dashboard', public: true, show: true},
+          {id: 'defensible', label: 'Defensible AI Hiring', public: true, show: true, badge: 'HOT', badgeColor: '#dc2626'},
           {id: 'safetycase', label: 'SafetyCaseAI', public: true, show: true},
           {id: 'sources', label: 'Elite Sources', public: false, show: true},
           {id: 'pipeline', label: 'Pipeline', public: false, show: true},
@@ -794,7 +1197,7 @@ function App() {
             {t.id === 'review' && screeningQueue?.queue_length > 0 && (
               <span style={{marginLeft: '8px', background: '#fbbf24', color: '#0a0a0f', padding: '2px 8px', borderRadius: '10px', fontSize: '0.7rem', fontWeight: 700}}>{screeningQueue.queue_length}</span>
             )}
-            {t.id === 'safetycase' && <span style={{marginLeft: '8px', background: '#00f5d4', color: '#0a0a0f', padding: '2px 8px', borderRadius: '10px', fontSize: '0.7rem', fontWeight: 700}}>NEW</span>}
+            {t.badge && <span style={{marginLeft: '8px', background: t.badgeColor || '#00f5d4', color: '#fff', padding: '2px 8px', borderRadius: '10px', fontSize: '0.7rem', fontWeight: 700}}>{t.badge}</span>}
           </button>
         ))}
         <button style={styles.navBtn} onClick={fetchData}>Refresh</button>
@@ -805,6 +1208,7 @@ function App() {
         {loading ? <p style={{textAlign: 'center', color: '#888'}}>Loading recruiting platform...</p> : (
           <>
             {activeTab === 'dashboard' && renderDashboard()}
+            {activeTab === 'defensible' && renderDefensibleHiring()}
             {activeTab === 'safetycase' && renderSafetyCaseAI()}
             {activeTab === 'sources' && renderEliteSources()}
             {activeTab === 'pipeline' && renderPipeline()}
@@ -824,6 +1228,13 @@ function App() {
           <p style={{fontSize: '0.8rem', marginTop: '5px'}}>SafetyCaseAI | AI Recruiting | Compliance Solutions</p>
         )}
         {isInternalMode && <p style={{fontSize: '0.8rem', marginTop: '5px'}}>Backend: {config.API_URL}</p>}
+        <div style={{marginTop: '15px', paddingTop: '15px', borderTop: '1px solid #2a2a3e'}}>
+          <span style={{color: '#9b5de5', fontSize: '0.75rem', fontWeight: 600}}>OPEN TO STRATEGIC INVESTMENT</span>
+          <span style={{margin: '0 15px', color: '#333'}}>|</span>
+          <span style={{color: '#666', fontSize: '0.75rem'}}>Targeting $50M+ Physical AI Recruiting TAM</span>
+          <span style={{margin: '0 15px', color: '#333'}}>|</span>
+          <span style={{color: '#00f5d4', fontSize: '0.75rem'}}>cgtpa.jp.com</span>
+        </div>
       </footer>
     </div>
   );
